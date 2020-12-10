@@ -10,6 +10,7 @@ export default function App() {
         <meta charSet="utf-8" />
         <Meta />
         <Styles />
+        <link rel="stylesheet" href="//demo.productionready.io/main.css" />
       </head>
       <body>
         <Routes />
