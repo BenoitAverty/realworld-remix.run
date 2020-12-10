@@ -1,5 +1,6 @@
 import React from "react";
 import { Meta, Scripts, Styles, Routes, useGlobalData } from "@remix-run/react";
+import Layout from "./components/layout/Layout";
 
 export default function App() {
   let data = useGlobalData();
@@ -10,14 +11,12 @@ export default function App() {
         <meta charSet="utf-8" />
         <Meta />
         <Styles />
-        <link rel="stylesheet" href="//demo.productionready.io/main.css" />
       </head>
       <body>
-        <Routes />
+        <Layout>
+            <Routes />
+        </Layout>
         <Scripts />
-        <footer>
-          <p>This page was rendered at {data.date.toLocaleString()}</p>
-        </footer>
       </body>
     </html>
   );
