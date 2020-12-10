@@ -6,7 +6,7 @@ type ArticleSummaryProps = {
 }
 
 const ArticleSummary: FC<ArticleSummaryProps> = function ArticleSummary({ article }) {
-    return <div key={article.slug} className="article-preview">
+    return <div data-testid="article-summary" className="article-preview">
         <div className="article-meta">
             <a href="profile.html"><img src={article.author.image}/></a>
             <div className="info">

@@ -1,5 +1,6 @@
-import type { DataLoader } from "@remix-run/core";
+import type {DataLoader} from "@remix-run/core";
+import {apiUrl} from "../lib/api-client";
 
 export let loader: DataLoader = async () => {
-  return fetch("https://conduit.productionready.io/api/articles")
+  return fetch(apiUrl + "/articles")
 };
