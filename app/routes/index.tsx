@@ -1,11 +1,12 @@
 import React from "react";
 import { useRouteData } from "@remix-run/react";
 import ArticleSummary from "../components/ArticleSummary";
+import {Article} from "../lib/articles/article";
 
 export function meta() {
   return {
-    title: "Remix Starter",
-    description: "Welcome to remix!"
+    title: "Home — Conduit",
+    description: "A place to share your knowledge."
   };
 }
 
@@ -13,5 +14,5 @@ export default function Index() {
   let data = useRouteData();
 
 
-  return data.articles.map(a => <ArticleSummary article={a} />);
+  return data.articles.map((a: Article) => <ArticleSummary key={a.slug} article={a} />);
 }

@@ -9,7 +9,10 @@
     "dev:server": "cross-env NODE_ENV=development nodemon -w app -w build -w data-build -e js,jsx,ts,tsx,md,mdx server.js",
     "dev:tsc": "tsc -b -w --preserveWatchOutput",
     "dev": "concurrently \"npm run dev:assets\" \"npm run dev:tsc\" \"npm run dev:server\"",
-    "start": "node server.js"
+    "start": "node server.js",
+    "test:mock-server": "docker run --rm -p1080:1080 --name realworld-mock-server mockserver/mockserver",
+    "test:start-app": "cross-env API_URL=http://localhost:1080 npm run dev",
+    "test:cypress:open": "cross-env BASE_URL=http://localhost:3000 cypress open"
   },
   "dependencies": {
     "@remix-run/cli": "^0.8.0",
@@ -30,6 +33,7 @@
     "concurrently": "^5.3.0",
     "cross-env": "^7.0.2",
     "cypress": "^6.1.0",
+    "mockserver-client": "^5.11.2",
     "nodemon": "^2.0.5",
     "typescript": "^4.0.3"
   },
