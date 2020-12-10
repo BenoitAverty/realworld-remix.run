@@ -1,0 +1,24 @@
+# dependencies
+node_modules
+# IDEs and editors
+.idea
+*.iml
+.project
+.classpath
+*.launch
+.settings/
+
+
+#System Files
+.DS_Store
+Thumbs.db
+
+# Remix
+server-build
+loaders/**/*.js
+loaders/**/*.d.ts
+build
+data-build
+public/build
+.cache
+yarn-error.log
