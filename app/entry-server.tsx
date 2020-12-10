@@ -11,7 +11,7 @@ export default function handleRequest(
   responseHeaders: Headers,
   remixContext: EntryContext
 ) {
-  let markup = ReactDOMServer.renderToString(
+  const markup = ReactDOMServer.renderToString(
     <Remix context={remixContext} url={request.url}>
       <App />
     </Remix>
@@ -21,7 +21,7 @@ export default function handleRequest(
     status: responseStatusCode,
     headers: {
       ...Object.fromEntries(responseHeaders),
-      "Content-Type": "text/html"
-    }
+      "Content-Type": "text/html",
+    },
   });
 }

@@ -1,15 +1,15 @@
-import React, {FC} from "react";
+import React, { FC } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 
 const Layout: FC = function Layout({ children }) {
-    return (
-        <>
-            <Header />
-                {children}
-            <Footer />
-        </>
-    )
-}
+  return (
+    <>
+      <Header />
+      {children}
+      <Footer />
+    </>
+  );
+};
 
-export default Layout
+export default Layout;

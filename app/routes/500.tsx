@@ -4,7 +4,7 @@ export function meta() {
   return { title: "Shoot..." };
 }
 
-export default function FiveHundred() {
+const FiveHundred = function FiveHundred() {
   console.error("Check your server terminal output");
 
   return (
@@ -12,4 +12,6 @@ export default function FiveHundred() {
       <h1>500</h1>
     </div>
   );
-}
+};
+
+export default FiveHundred;

@@ -12,7 +12,8 @@
     "start": "node server.js",
     "test:mock-server": "docker run --rm -p1080:1080 --name realworld-mock-server mockserver/mockserver",
     "test:start-app": "cross-env API_URL=http://localhost:1080 npm run dev",
-    "test:cypress:open": "cross-env BASE_URL=http://localhost:3000 cypress open"
+    "test:cypress:open": "cross-env BASE_URL=http://localhost:3000 cypress open",
+    "lint": "eslint app data cypress --ext .js --ext .ts --ext .jsx --ext .tsx"
   },
   "dependencies": {
     "@remix-run/cli": "^0.8.0",
@@ -30,11 +31,24 @@
   "devDependencies": {
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
+    "@typescript-eslint/eslint-plugin": "^4.9.1",
+    "@typescript-eslint/parser": "^4.9.1",
     "concurrently": "^5.3.0",
     "cross-env": "^7.0.2",
     "cypress": "^6.1.0",
+    "eslint": "^7.15.0",
+    "eslint-config-prettier": "^7.0.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-config-standard-react": "^11.0.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.2.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "mockserver-client": "^5.11.2",
     "nodemon": "^2.0.5",
+    "prettier": "^2.2.1",
     "typescript": "^4.0.3"
   },
   "engines": {

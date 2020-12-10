@@ -1,10 +1,8 @@
 import React from "react";
-import { Meta, Scripts, Styles, Routes, useGlobalData } from "@remix-run/react";
+import { Meta, Routes, Scripts, Styles } from "@remix-run/react";
 import Layout from "./components/layout/Layout";
 
-export default function App() {
-  let data = useGlobalData();
-
+const App = function App() {
   return (
     <html lang="en">
       <head>
@@ -14,10 +12,12 @@ export default function App() {
       </head>
       <body>
         <Layout>
-            <Routes />
+          <Routes />
         </Layout>
         <Scripts />
       </body>
     </html>
   );
-}
+};
+
+export default App;
