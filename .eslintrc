@@ -39,5 +39,11 @@
     ],
     "react/no-unused-prop-types": 0,
     "import/export": 0
-  }
+  },
+  "overrides": [{
+    "files": ["*.test.js"],
+    "env": {
+      "jest": true
+    }
+  }]
 }

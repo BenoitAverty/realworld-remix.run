@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import ActivationLink from "../ActivationLink";
 
 const Header: FC = function Header() {
   return (
@@ -9,25 +10,24 @@ const Header: FC = function Header() {
         </a>
         <ul className="nav navbar-nav pull-xs-right">
           <li className="nav-item">
-            {/* TODO Add "active" class on the current link */}
-            <a className="nav-link active" href="">
+            <ActivationLink className="nav-link" to="/">
               Home
-            </a>
+            </ActivationLink>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="">
+            <ActivationLink className="nav-link" to="/write">
               <i className="ion-compose"></i> New Post
-            </a>
+            </ActivationLink>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="">
+            <ActivationLink className="nav-link" to="/settings">
               <i className="ion-gear-a"></i> Settings
-            </a>
+            </ActivationLink>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="">
+            <ActivationLink className="nav-link" to="/register">
               Sign up
-            </a>
+            </ActivationLink>
           </li>
         </ul>
       </div>
