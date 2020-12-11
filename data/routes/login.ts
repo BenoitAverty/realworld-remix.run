@@ -1,38 +1,36 @@
 import type { Action, Loader } from "@remix-run/data";
 import { parseFormBody, redirect } from "@remix-run/data";
-import { saveAuthToken, UserRegistration, UserWithToken } from "../lib/users/users";
+import { saveAuthToken, UserLogin, UserWithToken } from "../lib/users/users";
 import { apiUrl } from "../lib/api-client";
 
 export const loader: Loader = function loader({ session }) {
-  const failedRegistration = session.get("failedRegistration");
-  if (failedRegistration) {
-    return JSON.parse(failedRegistration);
+  const failedLogin = session.get("failedLogin");
+  if (failedLogin) {
+    return JSON.parse(failedLogin);
   } else return {};
 };
 
-export const action: Action = async function registerUser({ request, session }) {
+export const action: Action = async function loginUser({ request, session }) {
   // Remix only supports application/x-www-urlencoded for now, and always returns URLSearchParams
   const requestBody = (await parseFormBody(request)) as URLSearchParams;
 
-  const username = requestBody.get("username");
   const email = requestBody.get("email");
   const password = requestBody.get("password");
 
-  if (!(username && email && password)) {
+  if (!(email && password)) {
     session.flash(
-      "failedRegistration",
+      "failedLogin",
       JSON.stringify({ errors: { global: ["All fields are required"] } }),
     );
-    return redirect("/register");
+    return redirect("/login");
   }
 
-  const newUser: UserRegistration = {
-    username,
+  const newUser: UserLogin = {
     email,
     password,
   };
 
-  const response = await fetch(apiUrl + "/users", {
+  const response = await fetch(apiUrl + "/users/login", {
     method: "POST",
     body: JSON.stringify({ user: newUser }),
     headers: {
@@ -42,12 +40,15 @@ export const action: Action = async function registerUser({ request, session }) 
 
   const responseBody = await response.json();
   if (response.status !== 200) {
-    session.flash("failedRegistration", JSON.stringify({ errors: responseBody.errors }));
-    return redirect("/register");
+    session.flash(
+      "failedLogin",
+      JSON.stringify({ errors: { global: ["Email or password is incorrect."] } }),
+    );
+    return redirect("/login");
   } else {
     const user: UserWithToken = responseBody.user;
     saveAuthToken(session, user.token);
 
-    return redirect("/settings");
+    return redirect("/");
   }
 };

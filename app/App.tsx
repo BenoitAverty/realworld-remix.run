@@ -1,8 +1,10 @@
 import React from "react";
-import { Meta, Routes, Scripts, Styles } from "@remix-run/react";
+import { Meta, Routes, Scripts, Styles, useGlobalData } from "@remix-run/react";
 import Layout from "./components/layout/Layout";
+import UserProvider from "./components/auth/UserProvider";
 
 const App = function App() {
+  const data = useGlobalData();
   return (
     <html lang="en">
       <head>
@@ -21,10 +23,12 @@ const App = function App() {
         />
       </head>
       <body>
-        <Layout>
-          <Routes />
-        </Layout>
-        <Scripts />
+        <UserProvider user={data.user}>
+          <Layout>
+            <Routes />
+          </Layout>
+          <Scripts />
+        </UserProvider>
       </body>
     </html>
   );
