@@ -17,7 +17,6 @@ const AuthCheck = function AuthCheck({
   children,
 }: AuthCheckProps): ReactElement | null {
   const user = useUser();
-  console.log(user);
 
   if ((user && needsAuth) || (!user && !needsAuth)) {
     const node = typeof children === "function" ? children() : <>{children}</>;
