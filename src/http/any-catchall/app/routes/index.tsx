@@ -1,14 +1,15 @@
 import React from "react";
 import { useRouteData } from "@remix-run/react";
-import ArticleSummary from "../components/ArticleSummary";
-import { Article } from "../lib/articles/article";
+import ArticleSummary from "../components/feed/ArticleSummary";
+import { Article } from "../lib/feed/article";
 import Banner from "../components/layout/Banner";
 import TagList from "../components/tags/TagList";
 import Tag from "../components/tags/Tag";
 import FeedToggle from "../components/feed/FeedToggle";
 import FeedLayout from "../components/feed/FeedLayout";
-import { Link } from "react-router-dom";
 import Pagination from "../components/feed/Pagination";
+import FeedPage from "../components/feed/FeedPage";
+import Feed from "../components/feed/Feed";
 
 export function meta() {
   return {
@@ -17,11 +18,15 @@ export function meta() {
   };
 }
 
+type IndexData = {
+  articles: Article[];
+  articlesCount: number;
+  page: number;
+  totalPages: number;
+};
+
 const Index = function Index() {
-
-  const data = useRouteData();
-
-  const articles = data.articles.map((a: Article) => <ArticleSummary key={a.slug} article={a} />);
+  const data = useRouteData<IndexData>();
 
   return (
     <div className="home-page">
@@ -35,7 +40,12 @@ const Index = function Index() {
           <>
             <FeedToggle tag="javascript" />
 
-            {articles}
+            <Feed
+              initialPage={data.page}
+              initialData={data.articles}
+              articlesCount={data.articlesCount}
+              totalPages={data.totalPages}
+            />
 
             <Pagination page={data.page} totalPages={data.totalPages} />
           </>
