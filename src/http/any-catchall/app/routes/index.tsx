@@ -7,6 +7,8 @@ import TagList from "../components/tags/TagList";
 import Tag from "../components/tags/Tag";
 import FeedToggle from "../components/feed/FeedToggle";
 import FeedLayout from "../components/feed/FeedLayout";
+import { Link } from "react-router-dom";
+import Pagination from "../components/feed/Pagination";
 
 export function meta() {
   return {
@@ -16,6 +18,7 @@ export function meta() {
 }
 
 const Index = function Index() {
+
   const data = useRouteData();
 
   const articles = data.articles.map((a: Article) => <ArticleSummary key={a.slug} article={a} />);
@@ -33,6 +36,8 @@ const Index = function Index() {
             <FeedToggle tag="javascript" />
 
             {articles}
+
+            <Pagination page={data.page} totalPages={data.totalPages} />
           </>
         }
         tags={
