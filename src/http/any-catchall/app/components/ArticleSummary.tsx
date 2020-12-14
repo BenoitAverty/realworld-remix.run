@@ -5,9 +5,7 @@ type ArticleSummaryProps = {
   article: Article;
 };
 
-const ArticleSummary: FC<ArticleSummaryProps> = function ArticleSummary({
-  article,
-}) {
+const ArticleSummary: FC<ArticleSummaryProps> = function ArticleSummary({ article }) {
   return (
     <div data-testid="article-summary" className="article-preview">
       <div className="article-meta">

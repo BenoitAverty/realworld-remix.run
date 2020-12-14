@@ -2,7 +2,8 @@
   "extends": "../config/shared-tsconfig.json",
   "include": ["**/*"],
   "compilerOptions": {
-    "outDir": "../data-build",
-    "module": "commonjs"
+    "outDir": "../.data-build",
+    "module": "commonjs",
+    "inlineSourceMap": true
   }
 }

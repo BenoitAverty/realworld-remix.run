@@ -8,6 +8,9 @@
 *.launch
 .settings/
 
+#secrets
+preferences.arc
+
 
 #System Files
 .DS_Store
@@ -16,6 +19,7 @@ Thumbs.db
 # Remix
 **/build
 **/data-build
+**/.data-build
 **/public/build
 **/.cache
 **/yarn-error.log

@@ -9,12 +9,12 @@ export default function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  remixContext: EntryContext
+  remixContext: EntryContext,
 ) {
   const markup = ReactDOMServer.renderToString(
     <Remix context={remixContext} url={request.url}>
       <App />
-    </Remix>
+    </Remix>,
   );
 
   return new Response("<!DOCTYPE html>" + markup, {

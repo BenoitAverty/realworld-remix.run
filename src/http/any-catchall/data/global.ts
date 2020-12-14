@@ -13,7 +13,7 @@ export type GlobalData = {
  * Pages that needs authentication should verify authentication in their own loader and redirect if needed.
  */
 export const loader: DataLoader = async ({ session }) => {
-  const user = getAuthenticatedUser(session);
+  const user = await getAuthenticatedUser(session);
 
   return {
     user,

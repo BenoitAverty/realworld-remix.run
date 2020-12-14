@@ -13,5 +13,5 @@ ReactDOM.hydrate(
   <Remix>
     <App />
   </Remix>,
-  document
+  document,
 );

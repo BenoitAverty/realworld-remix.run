@@ -1,16 +1,14 @@
 import { mockServerClient } from "mockserver-client";
 
-Cypress.Commands.add("mockServer", () =>
-  cy.wrap(mockServerClient("localhost", 1080))
-);
+Cypress.Commands.add("mockServer", () => cy.wrap(mockServerClient("localhost", 1080)));
 
 Cypress.Commands.add("resetMockServer", () => {
-  cy.mockServer().then((c) => c.reset());
+  cy.mockServer().then(c => c.reset());
 });
 
 Cypress.Commands.add("mockGetRequest", (path, fixture) => {
-  cy.fixture("global-feed/two-articles").then((data) =>
-    cy.mockServer().then((c) =>
+  cy.fixture("global-feed/two-articles").then(data =>
+    cy.mockServer().then(c =>
       c.mockAnyResponse({
         httpRequest: {
           method: "GET",
@@ -19,7 +17,7 @@ Cypress.Commands.add("mockGetRequest", (path, fixture) => {
         httpResponse: {
           body: data,
         },
-      })
-    )
+      }),
+    ),
   );
 });

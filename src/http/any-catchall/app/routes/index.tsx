@@ -18,9 +18,7 @@ export function meta() {
 const Index = function Index() {
   const data = useRouteData();
 
-  const articles = data.articles.map((a: Article) => (
-    <ArticleSummary key={a.slug} article={a} />
-  ));
+  const articles = data.articles.map((a: Article) => <ArticleSummary key={a.slug} article={a} />);
 
   return (
     <div className="home-page">
