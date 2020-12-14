@@ -1,5 +1,5 @@
 # dependencies
-node_modules
+**/node_modules
 # IDEs and editors
 .idea
 *.iml
@@ -14,11 +14,11 @@ node_modules
 Thumbs.db
 
 # Remix
-server-build
-loaders/**/*.js
-loaders/**/*.d.ts
-build
-data-build
-public/build
-.cache
-yarn-error.log
+**/build
+**/data-build
+**/public/build
+**/.cache
+**/yarn-error.log
+/public/build
+sam.json
+sam.yaml
