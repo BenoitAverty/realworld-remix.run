@@ -11,6 +11,7 @@ import Pagination from "../components/feed/Pagination";
 import FeedPage from "../components/feed/FeedPage";
 import Feed from "../components/feed/Feed";
 import HideAfterFirstRender from "../components/HideAfterFirstRender";
+import ArticleSummarySkeleton from "../components/feed/ArticleSummarySkeleton";
 
 export function meta() {
   return {
