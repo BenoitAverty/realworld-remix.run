@@ -10,13 +10,15 @@ type FeedProps = {
 };
 
 const Feed: FC<FeedProps> = function Feed({ totalPages, initialPage, initialData }) {
+  // TODO currently this only works for the first page (the pages before are not rendered)
+  // This is the usual use case because pagination occurs only when js is disabled, and then the infinite scroll does not work anyway.
   const [nPages, setNPages] = useState(1);
   const getNextPage = () => {
     setNPages(n => n + 1);
   };
 
   const pages = [];
-  for (let i = 1; i <= nPages; i++) {
+  for (let i = initialPage; i < initialPage + nPages; i++) {
     pages.push(
       <FeedPage key={i} page={i} articles={i === initialPage ? initialData : undefined} />,
     );
