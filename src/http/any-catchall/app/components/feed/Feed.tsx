@@ -24,6 +24,7 @@ const Feed: FC<FeedProps> = function Feed({ totalPages, initialPage, initialData
 
   return (
     <InfiniteScroll
+      style={{ overflow: "inherit" }}
       dataLength={pages.length}
       next={getNextPage}
       scrollThreshold={"100px"}
