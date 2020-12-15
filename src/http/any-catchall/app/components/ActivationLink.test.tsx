@@ -6,9 +6,6 @@ import { Router } from "react-router-dom";
 
 import "@testing-library/jest-dom/extend-expect";
 
-// TODO get this to work :(
-// Need access to the babel config.
-
 describe("ActivationLink", () => {
   test("Keeps initial className", async () => {
     const history = createMemoryHistory();

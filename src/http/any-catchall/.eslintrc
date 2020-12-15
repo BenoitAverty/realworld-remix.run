@@ -40,10 +40,19 @@
     "react/no-unused-prop-types": 0,
     "import/export": 0
   },
-  "overrides": [{
-    "files": ["*.test.js"],
-    "env": {
-      "jest": true
+  "overrides": [
+    {
+      "files": [
+        "*.test.js",
+        "*.test.ts",
+        "*.test.tsx"
+      ],
+      "env": {
+        "jest": true
+      },
+      "rules": {
+        "react/function-component-definition": 0
+      }
     }
-  }]
+  ]
 }

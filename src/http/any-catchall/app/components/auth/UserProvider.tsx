@@ -3,7 +3,7 @@ import { userContext } from "../../lib/auth/user-context";
 import { User } from "../../../data/lib/users/users";
 
 type UserProviderProps = {
-  user: User;
+  user: User | null;
 };
 
 const UserProvider: FC<UserProviderProps> = function UserProvider({ user, children }) {
