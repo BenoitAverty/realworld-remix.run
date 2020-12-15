@@ -10,6 +10,7 @@ import FeedLayout from "../components/feed/FeedLayout";
 import Pagination from "../components/feed/Pagination";
 import FeedPage from "../components/feed/FeedPage";
 import Feed from "../components/feed/Feed";
+import HideAfterFirstRender from "../components/HideAfterFirstRender";
 
 export function meta() {
   return {
@@ -43,11 +44,12 @@ const Index = function Index() {
             <Feed
               initialPage={data.page}
               initialData={data.articles}
-              articlesCount={data.articlesCount}
               totalPages={data.totalPages}
             />
 
-            <Pagination page={data.page} totalPages={data.totalPages} />
+            <HideAfterFirstRender>
+              <Pagination page={data.page} totalPages={data.totalPages} />
+            </HideAfterFirstRender>
           </>
         }
         tags={

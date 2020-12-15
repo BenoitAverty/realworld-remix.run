@@ -4,16 +4,14 @@ import FeedPage from "./FeedPage";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 type FeedProps = {
-  articlesCount: number;
   totalPages: number;
   initialPage: number;
   initialData: Article[];
 };
 
-const Feed: FC<FeedProps> = function Feed({ articlesCount, totalPages, initialPage, initialData }) {
+const Feed: FC<FeedProps> = function Feed({ totalPages, initialPage, initialData }) {
   const [nPages, setNPages] = useState(1);
   const getNextPage = () => {
-    console.log("tchou")
     setNPages(n => n + 1);
   };
 
