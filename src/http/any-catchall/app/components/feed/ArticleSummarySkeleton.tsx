@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC } from "react";
+import React, { FC } from "react";
 import Skeleton from "react-loading-skeleton";
 
 const ArticleSummarySkeleton: FC = function ArticleSummarySkeleton() {
@@ -27,8 +27,3 @@ const ArticleSummarySkeleton: FC = function ArticleSummarySkeleton() {
 };
 
 export default ArticleSummarySkeleton;
-
-const skeletonAvatarCss: CSSProperties = {
-  borderRadius: "32px",
-  background: "grey",
-};

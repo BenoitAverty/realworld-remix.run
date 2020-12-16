@@ -1,0 +1,49 @@
+name: Feature Branch CD
+
+on: push
+
+defaults:
+  run:
+    working-directory: ./src/http/any-catchall/
+
+jobs:
+  # Set the job key. The key is displayed as the job name
+  # when a job name is not provided
+  lint:
+    # Name the Job
+    name: Lint
+    # Set the type of machine to run on
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+          always-auth: true
+          registry-url: https://npm.remix.run
+          scope: '@remix-run'
+      - run: "npm install --ignore-scripts"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
+      - run: "npm rebuild && npm run prepare --if-present"
+      - run: "npm run lint"
+
+  test:
+    name: Unit Testing
+    # Set the type of machine to run on
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+          always-auth: true
+          registry-url: https://npm.remix.run
+          scope: '@remix-run'
+      - run: "npm install --ignore-scripts"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
+      - run: "npm rebuild && npm run prepare --if-present"
+      - run: "npm run test:unit"

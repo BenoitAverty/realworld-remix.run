@@ -4,8 +4,6 @@ import { render, screen } from "@testing-library/react";
 import { createMemoryHistory } from "history";
 import { Router } from "react-router-dom";
 
-import "@testing-library/jest-dom/extend-expect";
-
 describe("ActivationLink", () => {
   test("Keeps initial className", async () => {
     const history = createMemoryHistory();

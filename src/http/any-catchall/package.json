@@ -8,6 +8,7 @@
     "dev:assets": "remix run",
     "dev:tsc": "tsc -b -w --preserveWatchOutput",
     "dev": "concurrently \"npm run dev:assets\" \"npm run dev:tsc\"",
+    "test:unit": "jest app/ data/ common/",
     "test:cypress:open": "cross-env BASE_URL=http://localhost:3000 cypress open",
     "lint": "eslint app data cypress --ext .js --ext .ts --ext .jsx --ext .tsx",
     "fix-deps-dates": "find ! -newermt 1981-01-01 -exec touch {} \\;"

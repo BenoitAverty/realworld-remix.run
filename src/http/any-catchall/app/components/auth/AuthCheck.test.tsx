@@ -2,7 +2,6 @@ import AuthCheck from "./AuthCheck";
 import UserProvider from "./UserProvider";
 import { render, screen } from "@testing-library/react";
 import React, { FC } from "react";
-import "@testing-library/jest-dom/extend-expect";
 
 const FakeUserProvider: FC = ({ children }) => (
   <UserProvider user={{ username: "FakeUser", email: "fake@gmail.com", bio: "Bio", image: null }}>
