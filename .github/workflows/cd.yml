@@ -19,7 +19,7 @@ jobs:
           always-auth: true
           registry-url: https://npm.remix.run
           scope: '@remix-run'
-      - run: "npm install --ignore-scripts"
+      - run: "npm ci --ignore-scripts"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
       - run: "npm rebuild && npm run prepare --if-present"
@@ -37,7 +37,7 @@ jobs:
           always-auth: true
           registry-url: https://npm.remix.run
           scope: '@remix-run'
-      - run: "npm install --ignore-scripts"
+      - run: "npm ci --ignore-scripts"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
       - run: "npm rebuild && npm run prepare --if-present"
@@ -49,9 +49,6 @@ jobs:
       - lint
       - test
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: .
     steps:
       - uses: actions/checkout@v2
       - uses: aws-actions/configure-aws-credentials@v1
@@ -66,7 +63,12 @@ jobs:
           registry-url: https://npm.remix.run
           scope: '@remix-run'
       - run: "npm i -g @architect/architect"
+      - run: "npm ci --ignore-scripts"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
+      - run: "npm run build"
       - run: "arc deploy"
+        working-directory: .
         env:
           NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
 
@@ -93,6 +95,11 @@ jobs:
           registry-url: https://npm.remix.run
           scope: '@remix-run'
       - run: "npm i -g @architect/architect"
+      - run: "npm ci --ignore-scripts"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
+      - run: "npm run build"
       - run: "arc deploy --production"
+        working-directory: .
         env:
           NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
