@@ -1,4 +1,4 @@
-import React, { FC, useLayoutEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 
 /**
  * Hides the children immediately with an effect hook.
@@ -8,7 +8,7 @@ import React, { FC, useLayoutEffect, useState } from "react";
  */
 const HideAfterFirstRender: FC = function HideAfterFirstRender({ children }) {
   const [showChildren, setShowChildren] = useState(true);
-  useLayoutEffect(() => setShowChildren(false), []);
+  useEffect(() => setShowChildren(false), []);
 
   return showChildren ? <>{children}</> : null;
 };
