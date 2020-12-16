@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Article } from "../lib/articles/article";
+import { Article } from "../../lib/feed/article";
 
 type ArticleSummaryProps = {
   article: Article;

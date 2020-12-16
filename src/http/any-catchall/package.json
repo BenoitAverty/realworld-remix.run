@@ -26,10 +26,14 @@
     "morgan": "^1.10.0",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
+    "react-infinite-scroll-component": "^5.1.0",
+    "react-loading-skeleton": "^2.1.1",
     "react-router": "^6.0.0-beta.0",
-    "react-router-dom": "^6.0.0-beta.0"
+    "react-router-dom": "^6.0.0-beta.0",
+    "swr": "^0.3.9"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
     "@types/cookie": "^0.4.0",
     "@types/react": "^16.9.53",
@@ -50,6 +54,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "history": "^5.0.0",
     "jest": "^26.6.3",
     "mockserver-client": "^5.11.2",
     "nodemon": "^2.0.5",
