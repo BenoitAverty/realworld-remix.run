@@ -5,7 +5,7 @@ const Footer: FC = function Footer() {
   // make it visible with infinite scroll.
   // If the user has JS disabled, the footer stays at the end of the content, which is fine because infinite scroll won't happen.
   const [anchorToBottom, setAnchorToBottom] = useState(false);
-  useLayoutEffect(() => setAnchorToBottom(true));
+  useLayoutEffect(() => setAnchorToBottom(true), [setAnchorToBottom]);
 
   return (
     <footer style={anchorToBottom ? footerStyle : undefined}>

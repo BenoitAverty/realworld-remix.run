@@ -20,9 +20,7 @@ const Pagination: FC<PaginationProps> = function Pagination({ page, totalPages }
 
   return (
     <nav>
-      <ul className="pagination">
-        {pageLinks}
-      </ul>
+      <ul className="pagination">{pageLinks}</ul>
     </nav>
   );
 };

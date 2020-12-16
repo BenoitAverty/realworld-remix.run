@@ -1,0 +1,98 @@
+name: Feature Branch CD
+
+on: "push"
+
+defaults:
+  run:
+    working-directory: ./src/http/any-catchall/
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+          always-auth: true
+          registry-url: https://npm.remix.run
+          scope: '@remix-run'
+      - run: "npm install --ignore-scripts"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
+      - run: "npm rebuild && npm run prepare --if-present"
+      - run: "npm run lint"
+
+  test:
+    name: Unit Testing
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+          always-auth: true
+          registry-url: https://npm.remix.run
+          scope: '@remix-run'
+      - run: "npm install --ignore-scripts"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
+      - run: "npm rebuild && npm run prepare --if-present"
+      - run: "npm run test:unit"
+
+  deploy-staging:
+    name: Build and Deploy
+    needs:
+      - lint
+      - test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v2
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+          aws-region: eu-west-1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+          always-auth: true
+          registry-url: https://npm.remix.run
+          scope: '@remix-run'
+      - run: "npm i -g @architect/architect"
+      - run: "arc deploy"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
+
+  deploy-prod:
+    name: Build and Deploy (production)
+    if: github.ref == 'refs/heads/master'
+    needs:
+      - deploy-staging
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v2
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+          aws-region: eu-west-1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+          always-auth: true
+          registry-url: https://npm.remix.run
+          scope: '@remix-run'
+      - run: "npm i -g @architect/architect"
+      - run: "arc deploy --production"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
