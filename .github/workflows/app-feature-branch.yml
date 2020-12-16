@@ -1,6 +1,10 @@
 name: Feature Branch CD
 
-on: push
+on:
+  push:
+    branches:
+      - "**"
+      - "!master"
 
 defaults:
   run:
