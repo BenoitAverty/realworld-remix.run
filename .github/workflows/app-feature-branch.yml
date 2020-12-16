@@ -11,12 +11,8 @@ defaults:
     working-directory: ./src/http/any-catchall/
 
 jobs:
-  # Set the job key. The key is displayed as the job name
-  # when a job name is not provided
   lint:
-    # Name the Job
     name: Lint
-    # Set the type of machine to run on
     runs-on: ubuntu-latest
 
     steps:
@@ -35,7 +31,6 @@ jobs:
 
   test:
     name: Unit Testing
-    # Set the type of machine to run on
     runs-on: ubuntu-latest
 
     steps:
@@ -51,3 +46,27 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
       - run: "npm rebuild && npm run prepare --if-present"
       - run: "npm run test:unit"
+
+  build:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v2
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+          aws-region: eu-west-1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+          always-auth: true
+          registry-url: https://npm.remix.run
+          scope: '@remix-run'
+      - run: "npm i -g @architect/architect"
+      - run: "arc deploy"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}

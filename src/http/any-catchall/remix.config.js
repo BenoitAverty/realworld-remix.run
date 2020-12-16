@@ -34,7 +34,7 @@ module.exports = {
    * The path to the `data` directory, relative to remix.config.js. Defaults
    * to "data". The data directory contains data modules for your routes.
    */
-  dataDirectory: ".data-build",
+  dataDirectory: ".data-build/data",
 
   /**
    * The path to the browser build, relative to remix.config.js. Defaults to
