@@ -22,7 +22,6 @@ jobs:
       - run: "npm ci --ignore-scripts"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
-      - run: "npm rebuild && npm run prepare --if-present"
       - run: "npm run lint"
 
   test:
@@ -40,7 +39,6 @@ jobs:
       - run: "npm ci --ignore-scripts"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
-      - run: "npm rebuild && npm run prepare --if-present"
       - run: "npm run test:unit"
 
   deploy-staging:
@@ -62,12 +60,12 @@ jobs:
           always-auth: true
           registry-url: https://npm.remix.run
           scope: '@remix-run'
-      - run: "npm i -g @architect/architect"
+      - run: "npm i -g @architect/architect@RC"
       - run: "npm ci --ignore-scripts"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
       - run: "npm run build"
-      - run: "arc deploy"
+      - run: "NPM_CONFIG_IGNORE_SCRIPTS=true arc deploy"
         working-directory: .
         env:
           NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
@@ -91,12 +89,12 @@ jobs:
           always-auth: true
           registry-url: https://npm.remix.run
           scope: '@remix-run'
-      - run: "npm i -g @architect/architect"
+      - run: "npm i -g @architect/architect@RC"
       - run: "npm ci --ignore-scripts"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
       - run: "npm run build"
-      - run: "arc deploy --production"
+      - run: "NPM_CONFIG_IGNORE_SCRIPTS=true arc deploy --production"
         working-directory: .
         env:
           NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
