@@ -2,6 +2,7 @@
 realworld-remix-run
 
 @http
+any /api/*
 any /*
 
 @static
