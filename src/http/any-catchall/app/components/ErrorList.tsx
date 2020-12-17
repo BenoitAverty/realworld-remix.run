@@ -9,7 +9,7 @@ const ErrorList: FC<ErrorListProps> = function ErrorListProps({ errors }) {
     return (
       <ul className="error-messages">
         {errors.map((e: string) => (
-          <li>{e}</li>
+          <li key={e}>{e}</li>
         ))}
       </ul>
     );

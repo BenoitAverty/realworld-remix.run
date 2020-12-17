@@ -9,7 +9,7 @@
     "dev:tsc": "tsc -b -w --preserveWatchOutput",
     "dev": "concurrently \"npm run dev:assets\" \"npm run dev:tsc\"",
     "test:unit": "jest app/ data/ common/",
-    "test:cypress:open": "cross-env BASE_URL=http://localhost:3000 cypress open",
+    "test:cypress:open": "cypress open",
     "lint": "eslint app data cypress --ext .js --ext .ts --ext .jsx --ext .tsx"
   },
   "dependencies": {

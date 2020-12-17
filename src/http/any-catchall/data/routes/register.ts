@@ -1,7 +1,7 @@
 import type { Action, Loader } from "@remix-run/data";
 import { parseFormBody, redirect } from "@remix-run/data";
 import { saveAuthToken, UserRegistration, UserWithToken } from "../lib/users/users";
-import { apiUrl } from "../../common/lib/api-client";
+import { apiUrl } from "../lib/api-client";
 
 export const loader: Loader = function loader({ session }) {
   const failedRegistration = session.get("failedRegistration");

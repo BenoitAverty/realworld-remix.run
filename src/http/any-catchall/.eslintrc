@@ -54,6 +54,36 @@
       "rules": {
         "react/function-component-definition": 0
       }
+    },
+    {
+      "files": [
+        "app/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              "**/data/**"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "data/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              "**/app/**"
+            ]
+          }
+        ]
+      }
     }
   ]
 }

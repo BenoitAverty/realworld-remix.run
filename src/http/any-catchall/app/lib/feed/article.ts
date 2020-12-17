@@ -9,3 +9,5 @@ export type Article = {
     username: string;
   };
 };
+
+export const PAGE_SIZE = 20;

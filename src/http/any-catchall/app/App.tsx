@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Meta, Routes, Scripts, Styles, useGlobalData } from "@remix-run/react";
 import Layout from "./components/layout/Layout";
 import UserProvider from "./components/auth/UserProvider";
 
 const App = function App() {
   const data = useGlobalData();
+
+  useEffect(() => {
+    fetch("/api/user", {
+      credentials: "include",
+    })
+      .then(r => r.json())
+      .then(b => console.log({ b }));
+  });
+
   return (
     <html lang="en">
       <head>

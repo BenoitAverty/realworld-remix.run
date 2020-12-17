@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@architect/functions": "^3.13.8",
+    "aws-sdk": "^2.812.0",
     "node-fetch": "^2.6.1"
   }
 }

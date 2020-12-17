@@ -1,4 +1,4 @@
-import { fetchWithToken } from "../../../common/lib/api-client";
+import { fetchWithToken } from "../api-client";
 import type { Session } from "@remix-run/core";
 
 /**

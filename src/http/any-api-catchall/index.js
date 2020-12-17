@@ -1,4 +1,5 @@
 const fetch = require("node-fetch")
+const arc = require("@architect/functions")
 
 // learn more about HTTP functions here: https://arc.codes/primitives/http
 exports.handler = async function handler (event, context) {
@@ -14,6 +15,10 @@ exports.handler = async function handler (event, context) {
   customRequestHeader['host'] = apiUrl;
   customRequestHeader['proxyRequestId'] = context.awsRequestId || "";
   console.debug('request customHeader: ', customRequestHeader);
+
+  // Retrieve auth token from session
+  const session = await arc.http.session.read(event)
+  console.log("session", session)
 
   // perform fetch to https target
   try {

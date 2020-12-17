@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { PAGE_SIZE } from "../../../common/lib/pagination";
+import { PAGE_SIZE } from "../../lib/feed/article";
 import ArticleSummarySkeleton from "./ArticleSummarySkeleton";
 
 const FeedPageSkeleton: FC = function FeedPageSkeleton() {
