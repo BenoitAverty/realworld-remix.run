@@ -9,7 +9,7 @@ const Header: FC = function Header() {
   const { user } = useGlobalData<GlobalData>();
 
   return (
-    <nav className="navbar navbar-light">
+    <nav data-testid="navbar" className="navbar navbar-light">
       <div className="container">
         <Link className="navbar-brand" to="/">
           conduit
@@ -25,12 +25,12 @@ const Header: FC = function Header() {
               <>
                 <li className="nav-item">
                   <ActivationLink className="nav-link" to="/write">
-                    <i className="ion-compose"></i> New Post
+                    <i className="ion-compose" /> New Post
                   </ActivationLink>
                 </li>
                 <li className="nav-item">
                   <ActivationLink className="nav-link" to="/settings">
-                    <i className="ion-gear-a"></i> Settings
+                    <i className="ion-gear-a" /> Settings
                   </ActivationLink>
                 </li>
                 <li className="nav-item">

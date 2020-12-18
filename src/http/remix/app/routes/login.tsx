@@ -38,7 +38,7 @@ const Login: FC = function Login() {
           <ErrorList errors={errors && errors.password} />
         </fieldset>
         <button type="submit" className="btn btn-lg btn-primary pull-xs-right">
-          Sign in
+          Sign In
         </button>
       </form>
     </AuthLayout>
