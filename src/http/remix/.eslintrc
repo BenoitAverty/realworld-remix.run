@@ -57,21 +57,6 @@
     },
     {
       "files": [
-        "app/**"
-      ],
-      "rules": {
-        "no-restricted-imports": [
-          "error",
-          {
-            "patterns": [
-              "**/data/**"
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "files": [
         "data/**"
       ],
       "rules": {

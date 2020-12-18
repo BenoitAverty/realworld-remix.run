@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { useRouteData } from "@remix-run/react";
-import { User } from "../../data/lib/users/users";
+import { User } from "../lib/auth/users";
 
 const Settings: FC = function Settings() {
   const user = useRouteData<User>();
