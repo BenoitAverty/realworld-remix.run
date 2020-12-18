@@ -1,14 +1,13 @@
 import React from "react";
 import { useRouteData } from "@remix-run/react";
-import { Article } from "../lib/feed/article";
 import Banner from "../components/layout/Banner";
 import TagList from "../components/tags/TagList";
 import Tag from "../components/tags/Tag";
 import FeedToggle from "../components/feed/FeedToggle";
 import FeedLayout from "../components/feed/FeedLayout";
 import Pagination from "../components/feed/Pagination";
-import Feed from "../components/feed/Feed";
 import HideAfterFirstRender from "../components/HideAfterFirstRender";
+import { Outlet } from "react-router-dom";
 
 export function meta() {
   return {
@@ -18,10 +17,7 @@ export function meta() {
 }
 
 type IndexData = {
-  articles: Article[];
-  articlesCount: number;
-  page: number;
-  totalPages: number;
+  tags: string[];
 };
 
 const Index = function Index() {
@@ -39,15 +35,7 @@ const Index = function Index() {
           <>
             <FeedToggle tag="javascript" />
 
-            <Feed
-              initialPage={data.page}
-              initialData={data.articles}
-              totalPages={data.totalPages}
-            />
-
-            <HideAfterFirstRender>
-              <Pagination page={data.page} totalPages={data.totalPages} />
-            </HideAfterFirstRender>
+            <Outlet />
           </>
         }
         tags={
@@ -55,14 +43,9 @@ const Index = function Index() {
             <p>Popular Tags</p>
 
             <TagList>
-              <Tag>programming</Tag>
-              <Tag>javascript</Tag>
-              <Tag>emberjs</Tag>
-              <Tag>angularjs</Tag>
-              <Tag>react</Tag>
-              <Tag>mean</Tag>
-              <Tag>node</Tag>
-              <Tag>rails</Tag>
+              {data.tags.map(t => (
+                <Tag key={t}>{t}</Tag>
+              ))}
             </TagList>
           </>
         }

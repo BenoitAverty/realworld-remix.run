@@ -46,7 +46,7 @@ export type UserLogin = {
  * Get the current user from the api
  * @param apiAuthToken
  */
-export async function getUser(apiAuthToken: string): Promise<User | null> {
+export async function getUser(apiAuthToken: string): Promise<UserWithToken | null> {
   const fetch = fetchWithToken(apiAuthToken);
   const response = await fetch("/user");
 
@@ -56,12 +56,10 @@ export async function getUser(apiAuthToken: string): Promise<User | null> {
 
   const body: { user: UserWithToken } = await response.json();
 
-  const { token, ...user } = body.user;
-
-  return user;
+  return body.user;
 }
 
-const AUTH_TOKEN_SESSION_KEY = "api_auth_token";
+export const AUTH_TOKEN_SESSION_KEY = "api_auth_token";
 
 /**
  * Check if the user is authenticated (ie. a valid token is present in the session) and returns its
@@ -71,7 +69,7 @@ const AUTH_TOKEN_SESSION_KEY = "api_auth_token";
  *
  * If there is a token but it's not valid, it is removed from the session.
  */
-export async function getAuthenticatedUser(session: Session): Promise<User | null> {
+export async function getAuthenticatedUser(session: Session): Promise<UserWithToken | null> {
   const token = session.get(AUTH_TOKEN_SESSION_KEY);
 
   if (!token) {

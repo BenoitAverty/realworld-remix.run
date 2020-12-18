@@ -2,7 +2,7 @@ import type { DataLoader } from "@remix-run/core";
 import { getAuthenticatedUser, User } from "./lib/users/users";
 
 export type GlobalData = {
-  user: User;
+  user: User | null;
 };
 
 /**
@@ -12,14 +12,19 @@ export type GlobalData = {
  *
  * Pages that needs authentication should verify authentication in their own loader and redirect if needed.
  */
-export const loader: DataLoader = async ({ session }) => {
+export const loader: DataLoader = async ({ session }): Promise<GlobalData> => {
   // Ugly workaround for sessions.
   session.set("dummy", "dummy");
   session.set("dummy2", "dummy");
 
-  const user = await getAuthenticatedUser(session);
+  const userWithToken = await getAuthenticatedUser(session);
 
-  return {
-    user,
-  };
+  if (userWithToken) {
+    const { token, ...user } = userWithToken;
+    return { user };
+  } else {
+    return {
+      user: null,
+    };
+  }
 };

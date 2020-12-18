@@ -3,13 +3,19 @@ import { Article } from "../../lib/feed/article";
 import FeedPage from "./FeedPage";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-type FeedProps = {
+type ArticlesFeedProps = {
+  pageLoadingUri: (page: number) => string;
   totalPages: number;
   initialPage: number;
   initialData: Article[];
 };
 
-const Feed: FC<FeedProps> = function Feed({ totalPages, initialPage, initialData }) {
+const ArticlesFeed: FC<ArticlesFeedProps> = function ArticlesFeed({
+  pageLoadingUri,
+  totalPages,
+  initialPage,
+  initialData,
+}) {
   // TODO currently this only works for the first page (the pages before are not rendered)
   // This is the usual use case because pagination occurs only when js is disabled, and then the infinite scroll does not work anyway.
   const [nPages, setNPages] = useState(1);
@@ -20,7 +26,11 @@ const Feed: FC<FeedProps> = function Feed({ totalPages, initialPage, initialData
   const pages = [];
   for (let i = initialPage; i < initialPage + nPages; i++) {
     pages.push(
-      <FeedPage key={i} page={i} articles={i === initialPage ? initialData : undefined} />,
+      <FeedPage
+        key={i}
+        pageUri={pageLoadingUri(i)}
+        articles={i === initialPage ? initialData : undefined}
+      />,
     );
   }
 
@@ -39,4 +49,4 @@ const Feed: FC<FeedProps> = function Feed({ totalPages, initialPage, initialData
   );
 };
 
-export default Feed;
+export default ArticlesFeed;

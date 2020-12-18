@@ -15,6 +15,6 @@ describe("Login", () => {
       cy.contains("Settings");
     });
 
-    cy.location("pathname").should("eq", "/");
+    cy.location("pathname").should("eq", "/feed");
   });
 });

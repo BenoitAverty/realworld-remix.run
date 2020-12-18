@@ -49,6 +49,6 @@ export const action: Action = async function loginUser({ request, session }) {
     const user: UserWithToken = responseBody.user;
     saveAuthToken(session, user.token);
 
-    return redirect("/");
+    return redirect("/feed");
   }
 };
