@@ -4,7 +4,7 @@ on: "push"
 
 defaults:
   run:
-    working-directory: ./src/http/any-catchall/
+    working-directory: ./src/http/remix/
 
 jobs:
   lint:
