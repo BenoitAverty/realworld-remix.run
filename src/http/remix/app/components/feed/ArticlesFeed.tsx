@@ -23,6 +23,10 @@ const ArticlesFeed: FC<ArticlesFeedProps> = function ArticlesFeed({
     setNPages(n => n + 1);
   };
 
+  if (totalPages === 0) {
+    return <p>There's nothing to see here !</p>;
+  }
+
   const pages = [];
   for (let i = initialPage; i < initialPage + nPages; i++) {
     pages.push(

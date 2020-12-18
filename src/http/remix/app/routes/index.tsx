@@ -33,7 +33,8 @@ const Index = function Index() {
       <FeedLayout
         feed={
           <>
-            <FeedToggle tag="javascript" />
+            <FeedToggle />
+            {/* <FeedToggle tag="javascript" /> */}
 
             <Outlet />
           </>
