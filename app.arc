@@ -2,8 +2,12 @@
 realworld-remix-run
 
 @http
-any /api/*
-any /*
+/api/*
+  method any
+  src src/http/api-proxy
+/*
+  method any
+  src src/http/remix
 
 @static
 
