@@ -5,8 +5,6 @@ import TagList from "../components/tags/TagList";
 import Tag from "../components/tags/Tag";
 import FeedToggle from "../components/feed/FeedToggle";
 import FeedLayout from "../components/feed/FeedLayout";
-import Pagination from "../components/feed/Pagination";
-import HideAfterFirstRender from "../components/HideAfterFirstRender";
 import { Outlet } from "react-router-dom";
 
 export function meta() {

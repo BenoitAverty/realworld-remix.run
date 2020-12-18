@@ -42,7 +42,7 @@ jobs:
       - run: "npm run test:unit"
 
   deploy-staging:
-    name: Build and Deploy
+    name: Build and Deploy (staging)
     needs:
       - lint
       - test
@@ -70,11 +70,36 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
 
+  e2e-tests:
+    name: Run e2e tests against staging
+    runs-on: ubuntu-latest
+    container:
+      image: cypress/included:6.1.0
+    needs: deploy-staging
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+          always-auth: true
+          registry-url: https://npm.remix.run
+          scope: '@remix-run'
+      - run: "npm ci --ignore-scripts"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
+      - run: "npm rebuild && npm run prepare --if-present"
+      - run: "npm run test:cypress:run"
+        env:
+          CYPRESS_BASE_URL: https://dzjgewj4p8x3c.cloudfront.net/
+
+
   deploy-prod:
     name: Build and Deploy (production)
     if: github.ref == 'refs/heads/master'
     needs:
       - deploy-staging
+      - e2e-tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

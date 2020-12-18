@@ -26,3 +26,6 @@ Thumbs.db
 /public/build
 sam.json
 sam.yaml
+
+# artifacts
+**/cypress/videos

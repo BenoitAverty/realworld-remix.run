@@ -35,10 +35,34 @@ describe("AuthCheck", () => {
   test("Calls a child function to render content", () => {
     render(
       <FakeUserProvider>
-        <AuthCheck>{() => <div>Content</div>}</AuthCheck>
+        <AuthCheck>{user => <div>Content {user.username}</div>}</AuthCheck>
       </FakeUserProvider>,
     );
 
+    expect(screen.queryByText("Content FakeUser")).toBeInTheDocument();
+  });
+
+  test("Renders child when needsAuth is false", () => {
+    render(
+      <NoUserProvider>
+        <AuthCheck needsAuth={false}>
+          <div>Content</div>
+        </AuthCheck>
+      </NoUserProvider>,
+    );
+
     expect(screen.queryByText("Content")).toBeInTheDocument();
+  });
+
+  test("Does not render child when needsAuth is false", () => {
+    render(
+      <FakeUserProvider>
+        <AuthCheck needsAuth={false}>
+          <div>Content</div>
+        </AuthCheck>
+      </FakeUserProvider>,
+    );
+
+    expect(screen.queryByText("Content")).not.toBeInTheDocument();
   });
 });

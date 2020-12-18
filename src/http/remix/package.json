@@ -10,6 +10,7 @@
     "dev": "concurrently \"npm run dev:assets\" \"npm run dev:tsc\"",
     "test:unit": "jest app/ data/ common/",
     "test:cypress:open": "cypress open",
+    "test:cypress:run": "cypress run",
     "lint": "eslint app data cypress --ext .js --ext .ts --ext .jsx --ext .tsx"
   },
   "dependencies": {

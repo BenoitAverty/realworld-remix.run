@@ -1,9 +1,10 @@
 import React, { ReactElement, ReactNode } from "react";
 import { useUser } from "../../lib/auth/user-context";
+import { User } from "../../lib/auth/users";
 
 type AuthCheckProps = {
   needsAuth?: boolean;
-  children: ReactNode | (() => ReactNode);
+  children: ReactNode | ((user: User) => ReactNode);
 };
 
 /**
@@ -18,10 +19,10 @@ const AuthCheck = function AuthCheck({
 }: AuthCheckProps): ReactElement | null {
   const user = useUser();
 
-  if ((user && needsAuth) || (!user && !needsAuth)) {
-    const node = typeof children === "function" ? children() : <>{children}</>;
-
-    return node;
+  if (user !== null && needsAuth) {
+    return typeof children === "function" ? children(user) : <>{children}</>;
+  } else if (!user && !needsAuth) {
+    return <>{children}</>;
   }
 
   return null;
