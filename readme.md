@@ -17,7 +17,10 @@ For more information on how to this works with other frontends/backends, head ov
 
 > Describe the general architecture of your app here
 
-# Getting started
+# Local development
 
-> npm install, npm start, etc.
+1. Install arc (`npm i -g @architect/architect`)
+2. Run the architect sandbox (`arc sandbox`). This will install the dependencies in `src/http/api-proxy` and `src/http/remix`
+3. Build the remix app and start the development asset server (`(cd src/http/remix; npm run dev)`) 
+4. The app is available on [http://localhost:3333](http://localhost:3333).
 
