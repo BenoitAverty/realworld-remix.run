@@ -1,4 +1,4 @@
-import type { DataLoader } from "@remix-run/core";
+import type { Loader } from "@remix-run/data";
 import { getAuthenticatedUser, User } from "./lib/users/users";
 
 export type GlobalData = {
@@ -12,7 +12,7 @@ export type GlobalData = {
  *
  * Pages that needs authentication should verify authentication in their own loader and redirect if needed.
  */
-export const loader: DataLoader = async ({ session }): Promise<GlobalData> => {
+export const loader: Loader = async ({ session }): Promise<GlobalData> => {
   // Ugly workaround for sessions.
   session.set("dummy", "dummy");
   session.set("dummy2", "dummy");

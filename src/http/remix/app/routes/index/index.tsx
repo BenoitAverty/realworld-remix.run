@@ -5,6 +5,8 @@ import HideAfterFirstRender from "../../components/HideAfterFirstRender";
 import Pagination from "../../components/feed/Pagination";
 import { FeedData } from "../../lib/feed/feed";
 import { PAGE_SIZE } from "../../lib/feed/article";
+import { json, Loader } from "@remix-run/data";
+import { fetchWithApiUrl } from "../../lib/api-client";
 
 const GlobalFeed: FC = function GlobalFeed() {
   const data = useRouteData<FeedData>();
@@ -29,3 +31,22 @@ const GlobalFeed: FC = function GlobalFeed() {
 };
 
 export default GlobalFeed;
+
+async function getGlobalFeed(page: number) {
+  const fetch = fetchWithApiUrl();
+
+  const result = await fetch(`/articles?offset=${PAGE_SIZE * (page - 1)}&limit=${PAGE_SIZE}`);
+  return await result.json();
+}
+
+export const loader: Loader = async ({ request }) => {
+  const url = new URL(request.url);
+  const page = Number.parseInt(url.searchParams.get("page") || "1");
+  const articles = await getGlobalFeed(page);
+
+  return json({
+    ...articles,
+    page,
+    totalPages: articles.articlesCount / PAGE_SIZE,
+  });
+};

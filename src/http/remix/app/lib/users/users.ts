@@ -1,5 +1,5 @@
-import { fetchWithToken } from "../api-client";
 import type { Session } from "@remix-run/core";
+import { fetchWithToken } from "../api-client";
 
 /**
  * User object returned from the Conduit api

@@ -1,6 +1,8 @@
 import React, { FC } from "react";
 import { useRouteData } from "@remix-run/react";
 import { User } from "../lib/auth/users";
+import { Loader, redirect } from "@remix-run/data";
+import { getAuthenticatedUser } from "../lib/users/users";
 
 const Settings: FC = function Settings() {
   const user = useRouteData<User>();
@@ -64,3 +66,14 @@ const Settings: FC = function Settings() {
 };
 
 export default Settings;
+
+export const loader: Loader = async function loader({ session }) {
+  const user = getAuthenticatedUser(session);
+
+  if (!user) {
+    // TODO manage callback to settings after login
+    return redirect("/login");
+  }
+
+  return user;
+};
