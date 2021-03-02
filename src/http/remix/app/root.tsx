@@ -4,7 +4,8 @@ import Layout from "./components/layout/Layout";
 import UserProvider from "./components/auth/UserProvider";
 import { Outlet } from "react-router-dom";
 import { getAuthenticatedUser, User } from "./lib/users/users";
-import { Loader } from "@remix-run/data";
+import { json, Loader } from "@remix-run/data";
+import { withSession } from "./sessionStorage";
 
 type RootData = {
   user: User | null;
@@ -51,19 +52,17 @@ export default Root;
  *
  * Pages that needs authentication should verify authentication in their own loader and redirect if needed.
  */
-export const loader: Loader = async ({ session }): Promise<RootData> => {
-  // Ugly workaround for sessions.
-  session.set("dummy", "dummy");
-  session.set("dummy2", "dummy");
+export const loader: Loader = async ({ request }) => {
+  return withSession(request)(async session => {
+    const userWithToken = await getAuthenticatedUser(session);
 
-  const userWithToken = await getAuthenticatedUser(session);
-
-  if (userWithToken) {
-    const { token, ...user } = userWithToken;
-    return { user };
-  } else {
-    return {
-      user: null,
-    };
-  }
+    if (userWithToken) {
+      const { token, ...user } = userWithToken;
+      return json({ user });
+    } else {
+      return json({
+        user: null,
+      });
+    }
+  });
 };

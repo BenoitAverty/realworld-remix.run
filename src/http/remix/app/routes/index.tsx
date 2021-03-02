@@ -11,19 +11,6 @@ import type { Loader } from "@remix-run/data";
 import { json } from "@remix-run/data";
 import { fetchWithApiUrl } from "../lib/api-client";
 
-async function getTags() {
-  const fetch = fetchWithApiUrl();
-
-  const result = await fetch("/tags");
-  return result.json();
-}
-
-export const loader: Loader = async ({ request }) => {
-  const tags = await getTags();
-
-  return json(tags);
-};
-
 export function meta() {
   return {
     title: "Home — Conduit",
@@ -71,3 +58,16 @@ const Index = function Index() {
 };
 
 export default Index;
+
+async function getTags() {
+  const fetch = fetchWithApiUrl();
+
+  const result = await fetch("/tags");
+  return result.json();
+}
+
+export const loader: Loader = async () => {
+  const tags = await getTags();
+
+  return json(tags);
+};
