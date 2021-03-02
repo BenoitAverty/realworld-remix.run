@@ -5,8 +5,8 @@ import ErrorList from "../components/ErrorList";
 import { Link } from "react-router-dom";
 
 import type { Action, Loader } from "@remix-run/data";
-import { parseFormBody, redirect } from "@remix-run/data";
-import { saveAuthToken, UserLogin, UserWithToken } from "../../app/lib/users/users";
+import { redirect } from "@remix-run/data";
+import { saveAuthToken, UserLogin, UserWithToken } from "../lib/users/users";
 import { apiUrl } from "../lib/api-client";
 
 const Login: FC = function Login() {
@@ -61,7 +61,7 @@ export const loader: Loader = function loader({ session }) {
 
 export const action: Action = async function loginUser({ request, session }) {
   // Remix only supports application/x-www-urlencoded for now, and always returns URLSearchParams
-  const requestBody = (await parseFormBody(request)) as URLSearchParams;
+  const requestBody = new URLSearchParams(await request.text());
 
   const email = requestBody.get("email");
   const password = requestBody.get("password");

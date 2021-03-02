@@ -4,7 +4,7 @@ import { useRouteData } from "@remix-run/react";
 import ErrorList from "../components/ErrorList";
 import { Link } from "react-router-dom";
 import type { Action, Loader } from "@remix-run/data";
-import { parseFormBody, redirect } from "@remix-run/data";
+import { redirect } from "@remix-run/data";
 import { saveAuthToken, UserRegistration, UserWithToken } from "../lib/users/users";
 import { apiUrl } from "../lib/api-client";
 
@@ -69,7 +69,7 @@ export const loader: Loader = function loader({ session }) {
 
 export const action: Action = async function registerUser({ request, session }) {
   // Remix only supports application/x-www-urlencoded for now, and always returns URLSearchParams
-  const requestBody = (await parseFormBody(request)) as URLSearchParams;
+  const requestBody = new URLSearchParams(await request.text());
 
   const username = requestBody.get("username");
   const email = requestBody.get("email");
