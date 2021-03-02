@@ -69,8 +69,8 @@ const Settings: FC = function Settings() {
 export default Settings;
 
 export const loader: Loader = async function loader({ request }) {
-  return withSession(request)(session => {
-    const user = getAuthenticatedUser(session);
+  return withSession(request)(async session => {
+    const user = await getAuthenticatedUser(session);
     if (!user) {
       // TODO manage callback to settings after login
       return redirect("/login");

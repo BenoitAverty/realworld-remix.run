@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import AuthLayout from "../components/auth/AuthLayout";
-import { useRouteData } from "@remix-run/react";
+import { LinksFunction, useRouteData } from "@remix-run/react";
 import ErrorList from "../components/ErrorList";
 import { Link } from "react-router-dom";
 
@@ -105,3 +105,5 @@ export const action: Action = async function loginUser({ request }) {
     }
   });
 };
+
+export const links: LinksFunction = () => [{ page: "/feed" }];

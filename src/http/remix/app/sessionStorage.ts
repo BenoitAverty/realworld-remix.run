@@ -11,13 +11,17 @@ const { getSession, commitSession, destroySession } = createCookieSessionStorage
   },
 });
 
-function withSession(request: Request) {
+// TODO this works weird with flash session objects and multiple loaders per request (like at /login). see https://discord.com/channels/770287896669978684/771068344320786452/816401869437796352
+// If two loaders set cookies, the parent route takes precedence.
+function withSession(request: Request, readOnly = false) {
   return async (fn: (session: Session) => Response | Promise<Response>) => {
     const session = await getSession(request.headers.get("Cookie") || undefined);
-    console.log("session before", JSON.stringify(session));
+    // console.log("session before", JSON.stringify(session));
     const result = await fn(session);
-    console.log("session after", JSON.stringify(session));
-    result.headers.set("Set-Cookie", await commitSession(session));
+    // console.log("session after", JSON.stringify(session));
+    if (!readOnly) {
+      result.headers.set("Set-Cookie", await commitSession(session));
+    }
     return result;
   };
 }

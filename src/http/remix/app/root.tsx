@@ -1,11 +1,12 @@
 import React from "react";
-import { Meta, Scripts, Styles, useRouteData } from "@remix-run/react";
+import { Links, LinksFunction, Meta, Scripts, useRouteData } from "@remix-run/react";
 import Layout from "./components/layout/Layout";
 import UserProvider from "./components/auth/UserProvider";
 import { Outlet } from "react-router-dom";
 import { getAuthenticatedUser, User } from "./lib/users/users";
 import { json, Loader } from "@remix-run/data";
 import { withSession } from "./sessionStorage";
+import realworldBootstrap from "url:./styles/realworld-bootstrap.css";
 
 type RootData = {
   user: User | null;
@@ -19,17 +20,7 @@ const Root = function Root() {
       <head>
         <meta charSet="utf-8" />
         <Meta />
-        <Styles />
-        <link
-          href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
-          rel="stylesheet"
-          type="text/css"
-        />
-        <link
-          href="//fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic"
-          rel="stylesheet"
-          type="text/css"
-        />
+        <Links />
       </head>
       <body>
         <UserProvider user={data.user}>
@@ -53,7 +44,11 @@ export default Root;
  * Pages that needs authentication should verify authentication in their own loader and redirect if needed.
  */
 export const loader: Loader = async ({ request }) => {
-  return withSession(request)(async session => {
+  // TODO this "withSession" can override sessions set in other loaders. It probably needs to be changed into a read-only version without commitSession.
+  return withSession(
+    request,
+    true,
+  )(async session => {
     const userWithToken = await getAuthenticatedUser(session);
 
     if (userWithToken) {
@@ -65,4 +60,16 @@ export const loader: Loader = async ({ request }) => {
       });
     }
   });
+};
+
+export const links: LinksFunction = () => {
+  return [
+    { rel: "stylesheet", href: realworldBootstrap },
+    { rel: "stylesheet", href: "//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" },
+    {
+      rel: "stylesheet",
+      href:
+        "//fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic",
+    },
+  ];
 };
