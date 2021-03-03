@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Article } from "../../lib/feed/article";
+import { Article } from "../../lib/article/article";
 import useSWR from "swr";
 import { fetcher } from "../../lib/data-fetch/client";
 import ArticleSummary from "./ArticleSummary";

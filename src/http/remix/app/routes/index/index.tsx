@@ -3,8 +3,7 @@ import React, { FC } from "react";
 import { useRouteData } from "@remix-run/react";
 import HideAfterFirstRender from "../../components/HideAfterFirstRender";
 import Pagination from "../../components/feed/Pagination";
-import { FeedData } from "../../lib/feed/feed";
-import { PAGE_SIZE } from "../../lib/feed/article";
+import { FeedData, PAGE_SIZE } from "../../lib/feed/feed";
 import { json, Loader } from "@remix-run/data";
 import { fetchWithApiUrl } from "../../lib/api-client";
 

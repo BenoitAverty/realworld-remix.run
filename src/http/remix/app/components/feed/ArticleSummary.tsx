@@ -1,5 +1,6 @@
 import React, { FC } from "react";
-import { Article } from "../../lib/feed/article";
+import { Article } from "../../lib/article/article";
+import { Link } from "@remix-run/react";
 
 type ArticleSummaryProps = {
   article: Article;
@@ -22,11 +23,11 @@ const ArticleSummary: FC<ArticleSummaryProps> = function ArticleSummary({ articl
           <i className="ion-heart"></i> {article.favoritesCount}
         </button>
       </div>
-      <a href="" className="preview-link">
+      <Link to={`/article/${article.slug}`} className="preview-link">
         <h1>{article.title}</h1>
         <p>{article.description}</p>
         <span>Read more...</span>
-      </a>
+      </Link>
     </div>
   );
 };

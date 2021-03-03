@@ -1,10 +1,9 @@
 import React, { FC } from "react";
 import { useRouteData } from "@remix-run/react";
-import { FeedData } from "../../lib/feed/feed";
+import { FeedData, PAGE_SIZE } from "../../lib/feed/feed";
 import HideAfterFirstRender from "../../components/HideAfterFirstRender";
 import Pagination from "../../components/feed/Pagination";
 import ArticlesFeed from "../../components/feed/ArticlesFeed";
-import { PAGE_SIZE } from "../../lib/feed/article";
 import { AUTH_TOKEN_SESSION_KEY } from "../../lib/users/users";
 import { json, Loader, redirect } from "@remix-run/data";
 import { fetchWithToken } from "../../lib/api-client";
