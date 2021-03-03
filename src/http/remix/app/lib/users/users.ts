@@ -1,5 +1,5 @@
-import { fetchWithToken } from "../api-client";
 import type { Session } from "@remix-run/core";
+import { fetchWithToken } from "../api-client";
 
 /**
  * User object returned from the Conduit api
@@ -79,7 +79,7 @@ export async function getAuthenticatedUser(session: Session): Promise<UserWithTo
   const user = await getUser(token);
 
   if (!user) {
-    session.unset(AUTH_TOKEN_SESSION_KEY);
+    removeAuthToken(session);
     return null;
   }
 
@@ -88,4 +88,8 @@ export async function getAuthenticatedUser(session: Session): Promise<UserWithTo
 
 export function saveAuthToken(session: Session, token: string) {
   session.set(AUTH_TOKEN_SESSION_KEY, token);
+}
+
+export function removeAuthToken(session: Session) {
+  session.unset(AUTH_TOKEN_SESSION_KEY);
 }

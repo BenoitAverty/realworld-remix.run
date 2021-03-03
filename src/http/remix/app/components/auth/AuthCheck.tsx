@@ -19,7 +19,7 @@ const AuthCheck = function AuthCheck({
 }: AuthCheckProps): ReactElement | null {
   const user = useUser();
 
-  if (user !== null && needsAuth) {
+  if (user && needsAuth) {
     return typeof children === "function" ? children(user) : <>{children}</>;
   } else if (!user && !needsAuth) {
     return <>{children}</>;

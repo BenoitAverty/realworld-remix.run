@@ -64,6 +64,7 @@ jobs:
       - run: "npm ci --ignore-scripts"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
+      - run: "npm rebuild && npm run prepare --if-present"
       - run: "npm run build"
       - run: "NPM_CONFIG_IGNORE_SCRIPTS=true arc deploy"
         working-directory: .

@@ -1,8 +1,9 @@
+import { MetaFunction } from "@remix-run/data";
 import React from "react";
 
-export function meta() {
+export const meta: MetaFunction = function meta() {
   return { title: "Ain't nothing here" };
-}
+};
 
 const FourOhFour = function FourOhFour() {
   return (

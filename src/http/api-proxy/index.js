@@ -3,8 +3,8 @@ const arc = require("@architect/functions");
 
 // learn more about HTTP functions here: https://arc.codes/primitives/http
 exports.handler = async function handler(event, context) {
-  console.debug("event received: ", event);
-  console.debug("context received: ", context);
+  // console.debug("event received: ", event);
+  // console.debug("context received: ", context);
 
   // fetch Headers and ALB Headers are different types
   const apiUrl = "conduit.productionready.io";
@@ -14,7 +14,7 @@ exports.handler = async function handler(event, context) {
   }
   customRequestHeader["host"] = apiUrl;
   customRequestHeader["proxyRequestId"] = context.awsRequestId || "";
-  console.debug("request customHeader: ", customRequestHeader);
+  // console.debug("request customHeader: ", customRequestHeader);
 
   // Retrieve auth token from session
   const session = await arc.http.session.read(event);
@@ -32,13 +32,13 @@ exports.handler = async function handler(event, context) {
       headers: requestHeaders,
     };
 
-    console.debug("request params: ", params);
+    // console.debug("request params: ", params);
     const response = await fetch(url, params);
     const textResponse = await response.text();
-    console.debug("response text: ", textResponse);
+    // console.debug("response text: ", textResponse);
 
     // fetch Headers and ALB Headers are different types so code if you need Header manipulation on the response
-    console.debug("response headers: ", response.headers);
+    // console.debug("response headers: ", response.headers);
     const customResponseHeader = { proxyRequestId: context.awsRequestId || "" };
     for (const pair of response.headers.entries()) {
       // Lose the encoding unfortunately
@@ -46,7 +46,7 @@ exports.handler = async function handler(event, context) {
         customResponseHeader[pair[0]] = pair[1];
       }
     }
-    console.debug("response customHeader: ", customResponseHeader);
+    // console.debug("response customHeader: ", customResponseHeader);
 
     return {
       statusCode: response.status,

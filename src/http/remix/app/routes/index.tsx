@@ -7,6 +7,10 @@ import FeedToggle from "../components/feed/FeedToggle";
 import FeedLayout from "../components/feed/FeedLayout";
 import { Outlet } from "react-router-dom";
 
+import type { Loader } from "@remix-run/data";
+import { json } from "@remix-run/data";
+import { fetchWithApiUrl } from "../lib/api-client";
+
 export function meta() {
   return {
     title: "Home — Conduit",
@@ -54,3 +58,16 @@ const Index = function Index() {
 };
 
 export default Index;
+
+async function getTags() {
+  const fetch = fetchWithApiUrl();
+
+  const result = await fetch("/tags");
+  return result.json();
+}
+
+export const loader: Loader = async () => {
+  const tags = await getTags();
+
+  return json(tags);
+};
