@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import AuthLayout from "../components/auth/AuthLayout";
-import { LinksFunction, useRouteData } from "@remix-run/react";
+import { Form, LinksFunction, usePendingFormSubmit, useRouteData } from "@remix-run/react";
 import ErrorList from "../components/ErrorList";
 import { Link } from "react-router-dom";
 
@@ -9,9 +9,12 @@ import { json, redirect } from "@remix-run/data";
 import { removeAuthToken, saveAuthToken, UserLogin, UserWithToken } from "../lib/users/users";
 import { apiUrl } from "../lib/api-client";
 import { withSession } from "../sessionStorage";
+import LoaderButton from "../components/LoaderButton";
 
 const Login: FC = function Login() {
   const { errors } = useRouteData();
+  const pendingForm = usePendingFormSubmit();
+  const isSubmitting = pendingForm !== undefined;
 
   return (
     <AuthLayout>
@@ -22,7 +25,7 @@ const Login: FC = function Login() {
 
       <ErrorList errors={errors && errors.global} />
 
-      <form action="/login" method="POST">
+      <Form action="/login" method="post">
         <fieldset className="form-group">
           <input
             className="form-control form-control-lg"
@@ -43,10 +46,14 @@ const Login: FC = function Login() {
 
           <ErrorList errors={errors && errors.password} />
         </fieldset>
-        <button type="submit" className="btn btn-lg btn-primary pull-xs-right">
+        <LoaderButton
+          className="btn btn-lg btn-primary pull-xs-right"
+          loading={isSubmitting}
+          disabled={isSubmitting}
+        >
           Sign In
-        </button>
-      </form>
+        </LoaderButton>
+      </Form>
     </AuthLayout>
   );
 };
