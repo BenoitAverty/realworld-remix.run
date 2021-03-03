@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import AuthLayout from "../components/auth/AuthLayout";
-import { Form, LinksFunction, usePendingFormSubmit, useRouteData } from "@remix-run/react";
+import { Form, LinksFunction, useRouteData } from "@remix-run/react";
 import ErrorList from "../components/ErrorList";
 import { Link } from "react-router-dom";
 
@@ -10,11 +10,11 @@ import { removeAuthToken, saveAuthToken, UserLogin, UserWithToken } from "../lib
 import { apiUrl } from "../lib/api-client";
 import { withSession } from "../sessionStorage";
 import LoaderButton from "../components/LoaderButton";
+import { useIsSubmitting } from "../lib/util-hooks";
 
 const Login: FC = function Login() {
   const { errors } = useRouteData();
-  const pendingForm = usePendingFormSubmit();
-  const isSubmitting = pendingForm !== undefined;
+  const isSubmitting = useIsSubmitting("/login");
 
   return (
     <AuthLayout>

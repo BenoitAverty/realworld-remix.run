@@ -11,7 +11,6 @@ import type { Loader } from "@remix-run/data";
 import { json } from "@remix-run/data";
 import { fetchWithApiUrl } from "../lib/api-client";
 
-
 export function meta() {
   return {
     title: "Home — Conduit",
