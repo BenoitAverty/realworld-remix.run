@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import ActivationLink from "../ActivationLink";
 import AuthCheck from "../auth/AuthCheck";
 import { Link } from "react-router-dom";
+import LogoutButton from "../auth/LogoutButton";
 
 const Header: FC = function Header() {
   return (
@@ -33,6 +34,9 @@ const Header: FC = function Header() {
                   <ActivationLink className="nav-link" to={`/profile/${user.username}`}>
                     @{user.username}
                   </ActivationLink>
+                </li>
+                <li className="nav-item">
+                  <LogoutButton />
                 </li>
               </>
             )}

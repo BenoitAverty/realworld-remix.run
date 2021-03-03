@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 import type { Action, Loader } from "@remix-run/data";
 import { json, redirect } from "@remix-run/data";
-import { saveAuthToken, UserLogin, UserWithToken } from "../lib/users/users";
+import { removeAuthToken, saveAuthToken, UserLogin, UserWithToken } from "../lib/users/users";
 import { apiUrl } from "../lib/api-client";
 import { withSession } from "../sessionStorage";
 
@@ -63,45 +63,52 @@ export const loader: Loader = function loader({ request }) {
 };
 
 export const action: Action = async function loginUser({ request }) {
+  const isLogout = new URL(request.url).searchParams.get("logout") !== null;
+
   return withSession(request)(async session => {
-    const requestBody = new URLSearchParams(await request.text());
-
-    const email = requestBody.get("email");
-    const password = requestBody.get("password");
-
-    if (!(email && password)) {
-      session.flash(
-        "failedLogin",
-        JSON.stringify({ errors: { global: ["All fields are required"] } }),
-      );
-      return redirect("/login");
-    }
-
-    const newUser: UserLogin = {
-      email,
-      password,
-    };
-
-    const response = await fetch(apiUrl + "/users/login", {
-      method: "POST",
-      body: JSON.stringify({ user: newUser }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    const responseBody = await response.json();
-    if (response.status !== 200) {
-      session.flash(
-        "failedLogin",
-        JSON.stringify({ errors: { global: ["Email or password is incorrect."] } }),
-      );
-      return redirect("/login");
+    if (isLogout) {
+      removeAuthToken(session);
+      return redirect("/");
     } else {
-      const user: UserWithToken = responseBody.user;
-      saveAuthToken(session, user.token);
+      const requestBody = new URLSearchParams(await request.text());
 
-      return redirect("/feed");
+      const email = requestBody.get("email");
+      const password = requestBody.get("password");
+
+      if (!(email && password)) {
+        session.flash(
+          "failedLogin",
+          JSON.stringify({ errors: { global: ["All fields are required"] } }),
+        );
+        return redirect("/login");
+      }
+
+      const newUser: UserLogin = {
+        email,
+        password,
+      };
+
+      const response = await fetch(apiUrl + "/users/login", {
+        method: "POST",
+        body: JSON.stringify({ user: newUser }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const responseBody = await response.json();
+      if (response.status !== 200) {
+        session.flash(
+          "failedLogin",
+          JSON.stringify({ errors: { global: ["Email or password is incorrect."] } }),
+        );
+        return redirect("/login");
+      } else {
+        const user: UserWithToken = responseBody.user;
+        saveAuthToken(session, user.token);
+
+        return redirect("/feed");
+      }
     }
   });
 };
