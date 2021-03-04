@@ -1,11 +1,11 @@
 import React, { FC } from "react";
 import { json, Loader } from "@remix-run/data";
 import Banner from "../components/layout/Banner";
-import { useRouteData, Link } from "@remix-run/react";
+import { useRouteData } from "@remix-run/react";
 import { Article, getArticle } from "../lib/article/article";
 import ArticleLayout from "../components/article/ArticleLayout";
-import FormattedDate from "../components/FormattedDate";
 import ArticleMeta from "../components/article/ArticleMeta";
+import Comments from "../components/article/Comments";
 
 type ArticleData = {
   article: Article;
@@ -14,19 +14,33 @@ type ArticleData = {
 const ArticleDetails: FC = function ArticleDetails() {
   const { article } = useRouteData<ArticleData>();
 
+  const articleMeta = (
+    <ArticleMeta
+      author={article.author}
+      favoritesCount={article.favoritesCount}
+      createdAt={article.createdAt}
+    />
+  );
+
   return (
     <div className="article-page">
       <Banner>
         <h1>{article.title}</h1>
 
-        <ArticleMeta
-          author={article.author}
-          favoritesCount={article.favoritesCount}
-          createdAt={article.createdAt}
-        />
+        {articleMeta}
       </Banner>
 
-      <ArticleLayout article={article} />
+      <ArticleLayout
+        actions={
+          <ArticleMeta
+            author={article.author}
+            createdAt={article.createdAt}
+            favoritesCount={article.favoritesCount}
+          />
+        }
+        comments={<Comments />}
+        body={article.body}
+      />
     </div>
   );
 };

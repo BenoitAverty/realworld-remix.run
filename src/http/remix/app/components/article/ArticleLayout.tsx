@@ -1,27 +1,24 @@
-import React, { FC } from "react";
-import { Article } from "../../lib/article/article";
-import ArticleMeta from "./ArticleMeta";
-import Comments from "./Comments";
+import React, { FC, ReactNode } from "react";
+
+type ArticleLayoutProps = {
+  body: ReactNode;
+  actions: ReactNode;
+  comments: ReactNode;
+};
 
 // TODO use children instead of a prop here.
-const ArticleLayout: FC<{ article: Article }> = function ArticleLayout({ article }) {
+const ArticleLayout: FC<ArticleLayoutProps> = function ArticleLayout({ body, actions, comments }) {
   return (
     <div className="container page">
       <div className="row article-content">
-        <div className="col-md-12">{article.body}</div>
+        <div className="col-md-12">{body}</div>
       </div>
 
       <hr />
 
-      <div className="article-actions">
-        <ArticleMeta
-          author={article.author}
-          createdAt={article.createdAt}
-          favoritesCount={article.favoritesCount}
-        />
-      </div>
+      <div className="article-actions">{actions}</div>
 
-      <Comments />
+      {comments}
     </div>
   );
 };
