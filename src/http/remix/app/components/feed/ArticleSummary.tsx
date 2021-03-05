@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { Article } from "../../lib/article/article";
 import { Link } from "@remix-run/react";
+import ArticleFavoriteButton from "../article/ArticleFavoriteButton";
 
 type ArticleSummaryProps = {
   article: Article;
@@ -19,9 +20,13 @@ const ArticleSummary: FC<ArticleSummaryProps> = function ArticleSummary({ articl
           </a>
           <span className="date">{article.createdAt}</span>
         </div>
-        <button className="btn btn-outline-primary btn-sm pull-xs-right">
-          <i className="ion-heart"></i> {article.favoritesCount}
-        </button>
+        <div className={"pull-xs-right"}>
+          <ArticleFavoriteButton isFavorite={article.favorited} articleSlug={article.slug}>
+            <i className={article.favorited ? "ion-heart-broken" : "ion-heart"} />{" "}
+            {/* TODO: On the homepage, clicking this button updates the icon but not the count (need to refresh). Why ? */}
+            {article.favoritesCount}
+          </ArticleFavoriteButton>
+        </div>
       </div>
       <Link to={`/article/${article.slug}`} className="preview-link">
         <h1>{article.title}</h1>

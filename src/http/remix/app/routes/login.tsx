@@ -10,7 +10,7 @@ import { removeAuthToken, saveAuthToken, UserLogin, UserWithToken } from "../lib
 import { apiUrl } from "../lib/api-client";
 import { withSession } from "../sessionStorage";
 import LoaderButton from "../components/LoaderButton";
-import { useIsSubmitting } from "../lib/util-hooks";
+import { useIsSubmitting } from "../lib/utils";
 
 const Login: FC = function Login() {
   const { errors } = useRouteData();

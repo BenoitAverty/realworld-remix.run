@@ -9,7 +9,7 @@ import { saveAuthToken, UserRegistration, UserWithToken } from "../lib/users/use
 import { apiUrl } from "../lib/api-client";
 import { withSession } from "../sessionStorage";
 import LoaderButton from "../components/LoaderButton";
-import { useIsSubmitting } from "../lib/util-hooks";
+import { useIsSubmitting } from "../lib/utils";
 
 const Register: FC = function Register() {
   const { errors } = useRouteData();
