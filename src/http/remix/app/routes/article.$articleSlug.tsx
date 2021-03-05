@@ -6,6 +6,8 @@ import { Article, getArticle } from "../lib/article/article";
 import ArticleLayout from "../components/article/ArticleLayout";
 import ArticleMeta from "../components/article/ArticleMeta";
 import Comments from "../components/article/Comments";
+import { withSession } from "../sessionStorage";
+import { AUTH_TOKEN_SESSION_KEY } from "../lib/users/users";
 
 type ArticleData = {
   article: Article;
@@ -16,6 +18,8 @@ const ArticleDetails: FC = function ArticleDetails() {
 
   const articleMeta = (
     <ArticleMeta
+      isFavorite={article.favorited}
+      slug={article.slug}
       author={article.author}
       favoritesCount={article.favoritesCount}
       createdAt={article.createdAt}
@@ -30,24 +34,19 @@ const ArticleDetails: FC = function ArticleDetails() {
         {articleMeta}
       </Banner>
 
-      <ArticleLayout
-        actions={
-          <ArticleMeta
-            author={article.author}
-            createdAt={article.createdAt}
-            favoritesCount={article.favoritesCount}
-          />
-        }
-        comments={<Comments />}
-        body={article.body}
-      />
+      <ArticleLayout actions={articleMeta} comments={<Comments />} body={article.body} />
     </div>
   );
 };
 
 export default ArticleDetails;
 
-export const loader: Loader = async function ({ params }) {
-  const article = await getArticle(params.articleSlug);
-  return json({ article });
+export const loader: Loader = async function ({ request, params }) {
+  return withSession(request)(async session => {
+    const article = await getArticle(
+      params.articleSlug,
+      session.get(AUTH_TOKEN_SESSION_KEY) || null,
+    );
+    return json({ article });
+  });
 };
