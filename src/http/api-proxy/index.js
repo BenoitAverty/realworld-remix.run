@@ -17,6 +17,8 @@ exports.handler = async function handler(event, context) {
   // console.debug("request customHeader: ", customRequestHeader);
 
   // Retrieve auth token from session
+  // TODO: this is broken because remix doesn't use architect sessions anymore.
+  // It's not used anyway, but it'll need to be fixed for user feed.
   const session = await arc.http.session.read(event);
 
   // perform fetch to https target

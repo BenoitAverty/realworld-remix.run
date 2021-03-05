@@ -20,7 +20,14 @@ For more information on how to this works with other frontends/backends, head ov
 # Local development
 
 1. Install arc (`npm i -g @architect/architect`)
-2. Run the architect sandbox (`arc sandbox`). This will install the dependencies in `src/http/api-proxy` and `src/http/remix`
-3. Build the remix app and start the development asset server (`(cd src/http/remix; npm run dev)`) 
+2. Install the dependencies and start the remix app dev server (`(cd src/http/remix; npm install; npm run dev)`
+3. Create a file at the project root called preferences.arc with the following content (this is normally done with `arc env` but needs access to the aws project) : 
+```
+# The @env pragma is synced (and overwritten) by running arc env
+@env
+testing
+  REMIX_ENV development
+```
+2. Run the architect sandbox (`arc sandbox`). This will install the dependencies in `src/http/api-proxy`, which doesn't need a build step
 4. The app is available on [http://localhost:3333](http://localhost:3333).
 
