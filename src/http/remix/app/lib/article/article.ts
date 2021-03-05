@@ -35,6 +35,8 @@ export async function favoriteArticle(
   });
 
   if (response.status !== 200) {
-    throw new Error(`could not ${action} the article`);
+    throw new Error(
+      `could not ${action} the article : [${response.status}] ${await response.text()}`,
+    );
   }
 }

@@ -1,8 +1,6 @@
-import { Form, Link } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 import FormattedDate from "../FormattedDate";
 import React, { FC } from "react";
-import { useLocation } from "react-router-dom";
-import { REFERER_QUERY_PARAM } from "../../lib/utils";
 import ArticleFavoriteButton from "./ArticleFavoriteButton";
 
 type ArticleMetaProps = {
@@ -40,8 +38,7 @@ const ArticleMeta: FC<ArticleMetaProps> = function ArticleMeta({
       </button>
       &nbsp;&nbsp;
       <ArticleFavoriteButton articleSlug={slug} isFavorite={isFavorite}>
-        <i className={isFavorite ? "ion-heart-broken" : "ion-heart"} />
-        &nbsp; {isFavorite ? "Unfavorite" : "Favorite"} Post{" "}
+        {isFavorite ? "Unfavorite" : "Favorite"} Post{" "}
         <span className="counter">({favoritesCount})</span>
       </ArticleFavoriteButton>
     </div>

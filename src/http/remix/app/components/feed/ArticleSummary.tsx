@@ -25,8 +25,6 @@ const ArticleSummary: FC<ArticleSummaryProps> = function ArticleSummary({ articl
           articleSlug={article.slug}
           className={"pull-xs-right"}
         >
-          <i className={article.favorited ? "ion-heart-broken" : "ion-heart"} />{" "}
-          {/* TODO: On the homepage, clicking this button updates the icon but not the count (need to refresh). Why ? */}
           {article.favoritesCount}
         </ArticleFavoriteButton>
       </div>

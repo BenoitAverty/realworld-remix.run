@@ -1,4 +1,3 @@
-// Remix doesn't yet support routes with only actions.
 import { Action, Loader, redirect } from "@remix-run/data";
 import { withSession } from "../sessionStorage";
 import { favoriteArticle } from "../lib/article/article";
