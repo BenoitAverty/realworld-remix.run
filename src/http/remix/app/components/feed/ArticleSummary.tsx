@@ -20,13 +20,15 @@ const ArticleSummary: FC<ArticleSummaryProps> = function ArticleSummary({ articl
           </a>
           <span className="date">{article.createdAt}</span>
         </div>
-        <div className={"pull-xs-right"}>
-          <ArticleFavoriteButton isFavorite={article.favorited} articleSlug={article.slug}>
-            <i className={article.favorited ? "ion-heart-broken" : "ion-heart"} />{" "}
-            {/* TODO: On the homepage, clicking this button updates the icon but not the count (need to refresh). Why ? */}
-            {article.favoritesCount}
-          </ArticleFavoriteButton>
-        </div>
+        <ArticleFavoriteButton
+          isFavorite={article.favorited}
+          articleSlug={article.slug}
+          className={"pull-xs-right"}
+        >
+          <i className={article.favorited ? "ion-heart-broken" : "ion-heart"} />{" "}
+          {/* TODO: On the homepage, clicking this button updates the icon but not the count (need to refresh). Why ? */}
+          {article.favoritesCount}
+        </ArticleFavoriteButton>
       </div>
       <Link to={`/article/${article.slug}`} className="preview-link">
         <h1>{article.title}</h1>

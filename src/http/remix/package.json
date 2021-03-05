@@ -12,12 +12,12 @@
     "lint": "eslint app cypress --ext .js --ext .ts --ext .jsx --ext .tsx"
   },
   "dependencies": {
-    "@architect/functions": "^3.13.8",
     "@remix-run/architect": "^0.13.0",
     "@remix-run/cli": "^0.13.0",
     "@remix-run/data": "^0.13.0",
     "@remix-run/react": "^0.13.0",
     "aws-sdk": "^2.809.0",
+    "classnames": "^2.2.6",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-infinite-scroll-component": "^5.1.0",
