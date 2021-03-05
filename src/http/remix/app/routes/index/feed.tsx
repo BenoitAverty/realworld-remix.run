@@ -7,7 +7,7 @@ import ArticlesFeed from "../../components/feed/ArticlesFeed";
 import { AUTH_TOKEN_SESSION_KEY } from "../../lib/users/users";
 import { json, Loader, redirect } from "@remix-run/data";
 import { fetchWithToken } from "../../lib/api-client";
-import { withSession } from "../../sessionStorage";
+import { withSession } from "../../lib/request-utils";
 
 const Feed: FC = function Feed() {
   const data = useRouteData<FeedData>();

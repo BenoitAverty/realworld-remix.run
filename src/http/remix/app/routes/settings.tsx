@@ -3,7 +3,7 @@ import { useRouteData } from "@remix-run/react";
 import { User } from "../lib/auth/users";
 import { json, Loader, redirect } from "@remix-run/data";
 import { getAuthenticatedUser } from "../lib/users/users";
-import { withSession } from "../sessionStorage";
+import { withSession } from "../lib/request-utils";
 
 const Settings: FC = function Settings() {
   const user = useRouteData<User>();

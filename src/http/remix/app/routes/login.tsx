@@ -8,9 +8,9 @@ import type { Action, Loader } from "@remix-run/data";
 import { json, redirect } from "@remix-run/data";
 import { removeAuthToken, saveAuthToken, UserLogin, UserWithToken } from "../lib/users/users";
 import { apiUrl } from "../lib/api-client";
-import { withSession } from "../sessionStorage";
 import LoaderButton from "../components/LoaderButton";
 import { useIsSubmitting } from "../lib/utils";
+import { withSession } from "../lib/request-utils";
 
 const Login: FC = function Login() {
   const { errors } = useRouteData();

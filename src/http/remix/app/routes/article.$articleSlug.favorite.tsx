@@ -1,8 +1,8 @@
 import { Action, Loader, redirect } from "@remix-run/data";
-import { withSession } from "../sessionStorage";
 import { favoriteArticle } from "../lib/article/article";
 import { AUTH_TOKEN_SESSION_KEY } from "../lib/users/users";
 import { REFERER_QUERY_PARAM } from "../lib/utils";
+import { withSession } from "../lib/request-utils";
 
 // Remix doesn't support routes without a component yet,
 // that's why we use noop (won't be rendered because the loader always redirects)

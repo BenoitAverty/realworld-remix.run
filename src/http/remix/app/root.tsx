@@ -5,8 +5,8 @@ import UserProvider from "./components/auth/UserProvider";
 import { Outlet } from "react-router-dom";
 import { getAuthenticatedUser, User } from "./lib/users/users";
 import { json, Loader } from "@remix-run/data";
-import { withSession } from "./sessionStorage";
 import realworldBootstrap from "url:./styles/realworld-bootstrap.css";
+import { withSession } from "./lib/request-utils";
 
 type RootData = {
   user: User | null;

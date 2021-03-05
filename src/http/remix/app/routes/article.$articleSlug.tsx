@@ -6,8 +6,8 @@ import { Article, getArticle } from "../lib/article/article";
 import ArticleLayout from "../components/article/ArticleLayout";
 import ArticleMeta from "../components/article/ArticleMeta";
 import Comments from "../components/article/Comments";
-import { withSession } from "../sessionStorage";
 import { AUTH_TOKEN_SESSION_KEY } from "../lib/users/users";
+import { withAuthToken, withSession } from "../lib/request-utils";
 
 type ArticleData = {
   article: Article;
@@ -42,11 +42,8 @@ const ArticleDetails: FC = function ArticleDetails() {
 export default ArticleDetails;
 
 export const loader: Loader = async function ({ request, params }) {
-  return withSession(request)(async session => {
-    const article = await getArticle(
-      params.articleSlug,
-      session.get(AUTH_TOKEN_SESSION_KEY) || null,
-    );
+  return withAuthToken(request)(async apiAuthToken => {
+    const article = await getArticle(params.articleSlug, apiAuthToken);
     return json({ article });
   });
 };
