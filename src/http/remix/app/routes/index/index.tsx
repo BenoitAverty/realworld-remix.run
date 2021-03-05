@@ -6,8 +6,7 @@ import Pagination from "../../components/feed/Pagination";
 import { FeedData, PAGE_SIZE } from "../../lib/feed/feed";
 import { json, Loader } from "@remix-run/data";
 import { fetchWithApiUrl, fetchWithToken } from "../../lib/api-client";
-import { AUTH_TOKEN_SESSION_KEY } from "../../lib/users/users";
-import { withAuthToken, withSession } from "../../lib/request-utils";
+import { withAuthToken } from "../../lib/request-utils";
 
 const GlobalFeed: FC = function GlobalFeed() {
   const data = useRouteData<FeedData>();

@@ -6,8 +6,7 @@ import { Article, getArticle } from "../lib/article/article";
 import ArticleLayout from "../components/article/ArticleLayout";
 import ArticleMeta from "../components/article/ArticleMeta";
 import Comments from "../components/article/Comments";
-import { AUTH_TOKEN_SESSION_KEY } from "../lib/users/users";
-import { withAuthToken, withSession } from "../lib/request-utils";
+import { withAuthToken } from "../lib/request-utils";
 
 type ArticleData = {
   article: Article;

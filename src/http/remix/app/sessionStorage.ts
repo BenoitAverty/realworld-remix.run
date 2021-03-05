@@ -5,6 +5,7 @@ const { getSession, commitSession, destroySession } = createCookieSessionStorage
     name: "__realworld_session",
     secrets: ["omg"],
     sameSite: "lax",
+    path: "/",
   },
 });
 
