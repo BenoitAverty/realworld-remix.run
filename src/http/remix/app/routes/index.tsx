@@ -59,15 +59,10 @@ const Index = function Index() {
 
 export default Index;
 
-async function getTags() {
+export const loader: Loader = async () => {
   const fetch = fetchWithApiUrl();
 
   const result = await fetch("/tags");
-  return result.json();
-}
 
-export const loader: Loader = async () => {
-  const tags = await getTags();
-
-  return json(tags);
+  return json(await result.json());
 };

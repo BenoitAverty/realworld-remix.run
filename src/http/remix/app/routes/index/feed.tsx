@@ -40,8 +40,8 @@ async function getUserFeed(page: number, apiAuthToken: string) {
   return await result.json();
 }
 
-export const loader: Loader = async ({ request }) => {
-  return withSession(request)(async session => {
+export const loader: Loader = async ({ request, context }) => {
+  return withSession(context.arcRequest)(async session => {
     const apiAuthToken = session.get(AUTH_TOKEN_SESSION_KEY);
 
     if (!apiAuthToken) {

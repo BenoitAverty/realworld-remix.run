@@ -43,10 +43,10 @@ export default Root;
  *
  * Pages that needs authentication should verify authentication in their own loader and redirect if needed.
  */
-export const loader: Loader = async ({ request }) => {
+export const loader: Loader = async ({ context }) => {
   // TODO this "withSession" can override sessions set in other loaders. It probably needs to be changed into a read-only version without commitSession.
   return withSession(
-    request,
+    context.arcRequest,
     true,
   )(async session => {
     const userWithToken = await getAuthenticatedUser(session);

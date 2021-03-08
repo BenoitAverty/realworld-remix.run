@@ -36,4 +36,6 @@ function createRemixRequest(req) {
 
 exports.handler = createRequestHandler({
   build: require("./build"),
+  // Saving the raw request (needed to access architect session)
+  getLoadContext: req => ({ arcRequest: req }),
 });

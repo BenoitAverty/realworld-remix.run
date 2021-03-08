@@ -1,5 +1,11 @@
 const fetch = require("node-fetch");
 const arc = require("@architect/functions");
+const cookie = require("cookie")
+
+function getSession(req) {
+  const cookieHeader = req.cookies.join(";");
+  cookie.parse(cookieHeader)
+}
 
 // learn more about HTTP functions here: https://arc.codes/primitives/http
 exports.handler = async function handler(event, context) {
@@ -17,8 +23,6 @@ exports.handler = async function handler(event, context) {
   // console.debug("request customHeader: ", customRequestHeader);
 
   // Retrieve auth token from session
-  // TODO: this is broken because remix doesn't use architect sessions anymore.
-  // It's not used anyway, but it'll need to be fixed for user feed.
   const session = await arc.http.session.read(event);
 
   // perform fetch to https target
