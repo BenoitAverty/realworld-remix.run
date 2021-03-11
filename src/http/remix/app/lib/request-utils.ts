@@ -1,17 +1,16 @@
 import { Session } from "@remix-run/core";
 import { Response } from "@remix-run/core/fetch";
 import { commitSession, getSession } from "../sessionStorage";
-import { AUTH_TOKEN_SESSION_KEY } from "./users/users";
 import { HttpRequest } from "@architect/functions";
+import { redirect } from "@remix-run/data";
+import { AUTH_TOKEN_SESSION_KEY } from "./session-utils";
 
 // TODO this works weird with flash session objects and multiple loaders per request (like at /login). see https://discord.com/channels/770287896669978684/771068344320786452/816401869437796352
 // If two loaders set cookies, the parent route takes precedence.
-export function withSession(request: HttpRequest, readOnly = false) {
+export function withSession(arcRequest: HttpRequest, readOnly = false) {
   return async (fn: (session: Session) => Response | Promise<Response>) => {
-    const session = await getSession(request);
-    // console.log("session before", JSON.stringify(session));
+    const session = await getSession(arcRequest);
     const result = await fn(session);
-    // console.log("session after", JSON.stringify(session));
     if (!readOnly) {
       result.headers.set("Set-Cookie", await commitSession(session));
     }
@@ -24,5 +23,16 @@ export function withAuthToken(arcRequest: HttpRequest) {
     const session = await getSession(arcRequest);
     const token = session.get(AUTH_TOKEN_SESSION_KEY) || null;
     return fn(token);
+  };
+}
+
+// TODO probably a refactor to make use of `withAuthToken`
+export function requireAuthenticatedUsed(arcRequest: HttpRequest) {
+  return async (fn: (apiAuthToken: string) => Response | Promise<Response>) => {
+    const session = await getSession(arcRequest);
+    if (!session || !session.get(AUTH_TOKEN_SESSION_KEY)) {
+      return redirect("/login");
+    }
+    return fn(session.get(AUTH_TOKEN_SESSION_KEY));
   };
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import { Links, LinksFunction, Meta, Scripts, useRouteData } from "@remix-run/react";
 import Layout from "./components/layout/Layout";
-import UserProvider from "./components/auth/UserProvider";
+import UserProvider from "./components/user/UserProvider";
 import { Outlet } from "react-router-dom";
 import { getAuthenticatedUser, User } from "./lib/users/users";
 import { json, Loader } from "@remix-run/data";

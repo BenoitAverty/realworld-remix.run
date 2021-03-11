@@ -3,9 +3,8 @@ import React, { FC } from "react";
 import { useRouteData } from "@remix-run/react";
 import HideAfterFirstRender from "../../components/HideAfterFirstRender";
 import Pagination from "../../components/feed/Pagination";
-import { FeedData, PAGE_SIZE } from "../../lib/feed/feed";
+import { FeedData, getGlobalFeed, PAGE_SIZE } from "../../lib/feed/feed";
 import { json, Loader } from "@remix-run/data";
-import { fetchWithApiUrl, fetchWithToken } from "../../lib/api-client";
 import { withAuthToken } from "../../lib/request-utils";
 
 const GlobalFeed: FC = function GlobalFeed() {
@@ -31,13 +30,6 @@ const GlobalFeed: FC = function GlobalFeed() {
 };
 
 export default GlobalFeed;
-
-async function getGlobalFeed(page: number, token: string | null) {
-  const fetch = token ? fetchWithToken(token) : fetchWithApiUrl();
-
-  const result = await fetch(`/articles?offset=${PAGE_SIZE * (page - 1)}&limit=${PAGE_SIZE}`);
-  return await result.json();
-}
 
 export const loader: Loader = async ({ request, context }) => {
   const url = new URL(request.url);

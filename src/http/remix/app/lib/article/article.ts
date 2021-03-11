@@ -11,6 +11,7 @@ export type Article = {
   author: {
     image: string;
     username: string;
+    following: boolean;
   };
 };
 

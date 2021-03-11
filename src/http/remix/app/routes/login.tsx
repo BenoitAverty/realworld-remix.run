@@ -1,16 +1,17 @@
 import React, { FC } from "react";
-import AuthLayout from "../components/auth/AuthLayout";
+import AuthLayout from "../components/user/AuthLayout";
 import { Form, LinksFunction, useRouteData } from "@remix-run/react";
 import ErrorList from "../components/ErrorList";
 import { Link } from "react-router-dom";
 
 import type { Action, Loader } from "@remix-run/data";
 import { json, redirect } from "@remix-run/data";
-import { removeAuthToken, saveAuthToken, UserLogin, UserWithToken } from "../lib/users/users";
+import { UserLogin, UserWithToken } from "../lib/users/users";
 import { apiUrl } from "../lib/api-client";
 import LoaderButton from "../components/LoaderButton";
 import { useIsSubmitting } from "../lib/utils";
 import { withSession } from "../lib/request-utils";
+import { removeAuthToken, saveAuthToken } from "../lib/session-utils";
 
 const Login: FC = function Login() {
   const { errors } = useRouteData();

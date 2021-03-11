@@ -1,8 +1,8 @@
 import React, { FC } from "react";
 import ActivationLink from "../ActivationLink";
-import AuthCheck from "../auth/AuthCheck";
+import AuthCheck from "../user/AuthCheck";
 import { Link } from "react-router-dom";
-import LogoutButton from "../auth/LogoutButton";
+import LogoutButton from "../user/LogoutButton";
 
 const Header: FC = function Header() {
   return (
