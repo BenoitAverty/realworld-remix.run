@@ -22,7 +22,10 @@ const FollowUserButton: FC<FollowUserButtonProps> = function FollowUserButton({
       style={{ display: "inline" }}
     >
       <input type="hidden" name={"followAction"} value={isFollowing ? "unfollow" : "follow"} />
-      <button type="submit" className={clsx("btn btn-sm", isFollowing ? "btn-secondary" : " btn-outline-secondary")}>
+      <button
+        type="submit"
+        className={clsx("btn btn-sm", isFollowing ? "btn-secondary" : " btn-outline-secondary")}
+      >
         <i className="ion-plus-round" />
         &nbsp;{isFollowing ? "Unfollow" : "Follow"} {username}
       </button>
