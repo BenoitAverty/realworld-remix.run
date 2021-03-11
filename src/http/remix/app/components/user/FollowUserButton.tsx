@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { Form } from "@remix-run/react";
 import { useRefererQueryParam } from "../../lib/utils";
+import clsx from "clsx";
 
 type FollowUserButtonProps = {
   username: string;
@@ -21,7 +22,7 @@ const FollowUserButton: FC<FollowUserButtonProps> = function FollowUserButton({
       style={{ display: "inline" }}
     >
       <input type="hidden" name={"followAction"} value={isFollowing ? "unfollow" : "follow"} />
-      <button type="submit" className={"btn btn-sm btn-outline-primary"}>
+      <button type="submit" className={clsx("btn btn-sm", isFollowing ? "btn-secondary" : " btn-outline-secondary")}>
         <i className="ion-plus-round" />
         &nbsp;{isFollowing ? "Unfollow" : "Follow"} {username}
       </button>
