@@ -39,11 +39,11 @@ async function getGlobalFeed(page: number, token: string | null) {
   return await result.json();
 }
 
-export const loader: Loader = async ({ request }) => {
+export const loader: Loader = async ({ request, context }) => {
   const url = new URL(request.url);
   const page = Number.parseInt(url.searchParams.get("page") || "1");
 
-  return await withAuthToken(request)(async apiAuthToken => {
+  return await withAuthToken(context.arcRequest)(async apiAuthToken => {
     const articles = await getGlobalFeed(page, apiAuthToken);
     return json({
       ...articles,

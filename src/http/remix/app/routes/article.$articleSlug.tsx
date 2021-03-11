@@ -40,8 +40,8 @@ const ArticleDetails: FC = function ArticleDetails() {
 
 export default ArticleDetails;
 
-export const loader: Loader = async function ({ request, params }) {
-  return withAuthToken(request)(async apiAuthToken => {
+export const loader: Loader = async function ({ params, context }) {
+  return withAuthToken(context.arcRequest)(async apiAuthToken => {
     const article = await getArticle(params.articleSlug, apiAuthToken);
     return json({ article });
   });

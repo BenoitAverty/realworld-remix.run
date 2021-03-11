@@ -60,8 +60,8 @@ const Login: FC = function Login() {
 
 export default Login;
 
-export const loader: Loader = function loader({ request }) {
-  return withSession(request)(session => {
+export const loader: Loader = function loader({ context }) {
+  return withSession(context.arcRequest)(session => {
     const failedLogin = session.get("failedLogin");
     if (failedLogin) {
       return json(JSON.parse(failedLogin));
@@ -69,10 +69,10 @@ export const loader: Loader = function loader({ request }) {
   });
 };
 
-export const action: Action = async function loginUser({ request }) {
+export const action: Action = async function loginUser({ request, context }) {
   const isLogout = new URL(request.url).searchParams.get("logout") !== null;
 
-  return withSession(request)(async session => {
+  return withSession(context.arcRequest)(async session => {
     if (isLogout) {
       removeAuthToken(session);
       return redirect("/");

@@ -18,7 +18,7 @@ export const loader: Loader = ({ request, params }) => {
   return redirect(referer || `/article/${params.articleSlug}`);
 };
 
-export const action: Action = async function ({ params, request }) {
+export const action: Action = async function ({ params, request, context }) {
   const referer = new URL(request.url).searchParams.get(REFERER_QUERY_PARAM);
 
   const requestBody = new URLSearchParams(await request.text());
@@ -31,7 +31,7 @@ export const action: Action = async function ({ params, request }) {
   }
   const favoriteAction = requestBody.get("favoriteAction") as "favorite" | "unfavorite";
 
-  return withSession(request)(async session => {
+  return withSession(context.arcRequest)(async session => {
     const apiAuthToken = session.get(AUTH_TOKEN_SESSION_KEY);
     try {
       await favoriteArticle(params.articleSlug, apiAuthToken, favoriteAction);
