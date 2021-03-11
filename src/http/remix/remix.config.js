@@ -49,7 +49,7 @@ module.exports = {
    * that are created from building your routes. They are used on the server to
    * generate HTML.
    */
-  serverBuildDirectory: "build/app",
+  serverBuildDirectory: "build",
 
   /**
    * The port to use when running `remix run`. Defaults to 8002.
