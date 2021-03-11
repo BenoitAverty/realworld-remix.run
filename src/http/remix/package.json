@@ -12,10 +12,9 @@
     "lint": "eslint app cypress --ext .js --ext .ts --ext .jsx --ext .tsx"
   },
   "dependencies": {
-    "@remix-run/architect": "^0.13.0",
-    "@remix-run/cli": "^0.13.0",
-    "@remix-run/data": "^0.13.0",
-    "@remix-run/react": "^0.13.0",
+    "@remix-run/architect": "^0.14.0",
+    "@remix-run/data": "^0.14.0",
+    "@remix-run/react": "^0.14.0",
     "aws-sdk": "^2.809.0",
     "clsx": "^1.1.1",
     "react": "^17.0.1",
@@ -27,6 +26,7 @@
     "swr": "^0.3.9"
   },
   "devDependencies": {
+    "@remix-run/dev": "^0.14.0",
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
     "@types/node-fetch": "^2.5.7",
