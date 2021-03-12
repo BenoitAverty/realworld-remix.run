@@ -1,0 +1,118 @@
+== image:logo.png[RealWorld Example App]
+
+____
+
+https://remix.run[remix.run] codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the https://github.com/gothinkster/realworld[RealWorld] spec and API.
+
+____
+
+=== https://d2mkrvpur134v4.cloudfront.net/[Demo]&nbsp;&nbsp;&nbsp;&nbsp;https://github.com/gothinkster/realworld[RealWorld]
+
+This codebase was created to demonstrate a fully fledged fullstack application built with *https://remix.run[remix.run]* including CRUD operations, authentication, routing, pagination, and more.
+
+We've gone to great lengths to adhere to the https://remix.run[remix.run] philosophy &amp; best practices.
+
+For more information on how to this works with other frontends/backends, head over to the https://github.com/gothinkster/realworld[RealWorld] repo.
+
+NOTE: All the features from the Realworld spec are not implemented yet. Head to the issues to see what's missing.
+
+== Philosophy
+
+WARNING: I'm not a Remix developer. This section describes what I've understood and liked about the Remix way of doing things. This may not reflect the view of the developers.
+
+When I discovered about remix I was immediately very interested in the choices they have made. The Remix philosophy can be summarised by "Use the platform". The framework encourages the developper to adopt a programming model that's very consistent with how the browsers and other internet components (like CDNs) work.
+
+ * Using html forms instead of useState / useEffect (but with a better UX using JS)
+ * Modeling user interactions with the app as navigations and form submits (but without reloading the entire page thanks to modern client-side transitions)
+ * Loading data intelligently, enabling proper cache control
+ * Letting you, the dev, control the entry point of the app (enabling better customization and edge-case scenarios as other frameworks like next.js)
+ * Letting you, the dev, use advanced browser features like preloading of assets instead of abstracting it away.
+
+I've tried, in this app, to embrace that philosophy.
+
+To help me do that, I have decided that **this application should function with javascript completely disabled**. This does not mean it's a good idea for a real app, or that javascript is bad. But the fact that it's been relatively easy to do so is a nice way to show that the programming model of a Remix app is consistent with the way internet works.
+
+With javascrip disabled, the app should function perfectly fine, without any feature disabled.
+With javascript enabled, you get smoother transitions on page changed (client side navigation), infinite scrolling on the article page, better form UX, automatic refresh of the feed...
+
+== How it works
+
+=== Deployed on AWS Lambda using link:https://arc.codes[architect]
+
+Remix can be deployed pretty much anywhere using express, but it works very well with function as a service providers like Vercel or AWS Lambda. At the moment, Remix has starter repos for Express, Vercel and AWS Lambda using link:https://arc.codes[architect]. This is the solution I chose for this project. Most of the code would be the same for any Remix app.
+
+`app.arc` is the main file for an architect project. The two most important things are :
+
+* the `@cdn` directive means that the entire app is deployed behind a CDN. Remix makes it really easy to take advantage of this with proper cache-control headers.
+* the `@http` directive configures lambdas. The Remix app itself is a lambda and its code is in the `src/http/remix` folder. The `src/http/api-proxy` lambda is a proxy to https://github.com/gothinkster/realworld/tree/master/api[conduit api]. If a user is authenticated, the proxy adds its authentication token to the request.
+
+What's nice about deploying Remix with architect is that it would be very easy to add the backend part of the application using other lambdas. Architect makes it easy to add DynamoDB tables, SQS topics or scheduled jobs.
+
+=== The Remix app
+
+The Remix app is in the `src/http/remix`. If you're only interested in Remix itself, you can ignore the rest of the repo.
+
+Paths in this section are relative to this folder (unless they start with `src`).
+
+This section is not meant to replace Remix documentation, but only to help navigating the code in the repo. For more information, head to https://remix.run[remix.run] and consider subscribing to their newsletter.
+
+==== Routing
+
+Much like Next.js, Remix does filesystem based routing. The routes of the application correspond to the files in `app/routes`. For example : 
+
+* the `/login` page is rendered using the code in `app/routes/login.tsx`.
+* the `/article/{articleSlug}` page is rendered using the code in `app/routes/article.$articleSlug.tsx`.
+
+Remix also has "nested routes". They are used by placing subfolders inside the routes folder.
+
+* the `/` page is rendered using the code in `app/routes/index.tsx` (layout) and `app/routes/index/index.tsx` (content)
+* the `/feed` page is rendered using the code in `app/routes/index.tsx` (layout) and `app/routes/index/feed.tsx` (content)
+
+==== Data
+
+Remix is a Server Side Rendering framework. To load the data needed to render pages, Remix uses "Loaders" that are defined in the route files, alongside the page components.
+
+When a page is rendered on the server, Remix calls all the loaders of the matched routes
+
+* for the `/login` page, the loader in `app/routes/login.tsx` is called.
+* for the `/feed` page, the loaders in `app/routes/index.tsx` and `app/routes/index/feed.tsx` are called.
+
+These loaders are meant to be the single source of truth for the data needed to render a page. To enable this, Remix calls the same loaders when doing client-side navigation to a page. This means there is no need to `fetch` the data ourselves in the code if it's already fetched in the loader.
+
+==== Sessions
+
+I'm using Architect's sessions at the moment.
+
+WARNING: This is not the intended way to do sessions with Remix. I'm doing this to be able to access the session easily in other lambdas (`src/http/api-proxy`) but I'm planning to change this to show a more "standard" way of doing sessions in a Remix app.
+
+Sessions are created using Architect helper package (`@architect/functions`) and then wrapped in Remix session object. 
+
+Sessions are used to store the authenticated user's api token and form errors.
+
+==== React
+
+Remix is a React framework, and this app is a React app above all else. I've done my best to make this app a good example of a well-structured React app.
+
+Components live in the `app/components` folder. `app/lib` contain other JS/TS modules. For both these folders, there are subfolders organized roughly by feature. 
+
+== Local development
+
+=== Start the development server
+
+. Install arc (`npm i -g @architect/architect`)
+. Install the dependencies and start the Remix app dev server (`(cd src/http/remix; npm install; npm run dev)`. You need a Remix token to do this step.
+. Create a file at the project root called preferences.arc with the following content (this is normally done with `arc env` but needs access to the aws project) :
+
+----
+# The @env pragma is synced (and overwritten) by running arc env
+@env
+testing
+  REMIX_ENV development
+----
+
+. Run the architect sandbox (`arc sandbox`). This will install the dependencies in `src/http/api-proxy`, which doesn't need a build step
+. The app is available on http://localhost:3333.
+
+=== Tests
+
+ * Run the unit tests with `npm run test:unit` in `src/http/remix`
