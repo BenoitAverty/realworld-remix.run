@@ -123,3 +123,9 @@ testing
 === Tests
 
  * Run the unit tests with `npm run test:unit` in `src/http/remix`
+
+== Contributing
+
+Remix is a paid software. You will need a http://remix.run/buy[license] to start the app locally and do any significant work.
+
+If you do have a license, fill free to open a PR for any missing feature or improvement. Keep in mind I'd like the app to function with javascript completely disabled in the browser.
