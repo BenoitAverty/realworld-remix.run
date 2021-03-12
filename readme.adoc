@@ -25,8 +25,11 @@ When I discovered about remix I was immediately very interested in the choices t
  * Using html forms instead of useState / useEffect (but with a better UX using JS)
  * Modeling user interactions with the app as navigations and form submits (but without reloading the entire page thanks to modern client-side transitions)
  * Loading data intelligently, enabling proper cache control
- * Letting you, the dev, control the entry point of the app (enabling better customization and edge-case scenarios as other frameworks like next.js)
+ * Letting you, the dev, control the entry point of the app and the entire dom (enabling better customization and edge-case scenarios as other frameworks like next.js)
  * Letting you, the dev, use advanced browser features like preloading of assets instead of abstracting it away.
+ * Ensuring the browser and CDN get sent proper status codes when data is not available
+
+Head to https://remix.run/features to learn more.
 
 I've tried, in this app, to embrace that philosophy.
 
@@ -68,6 +71,8 @@ Remix also has "nested routes". They are used by placing subfolders inside the r
 * the `/` page is rendered using the code in `app/routes/index.tsx` (layout) and `app/routes/index/index.tsx` (content)
 * the `/feed` page is rendered using the code in `app/routes/index.tsx` (layout) and `app/routes/index/feed.tsx` (content)
 
+There's also the `app/root.tsx` which contains the common layout for all pages.
+
 ==== Data
 
 Remix is a Server Side Rendering framework. To load the data needed to render pages, Remix uses "Loaders" that are defined in the route files, alongside the page components.
@@ -76,6 +81,8 @@ When a page is rendered on the server, Remix calls all the loaders of the matche
 
 * for the `/login` page, the loader in `app/routes/login.tsx` is called.
 * for the `/feed` page, the loaders in `app/routes/index.tsx` and `app/routes/index/feed.tsx` are called.
+
+There's also the loader in `app/root.tsx` that's called for all pages.
 
 These loaders are meant to be the single source of truth for the data needed to render a page. To enable this, Remix calls the same loaders when doing client-side navigation to a page. This means there is no need to `fetch` the data ourselves in the code if it's already fetched in the loader.
 
