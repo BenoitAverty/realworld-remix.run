@@ -2,12 +2,14 @@ import { Link } from "@remix-run/react";
 import FormattedDate from "../FormattedDate";
 import React, { FC } from "react";
 import ArticleFavoriteButton from "./ArticleFavoriteButton";
+import FollowUserButton from "../user/FollowUserButton";
 
 type ArticleMetaProps = {
   slug: string;
   author: {
     username: string;
     image: string;
+    following: boolean;
   };
   favoritesCount: number;
   createdAt: string;
@@ -32,10 +34,7 @@ const ArticleMeta: FC<ArticleMetaProps> = function ArticleMeta({
         </Link>
         <FormattedDate date={createdAt} />
       </div>
-      <button className="btn btn-sm btn-outline-secondary">
-        <i className="ion-plus-round" />
-        &nbsp; Follow {author.username}
-      </button>
+      <FollowUserButton username={author.username} isFollowing={author.following} />
       &nbsp;&nbsp;
       <ArticleFavoriteButton articleSlug={slug} isFavorite={isFavorite}>
         {isFavorite ? "Unfavorite" : "Favorite"} Post{" "}

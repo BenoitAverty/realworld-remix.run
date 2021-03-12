@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import ActivationLink from "../ActivationLink";
-import AuthCheck from "../auth/AuthCheck";
+import AuthCheck from "../user/AuthCheck";
 
 type FeedToggleProps = {
   tag?: string;

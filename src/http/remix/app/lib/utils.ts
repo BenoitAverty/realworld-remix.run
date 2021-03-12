@@ -1,6 +1,10 @@
 import { usePendingFormSubmit } from "@remix-run/react";
 import { useLocation } from "react-router-dom";
 
+export type FormErrors = {
+  [fieldNameOrGlobal: string]: string[];
+};
+
 /** Query param used when an action should redirect back to the page that initiated it. */
 export const REFERER_QUERY_PARAM = "referer";
 

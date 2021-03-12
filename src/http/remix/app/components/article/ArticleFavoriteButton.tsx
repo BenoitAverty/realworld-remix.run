@@ -27,7 +27,14 @@ const ArticleFavoriteButton: FC<ArticleFavoriteButtonProps> = function ArticleFa
       style={{ display: "inline" }}
     >
       <input type="hidden" name={"favoriteAction"} value={isFavorite ? "unfavorite" : "favorite"} />
-      <button type="submit" className={clsx("btn btn-sm btn-outline-primary", className)}>
+      <button
+        type="submit"
+        className={clsx(
+          "btn btn-sm",
+          isFavorite ? "btn-primary" : "btn-outline-primary",
+          className,
+        )}
+      >
         <i className={isFavorite ? "ion-heart-broken" : "ion-heart"} />
         &nbsp;{children}
       </button>

@@ -1,5 +1,6 @@
 import type { Session } from "@remix-run/core";
 import { fetchWithToken } from "../api-client";
+import { AUTH_TOKEN_SESSION_KEY, removeAuthToken } from "../session-utils";
 
 /**
  * User object returned from the Conduit api
@@ -59,8 +60,6 @@ export async function getUser(apiAuthToken: string): Promise<UserWithToken | nul
   return body.user;
 }
 
-export const AUTH_TOKEN_SESSION_KEY = "api_auth_token";
-
 /**
  * Check if the user is authenticated (ie. a valid token is present in the session) and returns its
  * info.
@@ -84,12 +83,4 @@ export async function getAuthenticatedUser(session: Session): Promise<UserWithTo
   }
 
   return user;
-}
-
-export function saveAuthToken(session: Session, token: string) {
-  session.set(AUTH_TOKEN_SESSION_KEY, token);
-}
-
-export function removeAuthToken(session: Session) {
-  session.unset(AUTH_TOKEN_SESSION_KEY);
 }
