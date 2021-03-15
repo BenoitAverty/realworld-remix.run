@@ -1,6 +1,6 @@
 import React, { CSSProperties, FC, useEffect, useState } from "react";
 
-const Footer: FC = function Footer() {
+const Footer: FC<{ gitCommit: string }> = function Footer({ gitCommit }) {
   // The footer starts at the end of the content, but the we fix it at the bottom of the window to
   // make it visible with infinite scroll.
   // If the user has JS disabled, the footer stays at the end of the content, which is fine because infinite scroll won't happen.
@@ -13,6 +13,7 @@ const Footer: FC = function Footer() {
         <a href="/" className="logo-font">
           conduit
         </a>
+        <span className="attribution">· {gitCommit} ·</span>
         <span className="attribution">
           An interactive learning project from <a href="https://thinkster.io">Thinkster</a>. Code &
           design licensed under MIT.

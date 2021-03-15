@@ -2,12 +2,12 @@ import React, { FC } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 
-const Layout: FC = function Layout({ children }) {
+const Layout: FC<{ gitCommit: string }> = function Layout({ gitCommit, children }) {
   return (
     <>
       <Header />
       {children}
-      <Footer />
+      <Footer gitCommit={gitCommit} />
     </>
   );
 };

@@ -66,6 +66,8 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
       - run: "npm rebuild && npm run prepare --if-present"
       - run: "npm run build"
+      - run: "arc env staging GIT_COMMIT $GITHUB_SHA"
+        working-directory: .
       - run: "NPM_CONFIG_IGNORE_SCRIPTS=true arc deploy"
         working-directory: .
         env:
@@ -121,6 +123,8 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
       - run: "npm rebuild && npm run prepare --if-present"
       - run: "npm run build"
+      - run: "arc env production GIT_COMMIT $GITHUB_SHA"
+        working-directory: .
       - run: "NPM_CONFIG_IGNORE_SCRIPTS=true arc deploy --production"
         working-directory: .
         env:

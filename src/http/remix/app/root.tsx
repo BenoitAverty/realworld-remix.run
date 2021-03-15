@@ -10,6 +10,7 @@ import { withSession } from "./lib/request-utils";
 
 type RootData = {
   user: User | null;
+  gitCommit: string;
 };
 
 const Root = function Root() {
@@ -24,7 +25,7 @@ const Root = function Root() {
       </head>
       <body>
         <UserProvider user={data.user}>
-          <Layout>
+          <Layout gitCommit={data.gitCommit}>
             <Outlet />
           </Layout>
           <Scripts />
@@ -44,7 +45,6 @@ export default Root;
  * Pages that needs authentication should verify authentication in their own loader and redirect if needed.
  */
 export const loader: Loader = async ({ context }) => {
-  // TODO this "withSession" can override sessions set in other loaders. It probably needs to be changed into a read-only version without commitSession.
   return withSession(
     context.arcRequest,
     true,
@@ -53,10 +53,11 @@ export const loader: Loader = async ({ context }) => {
 
     if (userWithToken) {
       const { token, ...user } = userWithToken;
-      return json({ user });
+      return json({ user, gitCommit: process.env.GIT_COMMIT });
     } else {
       return json({
         user: null,
+        gitCommit: process.env.GIT_COMMIT,
       });
     }
   });
