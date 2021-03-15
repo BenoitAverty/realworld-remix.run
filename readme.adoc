@@ -108,13 +108,19 @@ Components live in the `app/components` folder. `app/lib` contain other JS/TS mo
 
 . Install arc (`npm i -g @architect/architect`)
 . Install the dependencies and start the Remix app dev server (`(cd src/http/remix; npm install; npm run dev)`. You need a Remix token to do this step.
-. Create a file at the project root called preferences.arc with the following content (this is normally done with `arc env` but needs access to the aws project) :
+. If you have access to a AWS project to deploy the app (by running `aws configure --profile realworld-remix`), create the needed env vars :
+.. `arc env testing REMIX_ENV development`
+.. `arc env testing GIT_COMMIT local`
+.. (if you intend to deploy) `arc env staging REMIX_ENV production`
+.. (if you intend to deploy) `arc env production REMIX_ENV production`
+. If you *don't* have access to an AWS project, create a file at the project root called preferences.arc with the following content (this is normally done with `arc env` but needs access to the aws project) :
 
 ----
 # The @env pragma is synced (and overwritten) by running arc env
 @env
 testing
   REMIX_ENV development
+  GIT_COMMIT local
 ----
 
 . Run the architect sandbox (`arc sandbox`). This will install the dependencies in `src/http/api-proxy`, which doesn't need a build step
