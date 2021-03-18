@@ -18,9 +18,13 @@ export type Article = {
 export async function getArticle(
   articleSlug: string,
   token: string | null = null,
-): Promise<Article> {
+): Promise<Article | null> {
   const fetch = token ? fetchWithToken(token) : fetchWithApiUrl();
   const response = await fetch(`/articles/${articleSlug}`);
+  if (response.status !== 200) {
+    // TODO handle errors
+    return null;
+  }
   const body = await response.json();
   return body.article;
 }
