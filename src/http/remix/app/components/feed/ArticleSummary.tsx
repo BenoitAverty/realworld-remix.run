@@ -24,9 +24,8 @@ const ArticleSummary: FC<ArticleSummaryProps> = function ArticleSummary({ articl
           isFavorite={article.favorited}
           articleSlug={article.slug}
           className={"pull-xs-right"}
-        >
-          {article.favoritesCount}
-        </ArticleFavoriteButton>
+          favoritesCount={article.favoritesCount}
+        />
       </div>
       <Link to={`/article/${article.slug}`} className="preview-link">
         <h1>{article.title}</h1>

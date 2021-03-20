@@ -36,10 +36,12 @@ const ArticleMeta: FC<ArticleMetaProps> = function ArticleMeta({
       </div>
       <FollowUserButton username={author.username} isFollowing={author.following} />
       &nbsp;&nbsp;
-      <ArticleFavoriteButton articleSlug={slug} isFavorite={isFavorite}>
-        {isFavorite ? "Unfavorite" : "Favorite"} Post{" "}
-        <span className="counter">({favoritesCount})</span>
-      </ArticleFavoriteButton>
+      <ArticleFavoriteButton
+        articleSlug={slug}
+        favoritesCount={favoritesCount}
+        isFavorite={isFavorite}
+        full
+      />
     </div>
   );
 };

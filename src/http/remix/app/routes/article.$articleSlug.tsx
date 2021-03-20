@@ -7,7 +7,6 @@ import ArticleLayout from "../components/article/ArticleLayout";
 import ArticleMeta from "../components/article/ArticleMeta";
 import Comments from "../components/article/Comments";
 import { withAuthToken } from "../lib/request-utils";
-import { Link } from "react-router-dom";
 import Layout404 from "../components/layout/404";
 
 type ArticleData = {

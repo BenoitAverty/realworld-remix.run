@@ -31,6 +31,7 @@ const FollowUserButton: FC<FollowUserButtonProps> = function FollowUserButton({
       />
       <button
         type="submit"
+        disabled={isSubmitting}
         className={clsx(
           "btn btn-sm",
           optimisticIsFollowing ? "btn-secondary" : " btn-outline-secondary",
