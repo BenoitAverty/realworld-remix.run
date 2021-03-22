@@ -1,4 +1,4 @@
-import { fetchWithApiUrl, fetchWithToken } from "../api-client";
+import { fetchWithApiUrl, fetchWithToken } from "../api-client.server";
 
 export type Article = {
   slug: string;

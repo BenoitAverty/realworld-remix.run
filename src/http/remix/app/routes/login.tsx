@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import type { Action, Loader } from "@remix-run/data";
 import { json, redirect } from "@remix-run/data";
 import { UserLogin, UserWithToken } from "../lib/users/users";
-import { apiUrl } from "../lib/api-client";
+import { apiUrl } from "../lib/api-client.server";
 import LoaderButton from "../components/LoaderButton";
 import { useIsSubmitting } from "../lib/utils";
 import { withSession } from "../lib/request-utils";

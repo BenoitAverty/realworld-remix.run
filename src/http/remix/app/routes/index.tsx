@@ -9,7 +9,7 @@ import { Outlet } from "react-router-dom";
 
 import type { Loader } from "@remix-run/data";
 import { json } from "@remix-run/data";
-import { fetchWithApiUrl } from "../lib/api-client";
+import { fetchWithApiUrl } from "../lib/api-client.server";
 
 export function meta() {
   return {

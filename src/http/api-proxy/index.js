@@ -13,7 +13,7 @@ exports.handler = async function handler(event, context) {
   // console.debug("context received: ", context);
 
   // fetch Headers and ALB Headers are different types
-  const apiUrl = "conduit.productionready.io";
+  const apiUrl = process.env.API_URL || "https://conduit.productionready.io";
   let customRequestHeader = {};
   if (event.headers) {
     customRequestHeader = event.headers;

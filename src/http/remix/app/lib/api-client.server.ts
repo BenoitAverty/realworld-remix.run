@@ -1,8 +1,8 @@
-export const apiUrl = "https://conduit.productionready.io/api";
+export const apiUrl = process.env.API_URL || "https://conduit.productionready.io";
 
 export function fetchWithApiUrl() {
   return async function (uri: string, init?: RequestInit): Promise<Response> {
-    return fetch(apiUrl + uri, init);
+    return fetch(`${apiUrl}/api${uri}`, init);
   };
 }
 
