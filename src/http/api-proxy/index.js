@@ -27,7 +27,7 @@ exports.handler = async function handler(event, context) {
 
   // perform fetch to https target
   try {
-    const url = `https://${apiUrl}${event.requestContext.http.path}`;
+    const url = `${apiUrl}${event.requestContext.http.path}`;
     const requestHeaders = session.api_auth_token ? {
       // Adding auth
       Authorization: `Token ${session.api_auth_token}`,
