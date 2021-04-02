@@ -95,6 +95,7 @@ jobs:
       - run: "npm run test:cypress:run"
         env:
           CYPRESS_BASE_URL: https://dzjgewj4p8x3c.cloudfront.net/
+          CYPRESS_MOCKLAB_TOKEN: ${{ secrets.MOCKLAB_TOKEN }}
 
 
   deploy-prod:
