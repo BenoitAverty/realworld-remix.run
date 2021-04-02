@@ -1,3 +1,8 @@
 {
-  "baseUrl": "http://localhost:3333"
+  "baseUrl": "http://localhost:3333",
+  "env": {
+    "MOCK_SERVER": "https://realworld-remix.mocklab.io",
+    "API_URL": "http://conduit.productionready.io",
+    "MOCKLAB_TOKEN": ""
+  }
 }

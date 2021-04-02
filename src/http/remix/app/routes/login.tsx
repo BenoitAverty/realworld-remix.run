@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import type { Action, Loader } from "@remix-run/data";
 import { json, redirect } from "@remix-run/data";
 import { UserLogin, UserWithToken } from "../lib/users/users";
-import { apiUrl } from "../lib/api-client";
+import { fetchWithApiUrl } from "../lib/api-client.server";
 import LoaderButton from "../components/LoaderButton";
 import { useIsSubmitting } from "../lib/utils";
 import { withSession } from "../lib/request-utils";
@@ -71,6 +71,7 @@ export const loader: Loader = function loader({ context }) {
 };
 
 export const action: Action = async function loginUser({ request, context }) {
+  const fetch = fetchWithApiUrl();
   const isLogout = new URL(request.url).searchParams.get("logout") !== null;
 
   return withSession(context.arcRequest)(async session => {
@@ -96,7 +97,7 @@ export const action: Action = async function loginUser({ request, context }) {
         password,
       };
 
-      const response = await fetch(apiUrl + "/users/login", {
+      const response = await fetch("/users/login", {
         method: "POST",
         body: JSON.stringify({ user: newUser }),
         headers: {

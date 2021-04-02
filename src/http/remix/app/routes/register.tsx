@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import type { Action, Loader } from "@remix-run/data";
 import { json, redirect } from "@remix-run/data";
 import { UserRegistration, UserWithToken } from "../lib/users/users";
-import { apiUrl } from "../lib/api-client";
+import { fetchWithApiUrl } from "../lib/api-client.server";
 import LoaderButton from "../components/LoaderButton";
 import { useIsSubmitting } from "../lib/utils";
 import { withSession } from "../lib/request-utils";
@@ -81,6 +81,7 @@ export const loader: Loader = async function loader({ context }) {
 };
 
 export const action: Action = async function registerUser({ request, context }) {
+  const fetch = fetchWithApiUrl();
   return withSession(context.arcRequest)(async session => {
     const requestBody = new URLSearchParams(await request.text());
 
@@ -102,7 +103,7 @@ export const action: Action = async function registerUser({ request, context }) 
       password,
     };
 
-    const response = await fetch(apiUrl + "/users", {
+    const response = await fetch("/users", {
       method: "POST",
       body: JSON.stringify({ user: newUser }),
       headers: {
