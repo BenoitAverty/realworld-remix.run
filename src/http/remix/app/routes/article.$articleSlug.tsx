@@ -1,7 +1,7 @@
 import React, { FC } from "react";
-import { json, Loader } from "@remix-run/data";
+import { json } from "@remix-run/node";
 import Banner from "../components/layout/Banner";
-import { useRouteData } from "@remix-run/react";
+import { Loader, useRouteData } from "@remix-run/react";
 import { Article, getArticle } from "../lib/article/article";
 import ArticleLayout from "../components/article/ArticleLayout";
 import ArticleMeta from "../components/article/ArticleMeta";

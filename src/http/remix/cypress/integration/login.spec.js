@@ -10,7 +10,7 @@ describe("Login", () => {
 
     // THEN
     cy.get('[data-testid="navbar"]').within(() => {
-      cy.contains("@Benoit");
+      cy.contains("@Benoit", { timeout: 10000 });
       cy.contains("New Post");
       cy.contains("Settings");
     });

@@ -1,7 +1,7 @@
-import { createSession } from "@remix-run/data";
+import { createSession } from "@remix-run/node";
 
 import arc, { HttpRequest } from "@architect/functions";
-import type { Session } from "@remix-run/core";
+import type { Session } from "@remix-run/node";
 
 export async function getSession(req: HttpRequest) {
   const initialData = await arc.http.session.read(req);

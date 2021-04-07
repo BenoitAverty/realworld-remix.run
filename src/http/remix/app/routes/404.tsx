@@ -1,4 +1,4 @@
-import { MetaFunction } from "@remix-run/data";
+import { MetaFunction } from "@remix-run/node";
 import React from "react";
 import Layout404 from "../components/layout/404";
 

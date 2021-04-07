@@ -7,8 +7,8 @@ import FeedToggle from "../components/feed/FeedToggle";
 import FeedLayout from "../components/feed/FeedLayout";
 import { Outlet } from "react-router-dom";
 
-import type { Loader } from "@remix-run/data";
-import { json } from "@remix-run/data";
+import type { Loader } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { fetchWithApiUrl } from "../lib/api-client.server";
 
 export function meta() {

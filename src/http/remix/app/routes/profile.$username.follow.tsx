@@ -1,4 +1,4 @@
-import { Action, Loader, redirect } from "@remix-run/data";
+import { Action, Loader, redirect } from "@remix-run/node";
 import { REFERER_QUERY_PARAM } from "../lib/utils";
 import { requireAuthenticatedUsed } from "../lib/request-utils";
 import { followUser } from "../lib/users/profile";

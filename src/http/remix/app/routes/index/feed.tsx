@@ -4,7 +4,7 @@ import { FeedData, getUserFeed, PAGE_SIZE } from "../../lib/feed/feed";
 import HideAfterFirstRender from "../../components/HideAfterFirstRender";
 import Pagination from "../../components/feed/Pagination";
 import ArticlesFeed from "../../components/feed/ArticlesFeed";
-import { json, Loader } from "@remix-run/data";
+import { json, Loader } from "@remix-run/node";
 import { requireAuthenticatedUsed } from "../../lib/request-utils";
 
 const Feed: FC = function Feed() {
