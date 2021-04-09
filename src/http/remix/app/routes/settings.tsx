@@ -1,7 +1,7 @@
 import React, { FC } from "react";
-import { Form, useRouteData } from "@remix-run/react";
+import { Action, Form, Loader, useRouteData } from "@remix-run/react";
 import { User } from "../lib/auth/users";
-import { Action, json, Loader, redirect } from "@remix-run/data";
+import { json, redirect } from "@remix-run/node";
 import { getAuthenticatedUser } from "../lib/users/users";
 import { withSession } from "../lib/request-utils";
 import LoaderButton from "../components/LoaderButton";

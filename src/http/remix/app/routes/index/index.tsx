@@ -1,10 +1,10 @@
 import ArticlesFeed from "../../components/feed/ArticlesFeed";
 import React, { FC } from "react";
-import { useRouteData } from "@remix-run/react";
+import { Loader, useRouteData } from "@remix-run/react";
 import HideAfterFirstRender from "../../components/HideAfterFirstRender";
 import Pagination from "../../components/feed/Pagination";
 import { FeedData, getGlobalFeed, PAGE_SIZE } from "../../lib/feed/feed";
-import { json, Loader } from "@remix-run/data";
+import { json } from "@remix-run/node";
 import { withAuthToken } from "../../lib/request-utils";
 
 const GlobalFeed: FC = function GlobalFeed() {

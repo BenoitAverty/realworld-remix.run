@@ -1,8 +1,8 @@
-import { Session } from "@remix-run/core";
-import { Response } from "@remix-run/core/fetch";
+import { Session, redirect } from "@remix-run/node";
+import { Response } from "@remix-run/node/fetch";
 import { commitSession, getSession } from "../sessionStorage";
 import { HttpRequest } from "@architect/functions";
-import { redirect } from "@remix-run/data";
+
 import { AUTH_TOKEN_SESSION_KEY } from "./session-utils";
 
 // TODO this works weird with flash session objects and multiple loaders per request (like at /login). see https://discord.com/channels/770287896669978684/771068344320786452/816401869437796352
