@@ -18,12 +18,11 @@ Thumbs.db
 
 # Remix
 **/build
-**/public/build
 **/.cache
 **/yarn-error.log
-/public/build
 sam.json
 sam.yaml
 
 # artifacts
 **/cypress/videos
+**/cypress/screenshots

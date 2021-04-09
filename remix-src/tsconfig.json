@@ -9,6 +9,6 @@
     "skipLibCheck": true
   },
   "exclude": [
-    "../node_modules"
+    "../src/http/remix/node_modules"
   ]
 }
