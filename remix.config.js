@@ -5,7 +5,7 @@ module.exports = {
    * by Remix.
    *
    */
-  appDirectory: "remix-src",
+  appDirectory: "app",
 
   /**
    * A hook for defining custom routes based on your own file conventions. This

@@ -8,10 +8,10 @@
     "postinstall": "find ! -newermt 1981-01-01 -exec touch {} \\;",
     "build": "npm run clean && remix build2",
     "dev": "remix run2",
-    "test:unit": "jest ./remix-src/",
+    "test:unit": "jest app/",
     "test:cypress:open": "cypress open",
     "test:cypress:run": "cypress run",
-    "lint": "eslint ./remix-src ./cypress --ext .js --ext .ts --ext .jsx --ext .tsx"
+    "lint": "eslint app ./cypress --ext .js --ext .ts --ext .jsx --ext .tsx"
   },
   "dependencies": {
     "@remix-run/architect": "^0.15.0",

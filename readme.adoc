@@ -20,7 +20,7 @@ NOTE: All the features from the Realworld spec are not implemented yet. Head to 
 
 WARNING: I'm not a Remix developer. This section describes what I've understood and liked about the Remix way of doing things. This may not reflect the view of the developers.
 
-When I discovered about remix I was immediately very interested in the choices they have made. The Remix philosophy can be summarised by "Use the platform". The framework encourages the developper to adopt a programming model that's very consistent with how the browsers and other internet components (like CDNs) work.
+When I discovered about remix I was immediately very interested in the choices they have made. The Remix philosophy can be summarised by "Use the platform". The framework encourages the developer to adopt a programming model that's very consistent with how the browsers and other internet components (like CDNs) work.
 
  * Using html forms instead of useState / useEffect (but with a better UX using JS)
  * Modeling user interactions with the app as navigations and form submits (but without reloading the entire page thanks to modern client-side transitions)
@@ -33,9 +33,9 @@ Head to https://remix.run/features to learn more.
 
 I've tried, in this app, to embrace that philosophy.
 
-To help me do that, I have decided that **this application should function with javascript completely disabled**. This does not mean it's a good idea for a real app, or that javascript is bad. But the fact that it's been relatively easy to do so is a nice way to show that the programming model of a Remix app is consistent with the way internet works.
+To help me do that, I have decided that **this application should function with javascript completely disabled**. This does not mean it's a good idea for a real app, or that javascript is bad. The fact that it's been relatively easy to do so is a nice way to show that the programming model of a Remix app is consistent with the way internet works.
 
-With javascrip disabled, the app should function perfectly fine, without any feature disabled.
+With javascript disabled, the app should function perfectly fine, without any missing feature.
 With javascript enabled, you get smoother transitions on page changed (client side navigation), infinite scrolling on the article page, better form UX, automatic refresh of the feed...
 
 == How it works
@@ -47,15 +47,13 @@ Remix can be deployed pretty much anywhere using express, but it works very well
 `app.arc` is the main file for an architect project. The two most important things are :
 
 * the `@cdn` directive means that the entire app is deployed behind a CDN. Remix makes it really easy to take advantage of this with proper cache-control headers.
-* the `@http` directive configures lambdas. The Remix app itself is a lambda and its code is in the `src/http/remix` folder. The `src/http/api-proxy` lambda is a proxy to https://github.com/gothinkster/realworld/tree/master/api[conduit api]. If a user is authenticated, the proxy adds its authentication token to the request.
+* the `@http` directive configures lambdas. The Remix app itself is a lambda and its code is in the `lambdas/remix` folder. The `lambdas/api-proxy` lambda is a proxy to https://github.com/gothinkster/realworld/tree/master/api[conduit api]. If a user is authenticated, the proxy adds its authentication token to the request.
 
 What's nice about deploying Remix with architect is that it would be very easy to add the backend part of the application using other lambdas. Architect makes it easy to add DynamoDB tables, SQS topics or scheduled jobs.
 
 === The Remix app
 
-The Remix app is in the `src/http/remix`. If you're only interested in Remix itself, you can ignore the rest of the repo.
-
-Paths in this section are relative to this folder (unless they start with `src`).
+The Remix app is in the `app` folder. When you run `npm run build` (or `npm run dev`), the server bundle ends up in `lambdas/remix/build`, and the browser bundle ends up in `public/build`.
 
 This section is not meant to replace Remix documentation, but only to help navigating the code in the repo. For more information, head to https://remix.run[remix.run] and consider subscribing to their newsletter.
 
@@ -90,7 +88,7 @@ These loaders are meant to be the single source of truth for the data needed to 
 
 I'm using Architect's sessions at the moment.
 
-WARNING: This is not the intended way to do sessions with Remix. I'm doing this to be able to access the session easily in other lambdas (`src/http/api-proxy`) but I'm planning to change this to show a more "standard" way of doing sessions in a Remix app.
+WARNING: This is not the intended way to do sessions with Remix. I'm doing this to be able to access the session easily in other lambdas (`lambdas/api-proxy`) but I'm planning to change this to show a more "standard" way of doing sessions in a Remix app.
 
 Sessions are created using Architect helper package (`@architect/functions`) and then wrapped in Remix session object. 
 
@@ -107,7 +105,7 @@ Components live in the `app/components` folder. `app/lib` contain other JS/TS mo
 === Start the development server
 
 . Install arc (`npm i -g @architect/architect`)
-. Install the dependencies and start the Remix app dev server (`(cd src/http/remix; npm install; npm run dev)`. You need a Remix token to do this step.
+. Install the dependencies and start the incremental build of the remix app (`npm install; npm run dev)`. You need a Remix token to do this step.
 . If you have access to a AWS project to deploy the app (by running `aws configure --profile realworld-remix`), create the needed env vars :
 .. `arc env testing REMIX_ENV development`
 .. `arc env testing GIT_COMMIT local`
@@ -123,12 +121,13 @@ testing
   GIT_COMMIT local
 ----
 
-. Run the architect sandbox (`arc sandbox`). This will install the dependencies in `src/http/api-proxy`, which doesn't need a build step
+. Run the architect sandbox (`arc sandbox`).
 . The app is available on http://localhost:3333.
 
 === Tests
 
- * Run the unit tests with `npm run test:unit` in `src/http/remix`
+ * Run the unit tests with `npm run test:unit`
+ * Open cypress with `npm run test:cypress:open`. You need a wiremock server to run some cypress tests (TODO: document how to run the e2e tests)
 
 == Contributing
 
