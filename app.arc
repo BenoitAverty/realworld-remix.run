@@ -4,10 +4,10 @@ realworld-remix-run
 @http
 /api/*
   method any
-  src src/http/api-proxy
+  src lambdas/api-proxy
 /*
   method any
-  src src/http/remix
+  src lambdas/remix
 
 @static
 

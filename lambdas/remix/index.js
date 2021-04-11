@@ -4,7 +4,7 @@
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-require("@remix-run/architect/globals.js");
+require("@remix-run/architect");
 const url = require("url");
 const node = require("@remix-run/node");
 

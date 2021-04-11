@@ -35,7 +35,7 @@ module.exports = {
    * `public/build`. The browser build contains all public JavaScript and CSS
    * files that are created when building your routes.
    */
-  browserBuildDirectory: "../../../public/build",
+  browserBuildDirectory: "./public/build",
 
   /**
    * The URL prefix of the browser build with a trailing slash. Defaults to
@@ -49,7 +49,7 @@ module.exports = {
    * that are created from building your routes. They are used on the server to
    * generate HTML.
    */
-  serverBuildDirectory: "build",
+  serverBuildDirectory: "./lambdas/remix/build",
 
   /**
    * The port to use when running `remix run`. Defaults to 8002.
