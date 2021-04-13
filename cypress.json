@@ -1,8 +1,10 @@
 {
   "baseUrl": "http://localhost:3333",
+  "projectId": "hkk238",
   "env": {
     "MOCK_SERVER": "https://realworld-remix.mocklab.io",
     "API_URL": "http://conduit.productionready.io",
-    "MOCKLAB_TOKEN": ""
+    "MOCKLAB_TOKEN": "",
+    "CONDUIT_PASSWORD": ""
   }
 }

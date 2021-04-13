@@ -1,4 +1,5 @@
 import React from "react";
+import type { Loader } from "@remix-run/react";
 import { useRouteData } from "@remix-run/react";
 import Banner from "../components/layout/Banner";
 import TagList from "../components/tags/TagList";
@@ -6,8 +7,6 @@ import Tag from "../components/tags/Tag";
 import FeedToggle from "../components/feed/FeedToggle";
 import FeedLayout from "../components/feed/FeedLayout";
 import { Outlet } from "react-router-dom";
-
-import type { Loader } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { fetchWithApiUrl } from "../lib/api-client.server";
 
@@ -62,7 +61,15 @@ export default Index;
 export const loader: Loader = async () => {
   const fetch = fetchWithApiUrl();
 
-  const result = await fetch("/tags");
+  try {
+    const result = await fetch("/tags");
 
-  return json(await result.json());
+    if (result.status === 200) {
+      return json(await result.json());
+    } else {
+      return json({ error: await result.text() }, 500);
+    }
+  } catch (error) {
+    return json(error, 500);
+  }
 };

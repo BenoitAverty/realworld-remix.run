@@ -43,7 +43,7 @@ export const action: Action = function action({ request, context }) {
     const title = requestBody.get("title");
     const description = requestBody.get("description");
     const body = requestBody.get("body");
-    const tags = requestBody.get("tags");
+    const tags = requestBody.get("tagList");
 
     const tagList = tags ? tags.split(",").map(t => t.trim()) : [];
 
