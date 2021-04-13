@@ -3,6 +3,7 @@
     "cy": true,
     "Cypress": true,
     "describe": true,
+    "beforeEach": true,
     "it": true
   }
 }

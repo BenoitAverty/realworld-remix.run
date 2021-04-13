@@ -14,7 +14,9 @@ export async function getGlobalFeed(page: number, apiAuthToken: string | null) {
   const fetch = apiAuthToken ? fetchWithToken(apiAuthToken) : fetchWithApiUrl();
 
   const result = await fetch(`/articles?offset=${PAGE_SIZE * (page - 1)}&limit=${PAGE_SIZE}`);
-  return await result.json();
+  if (result.status === 200) {
+    return await result.json();
+  } else throw new Error(await result.text());
 }
 
 export async function getUserFeed(page: number, apiAuthToken: string) {

@@ -86,10 +86,12 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
       - run: "npm rebuild && npm run prepare --if-present"
-      - run: "npm run test:cypress:run"
+      - run: "npm run test:cypress:run -- --record"
         env:
           CYPRESS_BASE_URL: https://dzjgewj4p8x3c.cloudfront.net/
           CYPRESS_MOCKLAB_TOKEN: ${{ secrets.MOCKLAB_TOKEN }}
+          CYPRESS_CONDUIT_PASSWORD: ${{ secrets.CONDUIT_PASSWORD }}
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
 
   deploy-prod:

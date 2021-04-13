@@ -1,22 +1,7 @@
 describe("feed", () => {
   beforeEach(() => {
-    cy.request(
-      "DELETE",
-      `${Cypress.env("MOCK_SERVER")}/__admin/mappings?apiToken=${Cypress.env("MOCKLAB_TOKEN")}`,
-    );
-    cy.request(
-      "POST",
-      `${Cypress.env("MOCK_SERVER")}/__admin/mappings?apiToken=${Cypress.env("MOCKLAB_TOKEN")}`,
-      {
-        priority: 10,
-        request: {
-          method: "ANY",
-        },
-        response: {
-          proxyBaseUrl: Cypress.env("API_URL"),
-        },
-      },
-    );
+    cy.wireReset();
+    cy.wireProxy(Cypress.env("API_URL"));
   });
 
   it("shows articles summaries", () => {

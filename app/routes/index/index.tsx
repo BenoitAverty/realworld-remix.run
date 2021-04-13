@@ -36,11 +36,15 @@ export const loader: Loader = async ({ request, context }) => {
   const page = Number.parseInt(url.searchParams.get("page") || "1");
 
   return await withAuthToken(context.arcRequest)(async apiAuthToken => {
-    const articles = await getGlobalFeed(page, apiAuthToken);
-    return json({
-      ...articles,
-      page,
-      totalPages: Math.ceil(articles.articlesCount / PAGE_SIZE),
-    });
+    try {
+      const articles = await getGlobalFeed(page, apiAuthToken);
+      return json({
+        ...articles,
+        page,
+        totalPages: Math.ceil(articles.articlesCount / PAGE_SIZE),
+      });
+    } catch (error) {
+      return json({ error }, 500);
+    }
   });
 };

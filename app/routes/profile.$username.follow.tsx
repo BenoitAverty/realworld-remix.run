@@ -1,10 +1,11 @@
-import { Action, Loader, redirect } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { REFERER_QUERY_PARAM } from "../lib/utils";
 import { requireAuthenticatedUsed } from "../lib/request-utils";
 import { followUser } from "../lib/users/profile";
+import type { Action, Loader } from "@remix-run/react";
 
 // Remix doesn't support routes without a component yet,
-// that's why we use noop (won't be rendered because the loader always redirects)
+// that's why we use noop (won't be rendered because the loader and action always redirect)
 const Noop = function () {
   return null;
 };
