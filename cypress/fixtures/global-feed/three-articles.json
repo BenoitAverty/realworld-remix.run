@@ -1,0 +1,56 @@
+{
+    "articles": [
+      {
+        "title": "An article about Cypress",
+        "slug": "cypress-c4eb3i",
+        "body": "Look how easy it is to test this",
+        "createdAt": "2020-12-10T09:57:24.562Z",
+        "updatedAt": "2020-12-10T09:57:24.562Z",
+        "tagList": [],
+        "description": "Cypress is a game changer for browser apps testing",
+        "author": {
+          "username": "Benoit Averty",
+          "bio": null,
+          "image": "https://static.productionready.io/images/smiley-cyrus.jpg",
+          "following": false
+        },
+        "favorited": false,
+        "favoritesCount": 0
+      },
+      {
+        "title": "An article about Remix",
+        "slug": "remix-c4ozca",
+        "body": "A nice framework remix is",
+        "createdAt": "2020-12-10T09:57:24.562Z",
+        "updatedAt": "2020-12-10T09:57:24.562Z",
+        "tagList": [],
+        "description": "Remix is an awesome react framework",
+        "author": {
+          "username": "Benoit Averty",
+          "bio": null,
+          "image": "https://static.productionready.io/images/smiley-cyrus.jpg",
+          "following": false
+        },
+        "favorited": false,
+        "favoritesCount": 3
+      },
+      {
+        "title": "An article about React",
+        "slug": "react-l8amd8",
+        "body": "React is starting to be pretty popular...",
+        "createdAt": "2020-12-10T09:55:45.348Z",
+        "updatedAt": "2020-12-10T09:55:45.348Z",
+        "tagList": [],
+        "description": "React is a UI framework",
+        "author": {
+          "username": "Benoit Averty",
+          "bio": null,
+          "image": "https://static.productionready.io/images/smiley-cyrus.jpg",
+          "following": false
+        },
+        "favorited": false,
+        "favoritesCount": 0
+      }
+    ],
+    "articlesCount": 3
+  }
