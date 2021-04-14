@@ -47,13 +47,13 @@ Remix can be deployed pretty much anywhere using express, but it works very well
 `app.arc` is the main file for an architect project. The two most important things are :
 
 * the `@cdn` directive means that the entire app is deployed behind a CDN. Remix makes it really easy to take advantage of this with proper cache-control headers.
-* the `@http` directive configures lambdas. The Remix app itself is a lambda and its code is in the `lambdas/remix` folder. The `lambdas/api-proxy` lambda is a proxy to https://github.com/gothinkster/realworld/tree/master/api[conduit api]. If a user is authenticated, the proxy adds its authentication token to the request.
+* the `@http` directive configures lambdas. The Remix app itself is a lambda and its code is in the `backend` folder.
 
 What's nice about deploying Remix with architect is that it would be very easy to add the backend part of the application using other lambdas. Architect makes it easy to add DynamoDB tables, SQS topics or scheduled jobs.
 
 === The Remix app
 
-The Remix app is in the `app` folder. When you run `npm run build` (or `npm run dev`), the server bundle ends up in `lambdas/remix/build`, and the browser bundle ends up in `public/build`.
+The Remix app is in the `app` folder. When you run `npm run build` (or `npm run dev`), the server bundle ends up in `backend/build`, and the browser bundle ends up in `public/build`.
 
 This section is not meant to replace Remix documentation, but only to help navigating the code in the repo. For more information, head to https://remix.run[remix.run] and consider subscribing to their newsletter.
 
@@ -84,16 +84,6 @@ There's also the loader in `app/root.tsx` that's called for all pages.
 
 These loaders are meant to be the single source of truth for the data needed to render a page. To enable this, Remix calls the same loaders when doing client-side navigation to a page. This means there is no need to `fetch` the data ourselves in the code if it's already fetched in the loader.
 
-==== Sessions
-
-I'm using Architect's sessions at the moment.
-
-WARNING: This is not the intended way to do sessions with Remix. I'm doing this to be able to access the session easily in other lambdas (`lambdas/api-proxy`) but I'm planning to change this to show a more "standard" way of doing sessions in a Remix app.
-
-Sessions are created using Architect helper package (`@architect/functions`) and then wrapped in Remix session object. 
-
-Sessions are used to store the authenticated user's api token and form errors.
-
 ==== React
 
 Remix is a React framework, and this app is a React app above all else. I've done my best to make this app a good example of a well-structured React app.
@@ -109,8 +99,7 @@ Components live in the `app/components` folder. `app/lib` contain other JS/TS mo
 . If you have access to a AWS project to deploy the app (by running `aws configure --profile realworld-remix`), create the needed env vars :
 .. `arc env testing REMIX_ENV development`
 .. `arc env testing GIT_COMMIT local`
-.. (if you intend to deploy) `arc env staging REMIX_ENV production`
-.. (if you intend to deploy) `arc env production REMIX_ENV production`
+.. `arc env testing SESSION_SECRET not_so_secret`
 . If you *don't* have access to an AWS project, create a file at the project root called preferences.arc with the following content (this is normally done with `arc env` but needs access to the aws project) :
 
 ----
@@ -119,6 +108,7 @@ Components live in the `app/components` folder. `app/lib` contain other JS/TS mo
 testing
   REMIX_ENV development
   GIT_COMMIT local
+  SESSION_SECRET not_so_secret
 ----
 
 . Run the architect sandbox (`arc sandbox`).
