@@ -18,7 +18,7 @@ export const loader: Loader = ({ request, params }) => {
   return redirect(referer || `/profile/${params.username}`);
 };
 
-export const action: Action = async function ({ params, request, context }) {
+export const action: Action = async function ({ params, request }) {
   const referer = new URL(request.url).searchParams.get(REFERER_QUERY_PARAM);
 
   const requestBody = new URLSearchParams(await request.text());
@@ -31,7 +31,7 @@ export const action: Action = async function ({ params, request, context }) {
   }
   const followAction = requestBody.get("followAction") as "follow" | "unfollow";
 
-  return requireAuthenticatedUsed(context.arcRequest)(async apiAuthToken => {
+  return requireAuthenticatedUsed(request.headers.get("Cookie"))(async apiAuthToken => {
     try {
       await followUser(params.username, apiAuthToken, followAction);
     } catch (e) {

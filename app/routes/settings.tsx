@@ -89,8 +89,8 @@ const Settings: FC = function Settings() {
 
 export default Settings;
 
-export const loader: Loader = async function loader({ context }) {
-  return withSession(context.arcRequest)(async session => {
+export const loader: Loader = async function loader({ request }) {
+  return withSession(request.headers.get("Cookie"))(async session => {
     const user = await getAuthenticatedUser(session);
     if (!user) {
       // TODO manage callback to settings after login
@@ -106,8 +106,8 @@ export const loader: Loader = async function loader({ context }) {
   });
 };
 
-export const action: Action = async function action({ request, context }) {
-  return withSession(context.arcRequest)(async session => {
+export const action: Action = async function action({ request }) {
+  return withSession(request.headers.get("Cookie"))(async session => {
     const requestBody = new URLSearchParams(await request.text());
 
     const image = requestBody.get("image");

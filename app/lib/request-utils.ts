@@ -1,15 +1,14 @@
 import { Session, redirect } from "@remix-run/node";
 import { Response } from "@remix-run/node/fetch";
 import { commitSession, getSession } from "../sessionStorage";
-import { HttpRequest } from "@architect/functions";
 
 import { AUTH_TOKEN_SESSION_KEY } from "./session-utils";
 
-// TODO this works weird with flash session objects and multiple loaders per request (like at /login). see https://discord.com/channels/770287896669978684/771068344320786452/816401869437796352
 // If two loaders set cookies, the parent route takes precedence.
-export function withSession(arcRequest: HttpRequest, readOnly = false) {
+// Make sure that if two loaders that can be called on the same request use this, only one of them has readOnly = false.
+export function withSession(cookieHeader: string | null, readOnly = false) {
   return async (fn: (session: Session) => Response | Promise<Response>) => {
-    const session = await getSession(arcRequest);
+    const session = await getSession(cookieHeader);
     const result = await fn(session);
     if (!readOnly) {
       result.headers.set("Set-Cookie", await commitSession(session));
@@ -18,18 +17,18 @@ export function withSession(arcRequest: HttpRequest, readOnly = false) {
   };
 }
 
-export function withAuthToken(arcRequest: HttpRequest) {
+export function withAuthToken(cookieHeader: string | null) {
   return async function <T>(fn: (token: string | null) => T | Promise<T>) {
-    const session = await getSession(arcRequest);
+    const session = await getSession(cookieHeader);
     const token = session.get(AUTH_TOKEN_SESSION_KEY) || null;
     return fn(token);
   };
 }
 
 // TODO probably a refactor to make use of `withAuthToken`
-export function requireAuthenticatedUsed(arcRequest: HttpRequest) {
+export function requireAuthenticatedUsed(cookieHeader: string | null) {
   return async (fn: (apiAuthToken: string) => Response | Promise<Response>) => {
-    const session = await getSession(arcRequest);
+    const session = await getSession(cookieHeader);
     if (!session || !session.get(AUTH_TOKEN_SESSION_KEY)) {
       return redirect("/login");
     }

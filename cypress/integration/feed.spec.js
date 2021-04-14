@@ -5,23 +5,7 @@ describe("feed", () => {
   });
 
   it("shows articles summaries", () => {
-    cy.fixture("global-feed/two-articles.json").then(body => {
-      cy.request(
-        "POST",
-        `${Cypress.env("MOCK_SERVER")}/__admin/mappings?apiToken=${Cypress.env("MOCKLAB_TOKEN")}`,
-        {
-          request: {
-            method: "GET",
-            url: "/api/articles?offset=0&limit=20",
-          },
-          response: {
-            status: 200,
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(body),
-          },
-        },
-      );
-    });
+    configureFeedFixture("global-feed/two-articles.json");
 
     cy.visit("/");
 
@@ -34,4 +18,43 @@ describe("feed", () => {
     cy.scrollTo(0, 1000);
     cy.contains("You've read everything !");
   });
+
+  it("revalidates on focus", () => {
+    configureFeedFixture("global-feed/two-articles.json");
+
+    cy.visit("/");
+
+    cy.contains("An article about Remix");
+    cy.contains("An article about React");
+    cy.get('[data-testid="article-summary"]').should("have.length", 2);
+
+    configureFeedFixture("global-feed/three-articles.json");
+
+    cy.document().trigger("focus");
+
+    cy.contains("An article about Cypress");
+    cy.contains("An article about Remix");
+    cy.contains("An article about React");
+    cy.get('[data-testid="article-summary"]').should("have.length", 3);
+  });
 });
+
+function configureFeedFixture(fixture) {
+  cy.fixture(fixture).then(body => {
+    cy.request(
+      "POST",
+      `${Cypress.env("MOCK_SERVER")}/__admin/mappings?apiToken=${Cypress.env("MOCKLAB_TOKEN")}`,
+      {
+        request: {
+          method: "GET",
+          url: "/api/articles?offset=0&limit=20",
+        },
+        response: {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        },
+      },
+    );
+  });
+}

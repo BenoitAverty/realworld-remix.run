@@ -1,17 +1,18 @@
 import React, { FC } from "react";
-import { useRouteData } from "@remix-run/react";
+import { Loader, useRouteData } from "@remix-run/react";
 import { FeedData, getUserFeed, PAGE_SIZE } from "../../lib/feed/feed";
 import HideAfterFirstRender from "../../components/HideAfterFirstRender";
 import Pagination from "../../components/feed/Pagination";
 import ArticlesFeed from "../../components/feed/ArticlesFeed";
-import { json, Loader } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { requireAuthenticatedUsed } from "../../lib/request-utils";
 
 const Feed: FC = function Feed() {
   const data = useRouteData<FeedData>();
 
-  const pageLoadingUri = (page: number) =>
-    `/api/articles/feed?offset=${PAGE_SIZE * (page - 1)}&limit=${PAGE_SIZE}`;
+  // This uri is the uri to use when you wan to call a loader outside of a route navigation.
+  // Remix will eventually provide a better way to do this, without having to know implementation details of remix.
+  const pageLoadingUri = (page: number) => `/feed?_data=routes/index/feed&page=${page}`;
 
   return (
     <>
@@ -31,8 +32,8 @@ const Feed: FC = function Feed() {
 
 export default Feed;
 
-export const loader: Loader = async ({ request, context }) => {
-  return requireAuthenticatedUsed(context.arcRequest)(async apiAuthToken => {
+export const loader: Loader = async ({ request }) => {
+  return requireAuthenticatedUsed(request.headers.get("Cookie"))(async apiAuthToken => {
     const url = new URL(request.url);
     const page = Number.parseInt(url.searchParams.get("page") || "1");
     const articles = await getUserFeed(page, apiAuthToken);

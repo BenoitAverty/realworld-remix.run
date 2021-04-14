@@ -50,8 +50,8 @@ const ArticleDetails: FC = function ArticleDetails() {
 
 export default ArticleDetails;
 
-export const loader: Loader = async function ({ params, context }) {
-  return withAuthToken(context.arcRequest)(async apiAuthToken => {
+export const loader: Loader = async function ({ params, request }) {
+  return withAuthToken(request.headers.get("Cookie"))(async apiAuthToken => {
     const article = await getArticle(params.articleSlug, apiAuthToken);
     if (article === null) {
       console.log({ article });

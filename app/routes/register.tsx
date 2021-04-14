@@ -71,8 +71,8 @@ const Register: FC = function Register() {
 
 export default Register;
 
-export const loader: Loader = async function loader({ context }) {
-  return withSession(context.arcRequest)(session => {
+export const loader: Loader = async function loader({ request }) {
+  return withSession(request.headers.get("Cookie"))(session => {
     const failedRegistration = session.get("failedRegistration");
     if (failedRegistration) {
       return json(JSON.parse(failedRegistration));
@@ -80,9 +80,9 @@ export const loader: Loader = async function loader({ context }) {
   });
 };
 
-export const action: Action = async function registerUser({ request, context }) {
+export const action: Action = async function registerUser({ request }) {
   const fetch = fetchWithApiUrl();
-  return withSession(context.arcRequest)(async session => {
+  return withSession(request.headers.get("Cookie"))(async session => {
     const requestBody = new URLSearchParams(await request.text());
 
     const username = requestBody.get("username");
