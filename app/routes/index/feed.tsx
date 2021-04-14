@@ -32,8 +32,8 @@ const Feed: FC = function Feed() {
 
 export default Feed;
 
-export const loader: Loader = async ({ request, context }) => {
-  return requireAuthenticatedUsed(context.arcRequest)(async apiAuthToken => {
+export const loader: Loader = async ({ request }) => {
+  return requireAuthenticatedUsed(request.headers.get("Cookie"))(async apiAuthToken => {
     const url = new URL(request.url);
     const page = Number.parseInt(url.searchParams.get("page") || "1");
     const articles = await getUserFeed(page, apiAuthToken);

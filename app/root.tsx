@@ -44,9 +44,9 @@ export default Root;
  *
  * Pages that needs authentication should verify authentication in their own loader and redirect if needed.
  */
-export const loader: Loader = async ({ context }) => {
+export const loader: Loader = async ({ request }) => {
   return withSession(
-    context.arcRequest,
+    request.headers.get("Cookie"),
     true,
   )(async session => {
     const userWithToken = await getAuthenticatedUser(session);

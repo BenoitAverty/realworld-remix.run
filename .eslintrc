@@ -9,6 +9,7 @@
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:react-hooks/recommended"
   ],
+  "plugins": ["@typescript-eslint/eslint-plugin"],
   "env": {
     "node": true
   },
@@ -25,6 +26,13 @@
     }
   },
   "rules": {
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error", {
+      "args": "after-used",
+      "caughtErrors": "none",
+      "ignoreRestSiblings": true,
+      "vars": "all"
+    }],
     "no-use-before-define": 0,
     "space-before-function-paren": 0,
     "react/react-in-jsx-scope": 0,

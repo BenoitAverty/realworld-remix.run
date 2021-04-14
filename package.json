@@ -4,9 +4,9 @@
   "version": "1.0.0",
   "sideEffects": false,
   "scripts": {
-    "clean": "rm -rf backend/remix/build backend/remix/node_modules public/build",
+    "clean": "rm -rf backend/build backend/node_modules public/build",
     "postinstall": "find ! -newermt 1981-01-01 -exec touch {} \\;",
-    "build": "npm run clean && remix build2",
+    "build": "npm run clean && tsc -b app/tsconfig.json && remix build2",
     "dev": "remix run2",
     "test:unit": "jest app/",
     "test:cypress:open": "cypress open",

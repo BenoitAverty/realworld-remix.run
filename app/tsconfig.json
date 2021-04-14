@@ -6,7 +6,9 @@
     "moduleResolution": "node",
     "target": "es2019",
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "noEmit": true
   },
   "exclude": [
     "../src/http/remix/node_modules"

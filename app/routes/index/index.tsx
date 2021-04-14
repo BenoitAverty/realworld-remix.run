@@ -32,11 +32,11 @@ const GlobalFeed: FC = function GlobalFeed() {
 
 export default GlobalFeed;
 
-export const loader: Loader = async ({ request, context }) => {
+export const loader: Loader = async ({ request }) => {
   const url = new URL(request.url);
   const page = Number.parseInt(url.searchParams.get("page") || "1");
 
-  return await withAuthToken(context.arcRequest)(async apiAuthToken => {
+  return await withAuthToken(request.headers.get("Cookie"))(async apiAuthToken => {
     try {
       const articles = await getGlobalFeed(page, apiAuthToken);
       return json({

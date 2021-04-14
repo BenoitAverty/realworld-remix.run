@@ -4,7 +4,7 @@ import { Form, LinksFunction, useRouteData } from "@remix-run/react";
 import ErrorList from "../components/ErrorList";
 import { Link } from "react-router-dom";
 
-import type { Action, Loader } from "@remix-run/node";
+import type { Action, Loader } from "@remix-run/react";
 import { json, redirect } from "@remix-run/node";
 import { UserLogin, UserWithToken } from "../lib/users/users";
 import { fetchWithApiUrl } from "../lib/api-client.server";
@@ -61,8 +61,8 @@ const Login: FC = function Login() {
 
 export default Login;
 
-export const loader: Loader = function loader({ context }) {
-  return withSession(context.arcRequest)(session => {
+export const loader: Loader = function loader({ request }) {
+  return withSession(request.headers.get("Cookie"))(session => {
     const failedLogin = session.get("failedLogin");
     if (failedLogin) {
       return json(JSON.parse(failedLogin));
@@ -70,11 +70,11 @@ export const loader: Loader = function loader({ context }) {
   });
 };
 
-export const action: Action = async function loginUser({ request, context }) {
+export const action: Action = async function loginUser({ request }) {
   const fetch = fetchWithApiUrl();
   const isLogout = new URL(request.url).searchParams.get("logout") !== null;
 
-  return withSession(context.arcRequest)(async session => {
+  return withSession(request.headers.get("Cookie"))(async session => {
     if (isLogout) {
       removeAuthToken(session);
       return redirect("/");
