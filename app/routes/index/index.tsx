@@ -10,8 +10,9 @@ import { withAuthToken } from "../../lib/request-utils";
 const GlobalFeed: FC = function GlobalFeed() {
   const data = useRouteData<FeedData>();
 
-  const pageLoadingUri = (page: number) =>
-    `/api/articles?offset=${PAGE_SIZE * (page - 1)}&limit=${PAGE_SIZE}`;
+  // This uri is the uri to use when you wan to call a loader outside of a route navigation.
+  // Remix will eventually provide a better way to do this, without having to know implementation details of remix.
+  const pageLoadingUri = (page: number) => `/?_data=routes/index/index&page=${page}`;
 
   return (
     <>

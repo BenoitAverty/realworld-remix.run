@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "sideEffects": false,
   "scripts": {
-    "clean": "rm -rf lambdas/remix/build lambdas/remix/node_modules public/build",
+    "clean": "rm -rf backend/remix/build backend/remix/node_modules public/build",
     "postinstall": "find ! -newermt 1981-01-01 -exec touch {} \\;",
     "build": "npm run clean && remix build2",
     "dev": "remix run2",

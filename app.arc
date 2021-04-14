@@ -2,12 +2,9 @@
 realworld-remix-run
 
 @http
-/api/*
-  method any
-  src lambdas/api-proxy
 /*
   method any
-  src lambdas/remix
+  src backend
 
 @static
 
