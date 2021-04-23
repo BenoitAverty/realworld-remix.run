@@ -1,5 +1,13 @@
 import React from "react";
-import { Links, LinksFunction, Loader, Meta, Scripts, useRouteData } from "@remix-run/react";
+import {
+  Links,
+  LinksFunction,
+  Loader,
+  Meta,
+  Scripts,
+  useLiveReload,
+  useRouteData,
+} from "@remix-run/react";
 import Layout from "./components/layout/Layout";
 import UserProvider from "./components/user/UserProvider";
 import { Outlet } from "react-router-dom";
@@ -14,6 +22,8 @@ type RootData = {
 };
 
 const Root = function Root() {
+  useLiveReload();
+
   const data: RootData = useRouteData();
 
   return (
