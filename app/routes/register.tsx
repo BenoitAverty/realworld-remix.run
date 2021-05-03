@@ -1,10 +1,9 @@
 import React, { FC } from "react";
 import AuthLayout from "../components/user/AuthLayout";
-import { Form, useRouteData } from "@remix-run/react";
+import type { ActionFunction, LoaderFunction } from "remix";
+import { Form, json, redirect, useRouteData } from "remix";
 import ErrorList from "../components/ErrorList";
 import { Link } from "react-router-dom";
-import type { Action, Loader } from "@remix-run/react";
-import { json, redirect } from "@remix-run/node";
 import { UserRegistration, UserWithToken } from "../lib/users/users";
 import { fetchWithApiUrl } from "../lib/api-client.server";
 import LoaderButton from "../components/LoaderButton";
@@ -71,7 +70,7 @@ const Register: FC = function Register() {
 
 export default Register;
 
-export const loader: Loader = async function loader({ request }) {
+export const loader: LoaderFunction = async function loader({ request }) {
   return withSession(request.headers.get("Cookie"))(session => {
     const failedRegistration = session.get("failedRegistration");
     if (failedRegistration) {
@@ -80,7 +79,7 @@ export const loader: Loader = async function loader({ request }) {
   });
 };
 
-export const action: Action = async function registerUser({ request }) {
+export const action: ActionFunction = async function registerUser({ request }) {
   const fetch = fetchWithApiUrl();
   return withSession(request.headers.get("Cookie"))(async session => {
     const requestBody = new URLSearchParams(await request.text());

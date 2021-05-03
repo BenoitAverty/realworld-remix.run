@@ -1,4 +1,4 @@
-import type { Session } from "@remix-run/node";
+import type { Session } from "remix";
 
 export const AUTH_TOKEN_SESSION_KEY = "api_auth_token";
 

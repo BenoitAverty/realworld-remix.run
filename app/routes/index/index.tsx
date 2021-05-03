@@ -1,10 +1,10 @@
 import ArticlesFeed from "../../components/feed/ArticlesFeed";
 import React, { FC } from "react";
-import { Loader, useRouteData } from "@remix-run/react";
+import type { LoaderFunction } from "remix";
+import { json, useRouteData } from "remix";
 import HideAfterFirstRender from "../../components/HideAfterFirstRender";
 import Pagination from "../../components/feed/Pagination";
 import { FeedData, getGlobalFeed, PAGE_SIZE } from "../../lib/feed/feed";
-import { json } from "@remix-run/node";
 import { withAuthToken } from "../../lib/request-utils";
 
 const GlobalFeed: FC = function GlobalFeed() {
@@ -32,7 +32,7 @@ const GlobalFeed: FC = function GlobalFeed() {
 
 export default GlobalFeed;
 
-export const loader: Loader = async ({ request }) => {
+export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
   const page = Number.parseInt(url.searchParams.get("page") || "1");
 

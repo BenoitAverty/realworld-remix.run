@@ -1,7 +1,7 @@
 import React, { FC } from "react";
-import { Action, Form, Loader, useRouteData } from "@remix-run/react";
+import type { LoaderFunction, ActionFunction } from "remix";
+import { Form, json, redirect, useRouteData } from "remix";
 import { User } from "../lib/auth/users";
-import { json, redirect } from "@remix-run/node";
 import { getAuthenticatedUser } from "../lib/users/users";
 import { withSession } from "../lib/request-utils";
 import LoaderButton from "../components/LoaderButton";
@@ -89,7 +89,7 @@ const Settings: FC = function Settings() {
 
 export default Settings;
 
-export const loader: Loader = async function loader({ request }) {
+export const loader: LoaderFunction = async function loader({ request }) {
   return withSession(request.headers.get("Cookie"))(async session => {
     const user = await getAuthenticatedUser(session);
     if (!user) {
@@ -106,7 +106,7 @@ export const loader: Loader = async function loader({ request }) {
   });
 };
 
-export const action: Action = async function action({ request }) {
+export const action: ActionFunction = async function action({ request }) {
   return withSession(request.headers.get("Cookie"))(async session => {
     const requestBody = new URLSearchParams(await request.text());
 

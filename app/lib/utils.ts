@@ -1,4 +1,4 @@
-import { usePendingFormSubmit } from "@remix-run/react";
+import { usePendingFormSubmit } from "remix";
 import { useLocation } from "react-router-dom";
 
 export type FormErrors = {

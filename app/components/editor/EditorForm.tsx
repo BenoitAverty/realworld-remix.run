@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Form } from "@remix-run/react";
+import { Form } from "remix";
 import { EditorFormErrors } from "../../lib/article/editor";
 import { useIsSubmitting } from "../../lib/utils";
 import ErrorList from "../ErrorList";

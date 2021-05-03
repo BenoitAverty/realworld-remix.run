@@ -5,8 +5,7 @@
   "sideEffects": false,
   "scripts": {
     "clean": "rm -rf backend/build backend/node_modules public/build",
-    "postinstall": "find ! -newermt 1981-01-01 -exec touch {} \\;",
-    "build": "npm run clean && tsc -b app/tsconfig.json && remix build2",
+    "build": "npm run clean && tsc -b app/tsconfig.json && remix build",
     "dev": "remix dev",
     "test:unit": "jest app/",
     "test:cypress:open": "cypress open",
@@ -15,9 +14,10 @@
   },
   "dependencies": {
     "@architect/functions": "^3.13.11",
-    "@remix-run/architect": "^0.16.5",
-    "@remix-run/node": "^0.16.5",
-    "@remix-run/react": "^0.16.5",
+    "@remix-run/architect": "^0.17.0",
+    "@remix-run/node": "^0.17.0",
+    "@remix-run/react": "^0.17.0",
+    "remix": "0.17.0",
     "aws-sdk": "^2.892.0",
     "clsx": "^1.1.1",
     "react": "^17.0.1",
@@ -29,8 +29,11 @@
     "swr": "^0.3.9"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.14.0",
+    "@babel/preset-react": "^7.13.13",
+    "@babel/preset-typescript": "^7.13.0",
     "@cypress/snapshot": "^2.1.7",
-    "@remix-run/dev": "^0.16.5",
+    "@remix-run/dev": "^0.17.0",
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.2",
     "@types/architect__functions": "^3.13.2",

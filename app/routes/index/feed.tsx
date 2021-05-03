@@ -1,10 +1,10 @@
 import React, { FC } from "react";
-import { Loader, useRouteData } from "@remix-run/react";
+import type { LoaderFunction } from "remix";
+import { json, useRouteData } from "remix";
 import { FeedData, getUserFeed, PAGE_SIZE } from "../../lib/feed/feed";
 import HideAfterFirstRender from "../../components/HideAfterFirstRender";
 import Pagination from "../../components/feed/Pagination";
 import ArticlesFeed from "../../components/feed/ArticlesFeed";
-import { json } from "@remix-run/node";
 import { requireAuthenticatedUsed } from "../../lib/request-utils";
 
 const Feed: FC = function Feed() {
@@ -32,7 +32,7 @@ const Feed: FC = function Feed() {
 
 export default Feed;
 
-export const loader: Loader = async ({ request }) => {
+export const loader: LoaderFunction = async ({ request }) => {
   return requireAuthenticatedUsed(request.headers.get("Cookie"))(async apiAuthToken => {
     const url = new URL(request.url);
     const page = Number.parseInt(url.searchParams.get("page") || "1");

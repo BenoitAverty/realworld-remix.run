@@ -1,13 +1,12 @@
 import React from "react";
-import type { Loader } from "@remix-run/react";
-import { useRouteData } from "@remix-run/react";
+import type { LoaderFunction } from "remix";
+import { json, useRouteData } from "remix";
 import Banner from "../components/layout/Banner";
 import TagList from "../components/tags/TagList";
 import Tag from "../components/tags/Tag";
 import FeedToggle from "../components/feed/FeedToggle";
 import FeedLayout from "../components/feed/FeedLayout";
 import { Outlet } from "react-router-dom";
-import { json } from "@remix-run/node";
 import { fetchWithApiUrl } from "../lib/api-client.server";
 
 export function meta() {
@@ -58,7 +57,7 @@ const Index = function Index() {
 
 export default Index;
 
-export const loader: Loader = async () => {
+export const loader: LoaderFunction = async () => {
   const fetch = fetchWithApiUrl();
 
   try {

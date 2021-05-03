@@ -1,9 +1,8 @@
 import React, { FC } from "react";
 import EditorLayout from "../components/editor/EditorLayout";
 import EditorForm from "../components/editor/EditorForm";
-import { Action, Loader, useRouteData } from "@remix-run/react";
+import { ActionFunction, json, LoaderFunction, redirect, useRouteData } from "remix";
 import { withSession } from "../lib/request-utils";
-import { json, redirect } from "@remix-run/node";
 import { createArticle, EditorFormErrors, isError } from "../lib/article/editor";
 import { AUTH_TOKEN_SESSION_KEY } from "../lib/session-utils";
 import { getAuthenticatedUser } from "../lib/users/users";
@@ -19,7 +18,7 @@ const WriteRoute: FC = function WriteRoute() {
 
 export default WriteRoute;
 
-export const loader: Loader = async function loader({ request }) {
+export const loader: LoaderFunction = async function loader({ request }) {
   return withSession(request.headers.get("Cookie"))(async session => {
     const user = await getAuthenticatedUser(session);
     if (!user) {
@@ -36,7 +35,7 @@ export const loader: Loader = async function loader({ request }) {
   });
 };
 
-export const action: Action = function action({ request }) {
+export const action: ActionFunction = function action({ request }) {
   return withSession(request.headers.get("Cookie"))(async session => {
     const requestBody = new URLSearchParams(await request.text());
 

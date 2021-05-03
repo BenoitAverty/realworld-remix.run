@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import CommentForm from "./CommentForm";
 import AuthCheck from "../user/AuthCheck";
-import { Link } from "@remix-run/react";
+import { Link } from "remix";
 
 const Comments: FC = function Comments() {
   return (

@@ -1,18 +1,18 @@
 import React from "react";
 import {
+  json,
   Links,
   LinksFunction,
-  Loader,
+  LiveReload,
+  LoaderFunction,
   Meta,
   Scripts,
-  useLiveReload,
   useRouteData,
-} from "@remix-run/react";
+} from "remix";
 import Layout from "./components/layout/Layout";
 import UserProvider from "./components/user/UserProvider";
 import { Outlet } from "react-router-dom";
 import { getAuthenticatedUser, User } from "./lib/users/users";
-import { json } from "@remix-run/node";
 import realworldBootstrap from "./styles/realworld-bootstrap.css";
 import { withSession } from "./lib/request-utils";
 
@@ -22,8 +22,6 @@ type RootData = {
 };
 
 const Root = function Root() {
-  useLiveReload();
-
   const data: RootData = useRouteData();
 
   return (
@@ -38,8 +36,9 @@ const Root = function Root() {
           <Layout gitCommit={data.gitCommit}>
             <Outlet />
           </Layout>
-          <Scripts />
         </UserProvider>
+        <Scripts />
+        <LiveReload />
       </body>
     </html>
   );
@@ -54,7 +53,7 @@ export default Root;
  *
  * Pages that needs authentication should verify authentication in their own loader and redirect if needed.
  */
-export const loader: Loader = async ({ request }) => {
+export const loader: LoaderFunction = async ({ request }) => {
   return withSession(
     request.headers.get("Cookie"),
     true,
