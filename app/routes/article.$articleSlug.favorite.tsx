@@ -1,9 +1,9 @@
-import { redirect } from "@remix-run/node";
+import type { LoaderFunction, ActionFunction } from "remix";
+import { redirect } from "remix";
 import { favoriteArticle } from "../lib/article/article";
 import { REFERER_QUERY_PARAM } from "../lib/utils";
 import { withSession } from "../lib/request-utils";
 import { AUTH_TOKEN_SESSION_KEY } from "../lib/session-utils";
-import { Action, Loader } from "@remix-run/react";
 
 // Remix doesn't support routes without a component yet,
 // that's why we use noop (won't be rendered because the loader always redirects)
@@ -12,14 +12,14 @@ const Noop = function () {
 };
 export default Noop;
 
-export const loader: Loader = ({ request, params }) => {
+export const loader: LoaderFunction = ({ request, params }) => {
   // People should not come here with a get request, but if they do, assume they want the article
   // itself (or the referer)
   const referer = new URL(request.url).searchParams.get(REFERER_QUERY_PARAM);
   return redirect(referer || `/article/${params.articleSlug}`);
 };
 
-export const action: Action = async function ({ params, request }) {
+export const action: ActionFunction = async function ({ params, request }) {
   const referer = new URL(request.url).searchParams.get(REFERER_QUERY_PARAM);
 
   const requestBody = new URLSearchParams(await request.text());

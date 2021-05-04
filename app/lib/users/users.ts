@@ -1,4 +1,4 @@
-import type { Session } from "@remix-run/node";
+import type { Session } from "remix";
 import { fetchWithToken } from "../api-client.server";
 import { AUTH_TOKEN_SESSION_KEY, removeAuthToken } from "../session-utils";
 

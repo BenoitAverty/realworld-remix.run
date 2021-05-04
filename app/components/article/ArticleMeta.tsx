@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react";
+import { Link } from "remix";
 import FormattedDate from "../FormattedDate";
 import React, { FC } from "react";
 import ArticleFavoriteButton from "./ArticleFavoriteButton";

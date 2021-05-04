@@ -1,7 +1,7 @@
 import React, { FC } from "react";
-import { json } from "@remix-run/node";
+import type { LoaderFunction } from "remix";
+import { json, useRouteData } from "remix";
 import Banner from "../components/layout/Banner";
-import { Loader, useRouteData } from "@remix-run/react";
 import { Article, getArticle } from "../lib/article/article";
 import ArticleLayout from "../components/article/ArticleLayout";
 import ArticleMeta from "../components/article/ArticleMeta";
@@ -50,11 +50,10 @@ const ArticleDetails: FC = function ArticleDetails() {
 
 export default ArticleDetails;
 
-export const loader: Loader = async function ({ params, request }) {
+export const loader: LoaderFunction = async function ({ params, request }) {
   return withAuthToken(request.headers.get("Cookie"))(async apiAuthToken => {
     const article = await getArticle(params.articleSlug, apiAuthToken);
     if (article === null) {
-      console.log({ article });
       return new Response(null, { status: 404 });
     }
     return json({ article });

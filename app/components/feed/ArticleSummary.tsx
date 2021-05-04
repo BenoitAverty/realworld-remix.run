@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Article } from "../../lib/article/article";
-import { Link } from "@remix-run/react";
+import { Link } from "remix";
 import ArticleFavoriteButton from "../article/ArticleFavoriteButton";
 
 type ArticleSummaryProps = {

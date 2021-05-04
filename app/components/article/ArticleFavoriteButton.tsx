@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Form } from "@remix-run/react";
+import { Form } from "remix";
 import { useIsSubmitting, useRefererQueryParam } from "../../lib/utils";
 import clsx from "clsx";
 

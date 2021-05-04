@@ -1,11 +1,9 @@
 import React, { FC } from "react";
 import AuthLayout from "../components/user/AuthLayout";
-import { Form, LinksFunction, useRouteData } from "@remix-run/react";
+import type { ActionFunction, LoaderFunction } from "remix";
+import { Form, json, LinksFunction, redirect, useRouteData } from "remix";
 import ErrorList from "../components/ErrorList";
 import { Link } from "react-router-dom";
-
-import type { Action, Loader } from "@remix-run/react";
-import { json, redirect } from "@remix-run/node";
 import { UserLogin, UserWithToken } from "../lib/users/users";
 import { fetchWithApiUrl } from "../lib/api-client.server";
 import LoaderButton from "../components/LoaderButton";
@@ -61,7 +59,7 @@ const Login: FC = function Login() {
 
 export default Login;
 
-export const loader: Loader = function loader({ request }) {
+export const loader: LoaderFunction = function loader({ request }) {
   return withSession(request.headers.get("Cookie"))(session => {
     const failedLogin = session.get("failedLogin");
     if (failedLogin) {
@@ -70,7 +68,7 @@ export const loader: Loader = function loader({ request }) {
   });
 };
 
-export const action: Action = async function loginUser({ request }) {
+export const action: ActionFunction = async function loginUser({ request }) {
   const fetch = fetchWithApiUrl();
   const isLogout = new URL(request.url).searchParams.get("logout") !== null;
 
