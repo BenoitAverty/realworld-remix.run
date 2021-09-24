@@ -15,7 +15,7 @@ const GlobalFeed: FC = function GlobalFeed() {
   const pageLoadingUri = (page: number) => `/?_data=routes/index/index&page=${page}`;
 
   return (
-    <>
+    <div className="global-feed">
       <ArticlesFeed
         pageLoadingUri={pageLoadingUri}
         initialPage={data.page}
@@ -26,7 +26,7 @@ const GlobalFeed: FC = function GlobalFeed() {
       <HideAfterFirstRender>
         <Pagination page={data.page} totalPages={data.totalPages} />
       </HideAfterFirstRender>
-    </>
+    </div>
   );
 };
 

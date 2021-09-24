@@ -1,4 +1,4 @@
-const apiUrl = process.env.API_URL || "https://conduit.productionready.io";
+const apiUrl = process.env.API_URL || "https://realworld-temp-api.herokuapp.com";
 
 export function fetchWithApiUrl() {
   return async function (uri: string, init?: RequestInit): Promise<Response> {

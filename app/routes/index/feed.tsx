@@ -15,7 +15,7 @@ const Feed: FC = function Feed() {
   const pageLoadingUri = (page: number) => `/feed?_data=routes/index/feed&page=${page}`;
 
   return (
-    <>
+    <div className="user-feed">
       <ArticlesFeed
         pageLoadingUri={pageLoadingUri}
         initialPage={data.page}
@@ -26,7 +26,7 @@ const Feed: FC = function Feed() {
       <HideAfterFirstRender>
         <Pagination page={data.page} totalPages={data.totalPages} />
       </HideAfterFirstRender>
-    </>
+    </div>
   );
 };
 
