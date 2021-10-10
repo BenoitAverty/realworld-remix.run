@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import AuthLayout from "../components/user/AuthLayout";
 import type { ActionFunction, LoaderFunction } from "remix";
-import { Form, json, LinksFunction, redirect, useRouteData } from "remix";
+import { Form, json, LinksFunction, redirect, useLoaderData } from "remix";
 import ErrorList from "../components/ErrorList";
 import { Link } from "react-router-dom";
 import { UserLogin, UserWithToken } from "../lib/users/users";
@@ -12,7 +12,7 @@ import { withSession } from "../lib/request-utils";
 import { removeAuthToken, saveAuthToken } from "../lib/session-utils";
 
 const Login: FC = function Login() {
-  const { errors } = useRouteData();
+  const { errors } = useLoaderData();
   const isSubmitting = useIsSubmitting("/login");
 
   return (

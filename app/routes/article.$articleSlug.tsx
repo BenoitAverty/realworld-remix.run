@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import type { LoaderFunction } from "remix";
-import { json, useRouteData } from "remix";
+import { json, useLoaderData } from "remix";
 import Banner from "../components/layout/Banner";
 import { Article, getArticle } from "../lib/article/article";
 import ArticleLayout from "../components/article/ArticleLayout";
@@ -14,7 +14,7 @@ type ArticleData = {
 };
 
 const ArticleDetails: FC = function ArticleDetails() {
-  const { article } = useRouteData<ArticleData>();
+  const { article } = useLoaderData<ArticleData>();
 
   if (!article) {
     return (
@@ -52,7 +52,7 @@ export default ArticleDetails;
 
 export const loader: LoaderFunction = async function ({ params, request }) {
   return withAuthToken(request.headers.get("Cookie"))(async apiAuthToken => {
-    const article = await getArticle(params.articleSlug, apiAuthToken);
+    const article = await getArticle(params.articleSlug as string, apiAuthToken);
     if (article === null) {
       return new Response(null, { status: 404 });
     }

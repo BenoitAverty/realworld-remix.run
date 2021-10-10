@@ -35,8 +35,8 @@ export const action: ActionFunction = async function ({ params, request }) {
   return withSession(request.headers.get("Cookie"))(async session => {
     const apiAuthToken = session.get(AUTH_TOKEN_SESSION_KEY);
     try {
-      await favoriteArticle(params.articleSlug, apiAuthToken, favoriteAction);
-    } catch (e) {
+      await favoriteArticle(params.articleSlug as string, apiAuthToken, favoriteAction);
+    } catch (e: any) {
       console.error(e.message);
       // TODO handle error (show a popup ?)
     }

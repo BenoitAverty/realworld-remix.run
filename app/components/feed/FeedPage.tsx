@@ -18,7 +18,7 @@ type FeedPageProps = {
 
 const FeedPage: FC<FeedPageProps> = function FeedPage({ pageUri, articles }) {
   const { data } = useSWR(pageUri, fetcher, {
-    initialData: articles && { articles },
+    fallbackData: articles && { articles },
   });
 
   return data ? (

@@ -1,14 +1,14 @@
 import React, { FC } from "react";
 import EditorLayout from "../components/editor/EditorLayout";
 import EditorForm from "../components/editor/EditorForm";
-import { ActionFunction, json, LoaderFunction, redirect, useRouteData } from "remix";
+import { ActionFunction, json, LoaderFunction, redirect, useLoaderData } from "remix";
 import { withSession } from "../lib/request-utils";
 import { createArticle, EditorFormErrors, isError } from "../lib/article/editor";
 import { AUTH_TOKEN_SESSION_KEY } from "../lib/session-utils";
 import { getAuthenticatedUser } from "../lib/users/users";
 
 const WriteRoute: FC = function WriteRoute() {
-  const { errors } = useRouteData<EditorFormErrors>();
+  const { errors } = useLoaderData<EditorFormErrors>();
   return (
     <EditorLayout>
       <EditorForm errors={errors} />
@@ -59,7 +59,7 @@ export const action: ActionFunction = function action({ request }) {
         return redirect("/write");
       }
       return redirect(`/article/${result.article.slug}`);
-    } catch (e) {
+    } catch (e: any) {
       session.flash("failedNewArticle", JSON.stringify({ errors: { global: [e.message] } }));
       return redirect("/write");
     }

@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import type { LoaderFunction, ActionFunction } from "remix";
-import { Form, json, redirect, useRouteData } from "remix";
+import { Form, json, redirect, useLoaderData } from "remix";
 import { User } from "../lib/auth/users";
 import { getAuthenticatedUser } from "../lib/users/users";
 import { withSession } from "../lib/request-utils";
@@ -11,7 +11,7 @@ import { updateUser } from "../lib/users/profile";
 import ErrorList from "../components/ErrorList";
 
 const Settings: FC = function Settings() {
-  const { user, errors } = useRouteData<{ user: User; errors: FormErrors }>();
+  const { user, errors } = useLoaderData<{ user: User; errors: FormErrors }>();
   const isSubmitting = useIsSubmitting("/settings");
   return (
     <div className="settings-page">
@@ -131,7 +131,7 @@ export const action: ActionFunction = async function action({ request }) {
         bio,
         newPassword,
       );
-    } catch (e) {
+    } catch (e: any) {
       session.flash("failedSettings", JSON.stringify({ errors: { global: [e.message] } }));
     }
 

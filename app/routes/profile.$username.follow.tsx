@@ -33,8 +33,8 @@ export const action: ActionFunction = async function ({ params, request }) {
 
   return requireAuthenticatedUsed(request.headers.get("Cookie"))(async apiAuthToken => {
     try {
-      await followUser(params.username, apiAuthToken, followAction);
-    } catch (e) {
+      await followUser(params.username as string, apiAuthToken, followAction);
+    } catch (e: any) {
       console.error(e.message);
       // TODO handle error (show a popup ?)
     }

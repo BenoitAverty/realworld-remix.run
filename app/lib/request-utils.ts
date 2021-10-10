@@ -1,4 +1,4 @@
-import { redirect, Response, Session } from "remix";
+import { redirect, Session } from "remix";
 import { commitSession, getSession } from "../sessionStorage";
 
 import { AUTH_TOKEN_SESSION_KEY } from "./session-utils";

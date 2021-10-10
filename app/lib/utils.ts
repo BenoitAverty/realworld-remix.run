@@ -1,4 +1,4 @@
-import { usePendingFormSubmit } from "remix";
+import { useTransition } from "remix";
 import { useLocation } from "react-router-dom";
 
 export type FormErrors = {
@@ -10,7 +10,7 @@ export const REFERER_QUERY_PARAM = "referer";
 
 /** Returns true if the form with the given action is currently being submitted */
 export function useIsSubmitting(action: string): boolean {
-  const pendingForm = usePendingFormSubmit();
+  const pendingForm = useTransition().submission;
   return pendingForm ? pendingForm.action.endsWith(action) : false;
 }
 

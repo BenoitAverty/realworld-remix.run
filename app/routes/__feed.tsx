@@ -1,6 +1,6 @@
 import React from "react";
 import type { LoaderFunction } from "remix";
-import { json, useRouteData } from "remix";
+import { json, useLoaderData } from "remix";
 import Banner from "../components/layout/Banner";
 import TagList from "../components/tags/TagList";
 import Tag from "../components/tags/Tag";
@@ -20,8 +20,8 @@ type IndexData = {
   tags: string[];
 };
 
-const Index = function Index() {
-  const data = useRouteData<IndexData>();
+const __feed = function Index() {
+  const data = useLoaderData<IndexData>();
 
   return (
     <div className="home-page">
@@ -55,7 +55,7 @@ const Index = function Index() {
   );
 };
 
-export default Index;
+export default __feed;
 
 export const loader: LoaderFunction = async () => {
   const fetch = fetchWithApiUrl();

@@ -1,14 +1,14 @@
 import ArticlesFeed from "../../components/feed/ArticlesFeed";
 import React, { FC } from "react";
 import type { LoaderFunction } from "remix";
-import { json, useRouteData } from "remix";
+import { json, useLoaderData } from "remix";
 import HideAfterFirstRender from "../../components/HideAfterFirstRender";
 import Pagination from "../../components/feed/Pagination";
 import { FeedData, getGlobalFeed, PAGE_SIZE } from "../../lib/feed/feed";
 import { withAuthToken } from "../../lib/request-utils";
 
 const GlobalFeed: FC = function GlobalFeed() {
-  const data = useRouteData<FeedData>();
+  const data = useLoaderData<FeedData>();
 
   // This uri is the uri to use when you wan to call a loader outside of a route navigation.
   // Remix will eventually provide a better way to do this, without having to know implementation details of remix.

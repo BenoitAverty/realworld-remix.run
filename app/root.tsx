@@ -7,12 +7,13 @@ import {
   LoaderFunction,
   Meta,
   Scripts,
-  useRouteData,
+  useLoaderData,
 } from "remix";
 import Layout from "./components/layout/Layout";
 import UserProvider from "./components/user/UserProvider";
 import { Outlet } from "react-router-dom";
 import { getAuthenticatedUser, User } from "./lib/users/users";
+// @ts-ignore
 import realworldBootstrap from "./styles/realworld-bootstrap.css";
 import { withSession } from "./lib/request-utils";
 
@@ -22,7 +23,7 @@ type RootData = {
 };
 
 const Root = function Root() {
-  const data: RootData = useRouteData();
+  const data: RootData = useLoaderData();
 
   return (
     <html lang="en">
@@ -78,8 +79,7 @@ export const links: LinksFunction = () => {
     { rel: "stylesheet", href: "//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" },
     {
       rel: "stylesheet",
-      href:
-        "//fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic",
+      href: "//fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic",
     },
   ];
 };

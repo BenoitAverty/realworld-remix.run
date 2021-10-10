@@ -27,8 +27,7 @@ describe("editor", () => {
         response: {
           status: 200,
           headers: { "Content-Type": "application/json" },
-          body:
-            '{\n  "article": {\n    "title": "test article",\n    "slug": "test-article-o4om4x",\n    "body": "this is the body",\n    "createdAt": "2021-04-13T14:23:39.928Z",\n    "updatedAt": "2021-04-13T14:23:39.928Z",\n    "tagList": [\n      "js",\n      "react"\n    ],\n    "description": "this is the description",\n    "author": {\n      "username": "Benoit",\n      "bio": "I\'m a developer and trainer at ZenikaRennes",\n      "image": "",\n      "following": false\n    },\n    "favorited": false,\n    "favoritesCount": 0\n  }\n}',
+          body: '{\n  "article": {\n    "title": "test article",\n    "slug": "test-article-o4om4x",\n    "body": "this is the body",\n    "createdAt": "2021-04-13T14:23:39.928Z",\n    "updatedAt": "2021-04-13T14:23:39.928Z",\n    "tagList": [\n      "js",\n      "react"\n    ],\n    "description": "this is the description",\n    "author": {\n      "username": "Benoit",\n      "bio": "I\'m a developer and trainer at ZenikaRennes",\n      "image": "",\n      "following": false\n    },\n    "favorited": false,\n    "favoritesCount": 0\n  }\n}',
         },
       },
     );
@@ -44,8 +43,7 @@ describe("editor", () => {
         response: {
           status: 200,
           headers: { "Content-Type": "application/json" },
-          body:
-            '{\n  "article": {\n    "title": "test article",\n    "slug": "test-article-o4om4x",\n    "body": "this is the body",\n    "createdAt": "2021-04-13T14:23:39.928Z",\n    "updatedAt": "2021-04-13T14:23:39.928Z",\n    "tagList": [\n      "js",\n      "react"\n    ],\n    "description": "this is the description",\n    "author": {\n      "username": "Benoit",\n      "bio": "I\'m a developer and trainer at ZenikaRennes",\n      "image": "",\n      "following": false\n    },\n    "favorited": false,\n    "favoritesCount": 0\n  }\n}',
+          body: '{\n  "article": {\n    "title": "test article",\n    "slug": "test-article-o4om4x",\n    "body": "this is the body",\n    "createdAt": "2021-04-13T14:23:39.928Z",\n    "updatedAt": "2021-04-13T14:23:39.928Z",\n    "tagList": [\n      "js",\n      "react"\n    ],\n    "description": "this is the description",\n    "author": {\n      "username": "Benoit",\n      "bio": "I\'m a developer and trainer at ZenikaRennes",\n      "image": "",\n      "following": false\n    },\n    "favorited": false,\n    "favoritesCount": 0\n  }\n}',
         },
       },
     );

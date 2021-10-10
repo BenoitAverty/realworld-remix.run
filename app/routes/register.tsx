@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import AuthLayout from "../components/user/AuthLayout";
 import type { ActionFunction, LoaderFunction } from "remix";
-import { Form, json, redirect, useRouteData } from "remix";
+import { Form, json, redirect, useLoaderData } from "remix";
 import ErrorList from "../components/ErrorList";
 import { Link } from "react-router-dom";
 import { UserRegistration, UserWithToken } from "../lib/users/users";
@@ -12,7 +12,7 @@ import { withSession } from "../lib/request-utils";
 import { saveAuthToken } from "../lib/session-utils";
 
 const Register: FC = function Register() {
-  const { errors } = useRouteData();
+  const { errors } = useLoaderData();
 
   const isSubmitting = useIsSubmitting("/register");
 
