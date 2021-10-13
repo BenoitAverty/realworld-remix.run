@@ -1,6 +1,6 @@
 import React, { FC } from "react";
-import type { LoaderFunction, ActionFunction } from "remix";
-import { Form, json, redirect, useLoaderData } from "remix";
+import type { ActionFunction, LoaderFunction } from "remix";
+import { Form, json, redirect, useActionData, useLoaderData } from "remix";
 import { User } from "../lib/auth/users";
 import { getAuthenticatedUser } from "../lib/users/users";
 import { withSession } from "../lib/request-utils";
@@ -11,7 +11,10 @@ import { updateUser } from "../lib/users/profile";
 import ErrorList from "../components/ErrorList";
 
 const Settings: FC = function Settings() {
-  const { user, errors } = useLoaderData<{ user: User; errors: FormErrors }>();
+  const { user } = useLoaderData<{ user: User }>();
+  const actionData = useActionData();
+  const errors: FormErrors | null = actionData && actionData.errors;
+
   const isSubmitting = useIsSubmitting("/settings");
   return (
     <div className="settings-page">
@@ -97,11 +100,6 @@ export const loader: LoaderFunction = async function loader({ request }) {
       return redirect("/login");
     }
 
-    const failedSettings = session.get("failedSettings");
-    if (failedSettings) {
-      return json({ user, errors: JSON.parse(failedSettings).errors });
-    }
-
     return json({ user });
   });
 };
@@ -116,11 +114,7 @@ export const action: ActionFunction = async function action({ request }) {
     const bio = requestBody.get("bio");
 
     if (!newUsername || newUsername.trim() === "") {
-      session.flash(
-        "failedSettings",
-        JSON.stringify({ errors: { username: ["Username can't be blank"] } }),
-      );
-      return redirect("/settings");
+      return json({ errors: { username: ["Username can't be blank"] } }, { status: 400 });
     }
 
     try {
@@ -132,7 +126,7 @@ export const action: ActionFunction = async function action({ request }) {
         newPassword,
       );
     } catch (e: any) {
-      session.flash("failedSettings", JSON.stringify({ errors: { global: [e.message] } }));
+      return json({ errors: { global: [e.message] } }, { status: 500 });
     }
 
     return redirect("/settings");

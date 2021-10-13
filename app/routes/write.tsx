@@ -1,17 +1,17 @@
 import React, { FC } from "react";
 import EditorLayout from "../components/editor/EditorLayout";
 import EditorForm from "../components/editor/EditorForm";
-import { ActionFunction, json, LoaderFunction, redirect, useLoaderData } from "remix";
+import { ActionFunction, json, LoaderFunction, redirect, useActionData } from "remix";
 import { withSession } from "../lib/request-utils";
-import { createArticle, EditorFormErrors, isError } from "../lib/article/editor";
+import { createArticle, isError } from "../lib/article/editor";
 import { AUTH_TOKEN_SESSION_KEY } from "../lib/session-utils";
 import { getAuthenticatedUser } from "../lib/users/users";
 
 const WriteRoute: FC = function WriteRoute() {
-  const { errors } = useLoaderData<EditorFormErrors>();
+  const actionData = useActionData();
   return (
     <EditorLayout>
-      <EditorForm errors={errors} />
+      <EditorForm errors={actionData && actionData.errors} />
     </EditorLayout>
   );
 };
@@ -24,11 +24,6 @@ export const loader: LoaderFunction = async function loader({ request }) {
     if (!user) {
       // TODO manage callback to settings after login
       return redirect("/login");
-    }
-
-    const failedNewArticle = session.get("failedNewArticle");
-    if (failedNewArticle) {
-      return json({ errors: JSON.parse(failedNewArticle).errors });
     }
 
     return json({});
@@ -55,13 +50,11 @@ export const action: ActionFunction = function action({ request }) {
         tagList,
       );
       if (isError(result)) {
-        session.flash("failedNewArticle", JSON.stringify(result));
-        return redirect("/write");
+        return json(result, { status: 400 });
       }
       return redirect(`/article/${result.article.slug}`);
     } catch (e: any) {
-      session.flash("failedNewArticle", JSON.stringify({ errors: { global: [e.message] } }));
-      return redirect("/write");
+      return json({ errors: { global: [e.message] } }, { status: 500 });
     }
   });
 };

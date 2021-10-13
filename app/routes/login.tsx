@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import AuthLayout from "../components/user/AuthLayout";
-import type { ActionFunction, LoaderFunction } from "remix";
-import { Form, json, LinksFunction, redirect, useLoaderData } from "remix";
+import type { ActionFunction } from "remix";
+import { Form, json, LinksFunction, redirect, useActionData } from "remix";
 import ErrorList from "../components/ErrorList";
 import { Link } from "react-router-dom";
 import { UserLogin, UserWithToken } from "../lib/users/users";
@@ -12,7 +12,8 @@ import { withSession } from "../lib/request-utils";
 import { removeAuthToken, saveAuthToken } from "../lib/session-utils";
 
 const Login: FC = function Login() {
-  const { errors } = useLoaderData();
+  const actionData = useActionData();
+  const errors = actionData && actionData.errors;
   const isSubmitting = useIsSubmitting("/login");
 
   return (
@@ -59,15 +60,6 @@ const Login: FC = function Login() {
 
 export default Login;
 
-export const loader: LoaderFunction = function loader({ request }) {
-  return withSession(request.headers.get("Cookie"))(session => {
-    const failedLogin = session.get("failedLogin");
-    if (failedLogin) {
-      return json(JSON.parse(failedLogin));
-    } else return json({});
-  });
-};
-
 export const action: ActionFunction = async function loginUser({ request }) {
   const fetch = fetchWithApiUrl();
   const isLogout = new URL(request.url).searchParams.get("logout") !== null;
@@ -83,11 +75,7 @@ export const action: ActionFunction = async function loginUser({ request }) {
       const password = requestBody.get("password");
 
       if (!(email && password)) {
-        session.flash(
-          "failedLogin",
-          JSON.stringify({ errors: { global: ["All fields are required"] } }),
-        );
-        return redirect("/login");
+        return json({ errors: { global: ["All fields are required"] } }, { status: 400 });
       }
 
       const newUser: UserLogin = {
@@ -105,11 +93,7 @@ export const action: ActionFunction = async function loginUser({ request }) {
 
       const responseBody = await response.json();
       if (response.status !== 200) {
-        session.flash(
-          "failedLogin",
-          JSON.stringify({ errors: { global: ["Email or password is incorrect."] } }),
-        );
-        return redirect("/login");
+        return json({ errors: { global: ["Email or password is incorrect."] } }, { status: 401 });
       } else {
         const user: UserWithToken = responseBody.user;
         saveAuthToken(session, user.token);

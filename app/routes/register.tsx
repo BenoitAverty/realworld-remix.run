@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import AuthLayout from "../components/user/AuthLayout";
-import type { ActionFunction, LoaderFunction } from "remix";
-import { Form, json, redirect, useLoaderData } from "remix";
+import type { ActionFunction } from "remix";
+import { Form, json, redirect, useActionData } from "remix";
 import ErrorList from "../components/ErrorList";
 import { Link } from "react-router-dom";
 import { UserRegistration, UserWithToken } from "../lib/users/users";
@@ -12,7 +12,8 @@ import { withSession } from "../lib/request-utils";
 import { saveAuthToken } from "../lib/session-utils";
 
 const Register: FC = function Register() {
-  const { errors } = useLoaderData();
+  const actionData = useActionData();
+  const errors = actionData && actionData.errors;
 
   const isSubmitting = useIsSubmitting("/register");
 
@@ -70,15 +71,6 @@ const Register: FC = function Register() {
 
 export default Register;
 
-export const loader: LoaderFunction = async function loader({ request }) {
-  return withSession(request.headers.get("Cookie"))(session => {
-    const failedRegistration = session.get("failedRegistration");
-    if (failedRegistration) {
-      return json(JSON.parse(failedRegistration));
-    } else return json({});
-  });
-};
-
 export const action: ActionFunction = async function registerUser({ request }) {
   const fetch = fetchWithApiUrl();
   return withSession(request.headers.get("Cookie"))(async session => {
@@ -89,11 +81,7 @@ export const action: ActionFunction = async function registerUser({ request }) {
     const password = requestBody.get("password");
 
     if (!(username && email && password)) {
-      session.flash(
-        "failedRegistration",
-        JSON.stringify({ errors: { global: ["All fields are required"] } }),
-      );
-      return redirect("/register");
+      return json({ errors: { global: ["All fields are required"] } }, { status: 400 });
     }
 
     const newUser: UserRegistration = {
@@ -112,8 +100,7 @@ export const action: ActionFunction = async function registerUser({ request }) {
 
     const responseBody = await response.json();
     if (response.status !== 200) {
-      session.flash("failedRegistration", JSON.stringify({ errors: responseBody.errors }));
-      return redirect("/register");
+      return json({ errors: responseBody.errors }, { status: 400 });
     } else {
       const user: UserWithToken = responseBody.user;
       saveAuthToken(session, user.token);
