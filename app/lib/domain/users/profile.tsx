@@ -1,4 +1,4 @@
-import { fetchWithToken } from "../api-client.server";
+import { fetchWithToken } from "../../data/api-client.server";
 
 export async function followUser(
   username: string,

@@ -4,12 +4,11 @@ import type { ActionFunction } from "remix";
 import { Form, json, redirect, useActionData } from "remix";
 import ErrorList from "../components/ErrorList";
 import { Link } from "react-router-dom";
-import { UserRegistration, UserWithToken } from "../lib/users/users";
-import { fetchWithApiUrl } from "../lib/api-client.server";
+import { UserRegistration, UserWithToken } from "../lib/domain/users/users";
+import { fetchWithApiUrl } from "../lib/data/api-client.server";
 import LoaderButton from "../components/LoaderButton";
-import { useIsSubmitting } from "../lib/utils";
-import { withSession } from "../lib/request-utils";
-import { saveAuthToken } from "../lib/session-utils";
+import { useIsSubmitting } from "../lib/domain/utils";
+import { saveAuthToken } from "../lib/loaders-actions/auth-utils";
 
 const Register: FC = function Register() {
   const actionData = useActionData();
@@ -73,39 +72,39 @@ export default Register;
 
 export const action: ActionFunction = async function registerUser({ request }) {
   const fetch = fetchWithApiUrl();
-  return withSession(request.headers.get("Cookie"))(async session => {
-    const requestBody = new URLSearchParams(await request.text());
 
-    const username = requestBody.get("username");
-    const email = requestBody.get("email");
-    const password = requestBody.get("password");
+  const requestBody = new URLSearchParams(await request.text());
 
-    if (!(username && email && password)) {
-      return json({ errors: { global: ["All fields are required"] } }, { status: 400 });
-    }
+  const username = requestBody.get("username");
+  const email = requestBody.get("email");
+  const password = requestBody.get("password");
 
-    const newUser: UserRegistration = {
-      username,
-      email,
-      password,
-    };
+  if (!(username && email && password)) {
+    return json({ errors: { global: ["All fields are required"] } }, { status: 400 });
+  }
 
-    const response = await fetch("/users", {
-      method: "POST",
-      body: JSON.stringify({ user: newUser }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  const newUser: UserRegistration = {
+    username,
+    email,
+    password,
+  };
 
-    const responseBody = await response.json();
-    if (response.status !== 200) {
-      return json({ errors: responseBody.errors }, { status: 400 });
-    } else {
-      const user: UserWithToken = responseBody.user;
-      saveAuthToken(session, user.token);
-
-      return redirect("/settings");
-    }
+  const response = await fetch("/users", {
+    method: "POST",
+    body: JSON.stringify({ user: newUser }),
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
+
+  const responseBody = await response.json();
+  if (response.status !== 200) {
+    return json({ errors: responseBody.errors }, { status: 400 });
+  } else {
+    const user: UserWithToken = responseBody.user;
+
+    const cookieHeader = await saveAuthToken(request, user.token);
+
+    return redirect("/settings", { headers: { ...cookieHeader } });
+  }
 };

@@ -1,11 +1,11 @@
 import React, { FC } from "react";
 import type { LoaderFunction } from "remix";
 import { json, useLoaderData } from "remix";
-import { FeedData, getUserFeed, PAGE_SIZE } from "../../lib/feed/feed";
+import { FeedData, getUserFeed, PAGE_SIZE } from "../../lib/domain/feed/feed";
 import HideAfterFirstRender from "../../components/HideAfterFirstRender";
 import Pagination from "../../components/feed/Pagination";
 import ArticlesFeed from "../../components/feed/ArticlesFeed";
-import { requireAuthenticatedUsed } from "../../lib/request-utils";
+import { requireAuthenticatedUser } from "../../lib/loaders-actions/auth-utils";
 
 const Feed: FC = function Feed() {
   const data = useLoaderData<FeedData>();
@@ -33,15 +33,14 @@ const Feed: FC = function Feed() {
 export default Feed;
 
 export const loader: LoaderFunction = async ({ request }) => {
-  return requireAuthenticatedUsed(request.headers.get("Cookie"))(async apiAuthToken => {
-    const url = new URL(request.url);
-    const page = Number.parseInt(url.searchParams.get("page") || "1");
-    const articles = await getUserFeed(page, apiAuthToken);
+  const { token } = await requireAuthenticatedUser(request);
+  const url = new URL(request.url);
+  const page = Number.parseInt(url.searchParams.get("page") || "1");
+  const articles = await getUserFeed(page, token);
 
-    return json({
-      ...articles,
-      page,
-      totalPages: articles.articlesCount / PAGE_SIZE,
-    });
+  return json({
+    ...articles,
+    page,
+    totalPages: articles.articlesCount / PAGE_SIZE,
   });
 };

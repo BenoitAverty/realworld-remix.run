@@ -1,5 +1,5 @@
 import { Article } from "../article/article";
-import { fetchWithApiUrl, fetchWithToken } from "../api-client.server";
+import { fetchWithApiUrl, fetchWithToken } from "../../data/api-client.server";
 
 export type FeedData = {
   articles: Article[];

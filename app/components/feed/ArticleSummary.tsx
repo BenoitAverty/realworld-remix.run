@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Article } from "../../lib/article/article";
+import { Article } from "../../lib/domain/article/article";
 import { Link } from "remix";
 import ArticleFavoriteButton from "../article/ArticleFavoriteButton";
 

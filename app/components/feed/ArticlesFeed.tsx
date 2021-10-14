@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { Article } from "../../lib/article/article";
+import { Article } from "../../lib/domain/article/article";
 import FeedPage from "./FeedPage";
 import InfiniteScroll from "react-infinite-scroll-component";
 

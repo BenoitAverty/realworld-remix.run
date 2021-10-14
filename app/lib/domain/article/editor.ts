@@ -1,4 +1,4 @@
-import { fetchWithToken } from "../api-client.server";
+import { fetchWithToken } from "../../data/api-client.server";
 import { Article } from "./article";
 
 export type EditorFormErrors = {

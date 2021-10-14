@@ -1,9 +1,8 @@
-import type { LoaderFunction, ActionFunction } from "remix";
+import type { ActionFunction, LoaderFunction } from "remix";
 import { redirect } from "remix";
-import { favoriteArticle } from "../lib/article/article";
-import { REFERER_QUERY_PARAM } from "../lib/utils";
-import { withSession } from "../lib/request-utils";
-import { AUTH_TOKEN_SESSION_KEY } from "../lib/session-utils";
+import { favoriteArticle } from "../lib/domain/article/article";
+import { REFERER_QUERY_PARAM } from "../lib/domain/utils";
+import { requireAuthenticatedUser } from "../lib/loaders-actions/auth-utils";
 
 // Remix doesn't support routes without a component yet,
 // that's why we use noop (won't be rendered because the loader always redirects)
@@ -32,14 +31,12 @@ export const action: ActionFunction = async function ({ params, request }) {
   }
   const favoriteAction = requestBody.get("favoriteAction") as "favorite" | "unfavorite";
 
-  return withSession(request.headers.get("Cookie"))(async session => {
-    const apiAuthToken = session.get(AUTH_TOKEN_SESSION_KEY);
-    try {
-      await favoriteArticle(params.articleSlug as string, apiAuthToken, favoriteAction);
-    } catch (e: any) {
-      console.error(e.message);
-      // TODO handle error (show a popup ?)
-    }
-    return redirect(referer || `/article/${params.articleSlug}`);
-  });
+  const { token } = await requireAuthenticatedUser(request);
+  try {
+    await favoriteArticle(params.articleSlug as string, token, favoriteAction);
+  } catch (e: any) {
+    console.error(e.message);
+    // TODO handle error (show a popup ?)
+  }
+  return redirect(referer || `/article/${params.articleSlug}`);
 };

@@ -1,6 +1,6 @@
 import { createCookieSessionStorage } from "remix";
 
-const { getSession, commitSession, destroySession } = createCookieSessionStorage({
+const sessionStorage = createCookieSessionStorage({
   // This is either a Cookie (or a set of CookieOptions) that
   // describe the session cookie to use.
   cookie: {
@@ -10,4 +10,6 @@ const { getSession, commitSession, destroySession } = createCookieSessionStorage
   },
 });
 
-export { getSession, commitSession, destroySession };
+export const getSession = sessionStorage.getSession;
+export const commitSession = sessionStorage.commitSession;
+export const destroySession = sessionStorage.destroySession;

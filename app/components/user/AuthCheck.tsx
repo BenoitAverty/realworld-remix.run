@@ -1,6 +1,6 @@
 import React, { ReactElement, ReactNode } from "react";
-import { useUser } from "../../lib/auth/user-context";
-import { User } from "../../lib/auth/users";
+import { useUser } from "../../lib/domain/auth/user-context";
+import { User } from "../../lib/domain/users/users";
 
 type AuthCheckProps = {
   needsAuth?: boolean;

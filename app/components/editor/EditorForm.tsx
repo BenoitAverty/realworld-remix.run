@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Form } from "remix";
-import { EditorFormErrors } from "../../lib/article/editor";
-import { useIsSubmitting } from "../../lib/utils";
+import { EditorFormErrors } from "../../lib/domain/article/editor";
+import { useIsSubmitting } from "../../lib/domain/utils";
 import ErrorList from "../ErrorList";
 
 const EditorForm: FC<EditorFormErrors> = function EditorForm({ errors }) {

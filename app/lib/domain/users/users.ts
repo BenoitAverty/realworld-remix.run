@@ -1,6 +1,4 @@
-import type { Session } from "remix";
-import { fetchWithToken } from "../api-client.server";
-import { AUTH_TOKEN_SESSION_KEY, removeAuthToken } from "../session-utils";
+import { fetchWithToken } from "../../data/api-client.server";
 
 /**
  * User object returned from the Conduit api
@@ -58,29 +56,4 @@ export async function getUser(apiAuthToken: string): Promise<UserWithToken | nul
   const body: { user: UserWithToken } = await response.json();
 
   return body.user;
-}
-
-/**
- * Check if the user is authenticated (ie. a valid token is present in the session) and returns its
- * info.
- *
- * Returns null if the user isn't authenticated.
- *
- * If there is a token but it's not valid, it is removed from the session.
- */
-export async function getAuthenticatedUser(session: Session): Promise<UserWithToken | null> {
-  const token = session.get(AUTH_TOKEN_SESSION_KEY);
-
-  if (!token) {
-    return null;
-  }
-
-  const user = await getUser(token);
-
-  if (!user) {
-    removeAuthToken(session);
-    return null;
-  }
-
-  return user;
 }

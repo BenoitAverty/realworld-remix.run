@@ -1,6 +1,6 @@
 import React, { FC } from "react";
-import { userContext } from "../../lib/auth/user-context";
-import { User } from "../../lib/auth/users";
+import { userContext } from "../../lib/domain/auth/user-context";
+import { User } from "../../lib/domain/users/users";
 
 type UserProviderProps = {
   user: User | null;

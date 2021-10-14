@@ -4,12 +4,11 @@ import type { ActionFunction } from "remix";
 import { Form, json, LinksFunction, redirect, useActionData } from "remix";
 import ErrorList from "../components/ErrorList";
 import { Link } from "react-router-dom";
-import { UserLogin, UserWithToken } from "../lib/users/users";
-import { fetchWithApiUrl } from "../lib/api-client.server";
+import { UserLogin, UserWithToken } from "../lib/domain/users/users";
+import { fetchWithApiUrl } from "../lib/data/api-client.server";
 import LoaderButton from "../components/LoaderButton";
-import { useIsSubmitting } from "../lib/utils";
-import { withSession } from "../lib/request-utils";
-import { removeAuthToken, saveAuthToken } from "../lib/session-utils";
+import { useIsSubmitting } from "../lib/domain/utils";
+import { removeAuthToken, saveAuthToken } from "../lib/loaders-actions/auth-utils";
 
 const Login: FC = function Login() {
   const actionData = useActionData();
@@ -64,44 +63,42 @@ export const action: ActionFunction = async function loginUser({ request }) {
   const fetch = fetchWithApiUrl();
   const isLogout = new URL(request.url).searchParams.get("logout") !== null;
 
-  return withSession(request.headers.get("Cookie"))(async session => {
-    if (isLogout) {
-      removeAuthToken(session);
-      return redirect("/");
-    } else {
-      const requestBody = new URLSearchParams(await request.text());
+  if (isLogout) {
+    const cookieHeader = await removeAuthToken(request);
+    return redirect("/", { headers: { ...cookieHeader } });
+  } else {
+    const requestBody = new URLSearchParams(await request.text());
 
-      const email = requestBody.get("email");
-      const password = requestBody.get("password");
+    const email = requestBody.get("email");
+    const password = requestBody.get("password");
 
-      if (!(email && password)) {
-        return json({ errors: { global: ["All fields are required"] } }, { status: 400 });
-      }
-
-      const newUser: UserLogin = {
-        email,
-        password,
-      };
-
-      const response = await fetch("/users/login", {
-        method: "POST",
-        body: JSON.stringify({ user: newUser }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const responseBody = await response.json();
-      if (response.status !== 200) {
-        return json({ errors: { global: ["Email or password is incorrect."] } }, { status: 401 });
-      } else {
-        const user: UserWithToken = responseBody.user;
-        saveAuthToken(session, user.token);
-
-        return redirect("/feed");
-      }
+    if (!(email && password)) {
+      return json({ errors: { global: ["All fields are required"] } }, { status: 400 });
     }
-  });
+
+    const newUser: UserLogin = {
+      email,
+      password,
+    };
+
+    const response = await fetch("/users/login", {
+      method: "POST",
+      body: JSON.stringify({ user: newUser }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const responseBody = await response.json();
+    if (response.status !== 200) {
+      return json({ errors: { global: ["Email or password is incorrect."] } }, { status: 401 });
+    } else {
+      const user: UserWithToken = responseBody.user;
+      const cookieHeader = await saveAuthToken(request, user.token);
+
+      return redirect("/feed", { headers: { ...cookieHeader } });
+    }
+  }
 };
 
 export const links: LinksFunction = () => [{ page: "/feed" }];

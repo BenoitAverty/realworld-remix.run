@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import ArticleSummarySkeleton from "./ArticleSummarySkeleton";
-import { PAGE_SIZE } from "../../lib/feed/feed";
+import { PAGE_SIZE } from "../../lib/domain/feed/feed";
 
 const FeedPageSkeleton: FC = function FeedPageSkeleton() {
   const skels = [];

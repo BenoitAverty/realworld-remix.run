@@ -1,14 +1,12 @@
 import React, { FC } from "react";
 import type { ActionFunction, LoaderFunction } from "remix";
 import { Form, json, redirect, useActionData, useLoaderData } from "remix";
-import { User } from "../lib/auth/users";
-import { getAuthenticatedUser } from "../lib/users/users";
-import { withSession } from "../lib/request-utils";
+import { User } from "../lib/domain/users/users";
 import LoaderButton from "../components/LoaderButton";
-import { FormErrors, useIsSubmitting } from "../lib/utils";
-import { AUTH_TOKEN_SESSION_KEY } from "../lib/session-utils";
-import { updateUser } from "../lib/users/profile";
+import { FormErrors, useIsSubmitting } from "../lib/domain/utils";
+import { updateUser } from "../lib/domain/users/profile";
 import ErrorList from "../components/ErrorList";
+import { requireAuthenticatedUser } from "../lib/loaders-actions/auth-utils";
 
 const Settings: FC = function Settings() {
   const { user } = useLoaderData<{ user: User }>();
@@ -93,42 +91,30 @@ const Settings: FC = function Settings() {
 export default Settings;
 
 export const loader: LoaderFunction = async function loader({ request }) {
-  return withSession(request.headers.get("Cookie"))(async session => {
-    const user = await getAuthenticatedUser(session);
-    if (!user) {
-      // TODO manage callback to settings after login
-      return redirect("/login");
-    }
+  const user = await requireAuthenticatedUser(request);
 
-    return json({ user });
-  });
+  return json({ user });
 };
 
 export const action: ActionFunction = async function action({ request }) {
-  return withSession(request.headers.get("Cookie"))(async session => {
-    const requestBody = new URLSearchParams(await request.text());
+  const user = await requireAuthenticatedUser(request);
 
-    const image = requestBody.get("image");
-    const newUsername = requestBody.get("newUsername");
-    const newPassword = requestBody.get("newPassword");
-    const bio = requestBody.get("bio");
+  const requestBody = new URLSearchParams(await request.text());
 
-    if (!newUsername || newUsername.trim() === "") {
-      return json({ errors: { username: ["Username can't be blank"] } }, { status: 400 });
-    }
+  const image = requestBody.get("image");
+  const newUsername = requestBody.get("newUsername");
+  const newPassword = requestBody.get("newPassword");
+  const bio = requestBody.get("bio");
 
-    try {
-      await updateUser(
-        session.get(AUTH_TOKEN_SESSION_KEY),
-        image,
-        newUsername.trim(),
-        bio,
-        newPassword,
-      );
-    } catch (e: any) {
-      return json({ errors: { global: [e.message] } }, { status: 500 });
-    }
+  if (!newUsername || newUsername.trim() === "") {
+    return json({ errors: { username: ["Username can't be blank"] } }, { status: 400 });
+  }
 
-    return redirect("/settings");
-  });
+  try {
+    await updateUser(user.token, image, newUsername.trim(), bio, newPassword);
+  } catch (e: any) {
+    return json({ errors: { global: [e.message] } }, { status: 500 });
+  }
+
+  return redirect("/settings");
 };

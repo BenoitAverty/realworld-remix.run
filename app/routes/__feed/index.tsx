@@ -4,8 +4,8 @@ import type { LoaderFunction } from "remix";
 import { json, useLoaderData } from "remix";
 import HideAfterFirstRender from "../../components/HideAfterFirstRender";
 import Pagination from "../../components/feed/Pagination";
-import { FeedData, getGlobalFeed, PAGE_SIZE } from "../../lib/feed/feed";
-import { withAuthToken } from "../../lib/request-utils";
+import { FeedData, getGlobalFeed, PAGE_SIZE } from "../../lib/domain/feed/feed";
+import { getAuthenticatedUser } from "../../lib/loaders-actions/auth-utils";
 
 const GlobalFeed: FC = function GlobalFeed() {
   const data = useLoaderData<FeedData>();
@@ -36,16 +36,16 @@ export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
   const page = Number.parseInt(url.searchParams.get("page") || "1");
 
-  return await withAuthToken(request.headers.get("Cookie"))(async apiAuthToken => {
-    try {
-      const articles = await getGlobalFeed(page, apiAuthToken);
-      return json({
-        ...articles,
-        page,
-        totalPages: Math.ceil(articles.articlesCount / PAGE_SIZE),
-      });
-    } catch (error) {
-      return json({ error }, 500);
-    }
-  });
+  const user = await getAuthenticatedUser(request);
+  const apiAuthToken = user && user.token;
+  try {
+    const articles = await getGlobalFeed(page, apiAuthToken);
+    return json({
+      ...articles,
+      page,
+      totalPages: Math.ceil(articles.articlesCount / PAGE_SIZE),
+    });
+  } catch (error) {
+    return json({ error }, 500);
+  }
 };

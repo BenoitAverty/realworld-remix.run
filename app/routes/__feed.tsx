@@ -7,7 +7,7 @@ import Tag from "../components/tags/Tag";
 import FeedToggle from "../components/feed/FeedToggle";
 import FeedLayout from "../components/feed/FeedLayout";
 import { Outlet } from "react-router-dom";
-import { fetchWithApiUrl } from "../lib/api-client.server";
+import { fetchWithApiUrl } from "../lib/data/api-client.server";
 
 export function meta() {
   return {

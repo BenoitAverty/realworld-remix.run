@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Form } from "remix";
-import { useIsSubmitting } from "../../lib/utils";
+import { useIsSubmitting } from "../../lib/domain/utils";
 
 const LogoutButton: FC = function LogoutButton() {
   const isLoggingOut = useIsSubmitting("/login?logout");

@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Form } from "remix";
-import { useIsSubmitting, useRefererQueryParam } from "../../lib/utils";
+import { useIsSubmitting, useRefererQueryParam } from "../../lib/domain/utils";
 import clsx from "clsx";
 
 type FollowUserButtonProps = {

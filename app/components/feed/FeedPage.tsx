@@ -1,7 +1,7 @@
 import React, { FC } from "react";
-import { Article } from "../../lib/article/article";
+import { Article } from "../../lib/domain/article/article";
 import useSWR from "swr";
-import { fetcher } from "../../lib/data-fetch/client";
+import { fetcher } from "../../lib/data/client";
 import ArticleSummary from "./ArticleSummary";
 import FeedPageSkeleton from "./FeedPageSkeleton";
 
