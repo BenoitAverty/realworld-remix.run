@@ -13,3 +13,7 @@ realworld-remix-run
 @aws
 profile realworld-remix
 region eu-west-1
+
+@tables
+sessions
+  id *String
