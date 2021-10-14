@@ -5,20 +5,20 @@
   "sideEffects": false,
   "scripts": {
     "postinstall": "remix setup",
-    "clean": "rm -rf backend/build backend/node_modules public/build",
-    "build": "npm run clean && tsc -b app/tsconfig.json && remix build",
-    "dev": "remix dev",
+    "dev": "remix run",
+    "build": "tsc -b app/tsconfig.json && remix build",
+    "build:docker": "docker build . --build-arg REMIX_TOKEN=${REMIX_TOKEN}",
+    "deploy": "flyctl deploy --build-arg REMIX_TOKEN=${REMIX_TOKEN}",
+    "start": "remix-serve build/",
     "test:unit": "jest app/",
     "test:cypress:open": "cypress open",
     "test:cypress:run": "cypress run",
     "lint": "eslint app ./cypress --ext .js --ext .ts --ext .jsx --ext .tsx"
   },
   "dependencies": {
-    "@architect/functions": "^4.0.0",
-    "@remix-run/architect": "^0.19.0",
     "@remix-run/node": "^0.19.0",
     "@remix-run/react": "^0.19.0",
-    "aws-sdk": "^2.994.0",
+    "@remix-run/serve": "^0.19.3",
     "clsx": "^1.1.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -30,20 +30,18 @@
     "swr": "^1.0.1"
   },
   "devDependencies": {
+    "@remix-run/dev": "^0.19.0",
     "@babel/preset-env": "^7.15.6",
     "@babel/preset-react": "^7.14.5",
     "@babel/preset-typescript": "^7.15.0",
     "@cypress/snapshot": "^2.1.7",
-    "@remix-run/dev": "^0.19.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.1.0",
-    "@types/architect__functions": "^3.13.6",
     "@types/react": "^17.0.24",
     "@types/react-dom": "^17.0.9",
     "@typescript-eslint/eslint-plugin": "^4.31.2",
     "@typescript-eslint/parser": "^4.31.2",
     "babel-plugin-transform-runtime": "^6.23.0",
-    "concurrently": "^6.2.1",
     "cypress": "^8.4.1",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
@@ -61,6 +59,6 @@
     "typescript": "^4.4.3"
   },
   "engines": {
-    "node": ">12"
+    "node": ">14"
   }
 }

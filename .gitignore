@@ -8,20 +8,15 @@
 *.launch
 .settings/
 
-#secrets
-preferences.arc
-
-
 #System Files
 .DS_Store
 Thumbs.db
 
 # Remix
+build
 **/build
 **/.cache
 **/yarn-error.log
-sam.json
-sam.yaml
 
 # artifacts
 **/cypress/videos

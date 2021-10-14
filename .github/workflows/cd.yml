@@ -12,12 +12,9 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14
-          always-auth: true
-          registry-url: https://npm.remix.run
-          scope: '@remix-run'
       - run: "npm ci --ignore-scripts"
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
+          REMIX_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
       - run: "npm run lint"
 
   test:
@@ -29,98 +26,29 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14
-          always-auth: true
-          registry-url: https://npm.remix.run
-          scope: '@remix-run'
       - run: "npm ci --ignore-scripts"
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
+          REMIX_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
       - run: "npm run test:unit"
-
-  deploy-staging:
-    name: Build and Deploy (staging)
-    needs:
-      - lint
-      - test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
-          aws-region: eu-west-1
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 14
-          always-auth: true
-          registry-url: https://npm.remix.run
-          scope: '@remix-run'
-      - run: "npm i -g @architect/architect@RC"
-      - run: "npm ci --ignore-scripts"
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
-      - run: "npm rebuild && npm run prepare --if-present"
-      - run: "npm run build"
-      - run: "arc env staging GIT_COMMIT $GITHUB_SHA"
-      - run: "NPM_CONFIG_IGNORE_SCRIPTS=true arc deploy"
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
-
-  e2e-tests:
-    name: Run e2e tests against staging
-    runs-on: ubuntu-latest
-    container:
-      image: cypress/included:6.1.0
-    needs: deploy-staging
-
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 14
-          always-auth: true
-          registry-url: https://npm.remix.run
-          scope: '@remix-run'
-      - run: "npm ci --ignore-scripts"
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
-      - run: "npm rebuild && npm run prepare --if-present"
-      - run: "npm run test:cypress:run -- --record"
-        env:
-          CYPRESS_BASE_URL: https://dzjgewj4p8x3c.cloudfront.net/
-          CYPRESS_MOCKLAB_TOKEN: ${{ secrets.MOCKLAB_TOKEN }}
-          CYPRESS_CONDUIT_PASSWORD: ${{ secrets.CONDUIT_PASSWORD }}
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-
 
   deploy-prod:
     name: Build and Deploy (production)
     if: github.ref == 'refs/heads/master'
     needs:
-      - deploy-staging
-      - e2e-tests
+      - test
+      - lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
-          aws-region: eu-west-1
       - uses: actions/setup-node@v1
         with:
           node-version: 14
-          always-auth: true
-          registry-url: https://npm.remix.run
-          scope: '@remix-run'
-      - run: "npm i -g @architect/architect@RC"
       - run: "npm ci --ignore-scripts"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
       - run: "npm rebuild && npm run prepare --if-present"
       - run: "npm run build"
-      - run: "arc env production GIT_COMMIT $GITHUB_SHA"
-      - run: "NPM_CONFIG_IGNORE_SCRIPTS=true arc deploy --production"
+      - run: "flyctl secrets set GIT_COMMIT $GITHUB_SHA"
+      - run: "npm run deploy"
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
+          REMIX_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}

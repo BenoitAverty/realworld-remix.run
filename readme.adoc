@@ -6,7 +6,7 @@ https://remix.run[remix.run] codebase containing real world examples (CRUD, auth
 
 ____
 
-=== https://d2mkrvpur134v4.cloudfront.net/[Demo]&nbsp;&nbsp;&nbsp;&nbsp;https://github.com/gothinkster/realworld[RealWorld]
+=== https://realworld-remix-run.fly.dev/[Demo]&nbsp;&nbsp;&nbsp;&nbsp;https://github.com/gothinkster/realworld[RealWorld]
 
 This codebase was created to demonstrate a fully fledged fullstack application built with *https://remix.run[remix.run]* including CRUD operations, authentication, routing, pagination, and more.
 
@@ -29,7 +29,7 @@ When I discovered about remix I was immediately very interested in the choices t
  * Letting you, the dev, use advanced browser features like preloading of assets instead of abstracting it away.
  * Ensuring the browser and CDN get sent proper status codes when data is not available
 
-Head to https://remix.run/features to learn more.
+Head to https://docs.remix.run/ to learn more.
 
 I've tried, in this app, to embrace that philosophy.
 
@@ -40,22 +40,15 @@ With javascript enabled, you get smoother transitions on page changed (client si
 
 == How it works
 
-=== Deployed on AWS Lambda using link:https://arc.codes[architect]
+=== Deployed on Fly.io with a Dockerfile
 
-Remix can be deployed pretty much anywhere using express, but it works very well with function as a service providers like Vercel or AWS Lambda. At the moment, Remix has starter repos for Express, Vercel and AWS Lambda using link:https://arc.codes[architect]. This is the solution I chose for this project. Most of the code would be the same for any Remix app.
-
-`app.arc` is the main file for an architect project. The two most important things are :
-
-* the `@cdn` directive means that the entire app is deployed behind a CDN. Remix makes it really easy to take advantage of this with proper cache-control headers.
-* the `@http` directive configures lambdas. The Remix app itself is a lambda and its code is in the `backend` folder.
-
-What's nice about deploying Remix with architect is that it would be very easy to add the backend part of the application using other lambdas. Architect makes it easy to add DynamoDB tables, SQS topics or scheduled jobs.
+Remix can be deployed pretty much anywhere, including function as a service providers like Vercel or AWS Lambda. In this repo, I chose the simplest deployment option, which is to use the remix server. It can run anywhere a node application can run, including any service that can deploy a docker container. Most of the code would be the same for any Remix app.
 
 === The Remix app
 
-The Remix app is in the `app` folder. When you run `npm run build` (or `npm run dev`), the server bundle ends up in `backend/build`, and the browser bundle ends up in `public/build`.
+The Remix app is in the `app` folder. When you run `npm run build` (or `npm run dev`), the server bundle ends up in `build/`, and the browser bundle ends up in `public/build`.
 
-This section is not meant to replace Remix documentation, but only to help navigating the code in the repo. For more information, head to https://remix.run[remix.run] and consider subscribing to their newsletter.
+This section is not meant to replace Remix documentation, but only to help navigating the code in the repo. For more information, head to https://docs.remix.run[remix.run documentation] and consider subscribing to their newsletter.
 
 ==== Routing
 
@@ -66,8 +59,8 @@ Much like Next.js, Remix does filesystem based routing. The routes of the applic
 
 Remix also has "nested routes". They are used by placing subfolders inside the routes folder.
 
-* the `/` page is rendered using the code in `app/routes/index.tsx` (layout) and `app/routes/index/index.tsx` (content)
-* the `/feed` page is rendered using the code in `app/routes/index.tsx` (layout) and `app/routes/index/feed.tsx` (content)
+* the `/` page is rendered using the code in `app/routes/&lowbar;&lowbar;feed.tsx` (layout) and `app/routes/&lowbar;feed/index.tsx` (content)
+* the `/feed` page is rendered using the code in `app/routes/&lowbar;&lowbar;feed.tsx` (layout) and `app/routes/&lowbar;&lowbar;feed/feed.tsx` (content)
 
 There's also the `app/root.tsx` which contains the common layout for all pages.
 
@@ -78,7 +71,7 @@ Remix is a Server Side Rendering framework. To load the data needed to render pa
 When a page is rendered on the server, Remix calls all the loaders of the matched routes
 
 * for the `/login` page, the loader in `app/routes/login.tsx` is called.
-* for the `/feed` page, the loaders in `app/routes/index.tsx` and `app/routes/index/feed.tsx` are called.
+* for the `/feed` page, the loaders in `app/routes/&lowbar;&lowbar;feed.tsx` and `app/routes/&lowbar;&lowbar;feed/feed.tsx` are called.
 
 There's also the loader in `app/root.tsx` that's called for all pages.
 
@@ -94,33 +87,13 @@ Components live in the `app/components` folder. `app/lib` contain other JS/TS mo
 
 === Start the development server
 
-. Install arc (`npm i -g @architect/architect`)
 . Install the dependencies and start the incremental build of the remix app (`npm install; npm run dev)`. You need a Remix token to do this step.
-. If you have access to a AWS project to deploy the app (by running `aws configure --profile realworld-remix`), create the needed env vars :
-.. `arc env testing REMIX_ENV development`
-.. `arc env testing GIT_COMMIT local`
-.. `arc env testing SESSION_SECRET not_so_secret`
-. If you *don't* have access to an AWS project, create a file at the project root called preferences.arc with the following content (this is normally done with `arc env` but needs access to the aws project) :
-
-----
-# The @env pragma is synced (and overwritten) by running arc env
-@env
-testing
-  REMIX_ENV development
-  GIT_COMMIT local
-  SESSION_SECRET not_so_secret
-----
-
-. Run the architect sandbox (`arc sandbox`).
-. The app is available on http://localhost:3333.
+. The app is available on http://localhost:3000.
 
 === Tests
 
  * Run the unit tests with `npm run test:unit`
- * Open cypress with `npm run test:cypress:open`. You need a wiremock server to run some cypress tests (TODO: document how to run the e2e tests)
 
 == Contributing
 
-Remix is a paid software. You will need a http://remix.run/buy[license] to start the app locally and do any significant work.
-
-If you do have a license, fill free to open a PR for any missing feature or improvement. Keep in mind I'd like the app to function with javascript completely disabled in the browser.
+feel free to open a PR for any missing feature or improvement. Keep in mind I'd like the app to function with javascript completely disabled in the browser.

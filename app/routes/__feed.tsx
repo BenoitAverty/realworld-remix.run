@@ -20,7 +20,7 @@ type IndexData = {
   tags: string[];
 };
 
-const __feed = function Index() {
+const FeedLayoutPage = function FeedLayoutPage() {
   const data = useLoaderData<IndexData>();
 
   return (
@@ -55,7 +55,7 @@ const __feed = function Index() {
   );
 };
 
-export default __feed;
+export default FeedLayoutPage;
 
 export const loader: LoaderFunction = async () => {
   const fetch = fetchWithApiUrl();
