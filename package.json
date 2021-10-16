@@ -10,10 +10,8 @@
     "build:docker": "docker build . --build-arg REMIX_TOKEN=${REMIX_TOKEN}",
     "deploy": "flyctl deploy --build-arg REMIX_TOKEN=${REMIX_TOKEN}",
     "start": "remix-serve build/",
-    "test:unit": "jest app/",
-    "test:cypress:open": "cypress open",
-    "test:cypress:run": "cypress run",
-    "lint": "eslint app ./cypress --ext .js --ext .ts --ext .jsx --ext .tsx"
+    "test": "jest app/",
+    "lint": "eslint app --ext .js --ext .ts --ext .jsx --ext .tsx"
   },
   "dependencies": {
     "@remix-run/node": "^0.19.0",
@@ -34,7 +32,6 @@
     "@babel/preset-env": "^7.15.6",
     "@babel/preset-react": "^7.14.5",
     "@babel/preset-typescript": "^7.15.0",
-    "@cypress/snapshot": "^2.1.7",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.1.0",
     "@types/react": "^17.0.24",
@@ -42,7 +39,6 @@
     "@typescript-eslint/eslint-plugin": "^4.31.2",
     "@typescript-eslint/parser": "^4.31.2",
     "babel-plugin-transform-runtime": "^6.23.0",
-    "cypress": "^8.4.1",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^16.0.3",

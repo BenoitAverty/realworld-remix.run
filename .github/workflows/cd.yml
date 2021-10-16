@@ -6,6 +6,8 @@ jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
+    env:
+      REMIX_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
 
     steps:
       - uses: actions/checkout@v2
@@ -13,13 +15,13 @@ jobs:
         with:
           node-version: 14
       - run: "npm ci --ignore-scripts"
-        env:
-          REMIX_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
       - run: "npm run lint"
 
   test:
     name: Unit Testing
     runs-on: ubuntu-latest
+    env:
+      REMIX_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
 
     steps:
       - uses: actions/checkout@v2
@@ -27,9 +29,7 @@ jobs:
         with:
           node-version: 14
       - run: "npm ci --ignore-scripts"
-        env:
-          REMIX_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
-      - run: "npm run test:unit"
+      - run: "npm run test"
 
   deploy-prod:
     name: Build and Deploy (production)
@@ -49,6 +49,9 @@ jobs:
       - run: "npm rebuild && npm run prepare --if-present"
       - run: "npm run build"
       - run: "flyctl secrets set GIT_COMMIT $GITHUB_SHA"
+        env: 
+          FLY_ACCESS_TOKEN: ${{ secrets.FLYCTL_ACCESS_TOKEN }}
       - run: "npm run deploy"
         env:
           REMIX_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
+          FLY_ACCESS_TOKEN: ${{ secrets.FLYCTL_ACCESS_TOKEN }}
