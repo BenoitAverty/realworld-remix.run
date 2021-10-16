@@ -12,7 +12,7 @@ const Feed: FC = function Feed() {
 
   // This uri is the uri to use when you wan to call a loader outside of a route navigation.
   // Remix will eventually provide a better way to do this, without having to know implementation details of remix.
-  const pageLoadingUri = (page: number) => `/feed?_data=routes/index/feed&page=${page}`;
+  const pageLoadingUri = (page: number) => `/feed?_data=routes/__feed/feed&page=${page}`;
 
   return (
     <div className="user-feed">

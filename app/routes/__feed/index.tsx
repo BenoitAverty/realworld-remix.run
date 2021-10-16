@@ -12,7 +12,7 @@ const GlobalFeed: FC = function GlobalFeed() {
 
   // This uri is the uri to use when you wan to call a loader outside of a route navigation.
   // Remix will eventually provide a better way to do this, without having to know implementation details of remix.
-  const pageLoadingUri = (page: number) => `/?_data=routes/index/index&page=${page}`;
+  const pageLoadingUri = (page: number) => `/?_data=routes/__feed/index&page=${page}`;
 
   return (
     <div className="global-feed">

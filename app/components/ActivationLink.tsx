@@ -1,5 +1,6 @@
 import React, { FC } from "react";
-import { Link, LinkProps, useLocation } from "react-router-dom";
+import { Link, LinkProps } from "remix";
+import { useLocation } from "react-router";
 
 const ActivationLink: FC<LinkProps> = function ({ className, children, ...props }) {
   const { pathname } = useLocation();

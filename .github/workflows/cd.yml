@@ -14,7 +14,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14
-      - run: "npm ci --ignore-scripts"
+      - run: "npm ci"
       - run: "npm run lint"
 
   test:
@@ -28,7 +28,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14
-      - run: "npm ci --ignore-scripts"
+      - run: "npm ci"
       - run: "npm run test"
 
   deploy-prod:
@@ -43,15 +43,17 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14
-      - run: "npm ci --ignore-scripts"
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
-      - run: "npm rebuild && npm run prepare --if-present"
-      - run: "npm run build"
-      - run: "flyctl secrets set GIT_COMMIT $GITHUB_SHA"
-        env: 
-          FLY_ACCESS_TOKEN: ${{ secrets.FLYCTL_ACCESS_TOKEN }}
-      - run: "npm run deploy"
+      - run: "npm ci"
         env:
           REMIX_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
+      - uses: superfly/flyctl-actions@1.1
+        with:
+          args: "secrets set GIT_COMMIT=$GITHUB_SHA"
+        env:
           FLY_ACCESS_TOKEN: ${{ secrets.FLYCTL_ACCESS_TOKEN }}
+      - uses: superfly/flyctl-actions@1.1
+        with:
+          args: "deploy --build-arg REMIX_TOKEN=${REMIX_TOKEN}"
+        env:
+          FLY_ACCESS_TOKEN: ${{ secrets.FLYCTL_ACCESS_TOKEN }}
+          REMIX_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}

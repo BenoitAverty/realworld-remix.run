@@ -66,7 +66,8 @@ export const loader: LoaderFunction = async () => {
     if (result.status === 200) {
       return json(await result.json());
     } else {
-      return json({ error: await result.text() }, 500);
+      // TODO throw an error here.
+      return json({ tags: [] });
     }
   } catch (error) {
     return json(error, 500);

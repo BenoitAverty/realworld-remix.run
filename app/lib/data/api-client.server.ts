@@ -1,8 +1,8 @@
-const apiUrl = process.env.API_URL || "https://conduit.productionready.io";
+const apiUrl = process.env.API_URL || "https://realworld-backend.fly.dev";
 
 export function fetchWithApiUrl() {
   return async function (uri: string, init?: RequestInit): Promise<Response> {
-    return fetch(`${apiUrl}/api${uri}`, init);
+    return fetch(`${apiUrl}${uri}`, init);
   };
 }
 
