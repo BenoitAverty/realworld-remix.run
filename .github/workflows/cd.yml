@@ -50,6 +50,7 @@ jobs:
         with:
           args: "secrets set GIT_COMMIT=$GITHUB_SHA"
         env:
+          REMIX_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
           FLY_ACCESS_TOKEN: ${{ secrets.FLYCTL_ACCESS_TOKEN }}
       - uses: superfly/flyctl-actions@1.1
         with:
