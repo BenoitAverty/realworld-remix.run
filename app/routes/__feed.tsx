@@ -67,6 +67,7 @@ export const loader: LoaderFunction = async () => {
       return json(await result.json());
     } else {
       // TODO throw an error here.
+      console.error("Failed to retrieve tags !");
       return json({ tags: [] });
     }
   } catch (error) {
