@@ -99,7 +99,7 @@ export const action: ActionFunction = async function registerUser({ request }) {
 
   const responseBody = await response.json();
   if (response.status !== 200) {
-    return json({ errors: responseBody.errors }, { status: 400 });
+    return json({ errors: { global: responseBody.errors.body } }, { status: 400 });
   } else {
     const user: UserWithToken = responseBody.user;
 

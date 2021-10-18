@@ -41,6 +41,6 @@ export const loader: LoaderFunction = async ({ request }) => {
   return json({
     ...articles,
     page,
-    totalPages: articles.articlesCount / PAGE_SIZE,
+    totalPages: Math.ceil(articles.articlesCount / PAGE_SIZE),
   });
 };

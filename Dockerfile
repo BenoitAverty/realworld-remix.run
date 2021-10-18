@@ -11,5 +11,5 @@ COPY app /base/app/
 RUN npm run build
 RUN npm prune --production
 
-EXPOSE 3000
+EXPOSE 3333
 ENTRYPOINT npm run start
