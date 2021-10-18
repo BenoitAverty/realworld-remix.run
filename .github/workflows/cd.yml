@@ -48,13 +48,7 @@ jobs:
           REMIX_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
       - uses: superfly/flyctl-actions@1.1
         with:
-          args: "secrets set GIT_COMMIT=$GITHUB_SHA"
-        env:
-          REMIX_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}
-          FLY_ACCESS_TOKEN: ${{ secrets.FLYCTL_ACCESS_TOKEN }}
-      - uses: superfly/flyctl-actions@1.1
-        with:
-          args: "deploy --build-arg REMIX_TOKEN=${REMIX_TOKEN}"
+          args: "deploy --build-arg REMIX_TOKEN=${REMIX_TOKEN} --build-arg BUILD_GIT_COMMIT=$GITHUB_SHA"
         env:
           FLY_ACCESS_TOKEN: ${{ secrets.FLYCTL_ACCESS_TOKEN }}
           REMIX_TOKEN: ${{ secrets.REMIX_AUTH_TOKEN }}

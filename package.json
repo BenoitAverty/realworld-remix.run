@@ -7,8 +7,8 @@
     "postinstall": "remix setup",
     "dev": "PORT=3333 remix run",
     "build": "tsc -b app/tsconfig.json && remix build",
-    "build:docker": "docker build . --build-arg REMIX_TOKEN=${REMIX_TOKEN}",
-    "deploy": "flyctl deploy --build-arg REMIX_TOKEN=${REMIX_TOKEN}",
+    "build:docker": "docker build . --build-arg REMIX_TOKEN=${REMIX_TOKEN} --build-arg BUILD_GIT_COMMIT=$GIT_COMMIT",
+    "deploy": "flyctl deploy --build-arg REMIX_TOKEN=${REMIX_TOKEN} --build-arg BUILD_GIT_COMMIT=$GIT_COMMIT",
     "start": "PORT=3333 remix-serve build/",
     "test": "jest app/",
     "lint": "eslint app --ext .js --ext .ts --ext .jsx --ext .tsx"
