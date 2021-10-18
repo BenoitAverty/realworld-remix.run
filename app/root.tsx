@@ -72,5 +72,7 @@ export const CatchBoundary = function CatchBoundary() {
           <Layout404 backlinkTo="/" backlinkText="Back to home" title="This page doesn't exist" />
         </Document>
       );
+    default:
+      return <Document title="Something unexpected happened ! Oh no !">crap !</Document>;
   }
 };

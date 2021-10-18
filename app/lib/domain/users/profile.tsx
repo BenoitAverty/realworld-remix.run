@@ -11,9 +11,7 @@ export async function followUser(
   });
 
   if (response.status !== 200) {
-    throw new Error(
-      `could not ${action} the article : [${response.status}] ${await response.text()}`,
-    );
+    throw new Error(`could not ${action} the user : [${response.status}] ${await response.text()}`);
   }
 }
 

@@ -50,9 +50,8 @@ const Settings: FC = function Settings() {
                     rows={8}
                     placeholder="Short bio about you"
                     name="bio"
-                  >
-                    {user.bio}
-                  </textarea>
+                    defaultValue={user.bio}
+                  />
                 </fieldset>
                 <fieldset className="form-group">
                   <input

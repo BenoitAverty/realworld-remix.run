@@ -1,4 +1,5 @@
-const apiUrl = process.env.API_URL || "https://realworld-backend.fly.dev";
+const apiUrl =
+  process.env.API_URL || "https://stw74y7a42.execute-api.eu-west-1.amazonaws.com/dev/api";
 
 export function fetchWithApiUrl() {
   return async function (uri: string, init?: RequestInit): Promise<Response> {

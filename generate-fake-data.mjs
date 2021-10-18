@@ -1,11 +1,14 @@
 import faker from "faker";
 import { fetch } from "@remix-run/node";
 
-const API_URL = "https://realworld-backend.fly.dev";
+const API_URL = "https://stw74y7a42.execute-api.eu-west-1.amazonaws.com/dev/api";
+// const API_URL = "http://localhost:3000/api";
+
+const tags = ["javascript", "react", "remix", "java", "spring", "aws", "devfest", "gdg", "zenika"];
 
 async function createUser() {
   const user = {
-    username: faker.name.findName(),
+    username: faker.name.firstName(),
     email: faker.internet.email(),
     password: "realworld",
   };
@@ -27,15 +30,14 @@ async function createUser() {
 
   console.log("Created user " + user.username + ", he has token " + token)
 
-  // ??? doesn't work ???
-  // await fetch(API_URL + "/user", {
-  //   method: "PUT",
-  //   body: JSON.stringify({ user: settings }),
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     "Authorization": "Token " + token,
-  //   },
-  // });
+  await fetch(API_URL + "/user", {
+    method: "PUT",
+    body: JSON.stringify({ user: settings }),
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Token " + token,
+    },
+  });
 
   return token;
 }
@@ -52,7 +54,7 @@ function createArticle(token) {
         title: faker.lorem.sentence(),
         description: faker.lorem.sentences(2),
         body: faker.lorem.paragraphs(),
-        tagList: ["lorem", "ipsum", "dolor"],
+        tagList: tags.sort(() => Math.random() - 0.5).slice(0, Math.floor(Math.random()*tags.length)),
       },
     }),
   });
