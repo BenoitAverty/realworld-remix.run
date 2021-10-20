@@ -12,7 +12,6 @@ const Document: FC<{ title?: string }> = function Document({ title, children }) 
       </head>
       <body>
         {children}
-        <Scripts />
         <LiveReload />
       </body>
     </html>
