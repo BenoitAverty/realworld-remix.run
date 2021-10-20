@@ -1,5 +1,5 @@
 import React from "react";
-import { json, LinksFunction, LoaderFunction, useCatch, useLoaderData } from "remix";
+import { ErrorBoundaryComponent, json, LinksFunction, LoaderFunction, useCatch, useLoaderData } from "remix";
 import Layout from "./components/layout/Layout";
 import Document from "./components/Document";
 import UserProvider from "./components/user/UserProvider";
@@ -75,4 +75,15 @@ export const CatchBoundary = function CatchBoundary() {
     default:
       return <Document title="Something unexpected happened ! Oh no !">crap !</Document>;
   }
+};
+
+export const ErrorBoundary: ErrorBoundaryComponent = function ErrorBoundary({ error }) {
+  return (
+    <div>
+      <h1>Error</h1>
+      <p>{error.message}</p>
+      <p>The stack trace is:</p>
+      <pre>{error.stack}</pre>
+    </div>
+  );
 };
