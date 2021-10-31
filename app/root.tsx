@@ -1,5 +1,12 @@
 import React from "react";
-import { ErrorBoundaryComponent, json, LinksFunction, LoaderFunction, useCatch, useLoaderData } from "remix";
+import {
+  ErrorBoundaryComponent,
+  json,
+  LinksFunction,
+  LoaderFunction,
+  useCatch,
+  useLoaderData,
+} from "remix";
 import Layout from "./components/layout/Layout";
 import Document from "./components/Document";
 import UserProvider from "./components/user/UserProvider";
